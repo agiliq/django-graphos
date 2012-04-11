@@ -1,0 +1,28 @@
+.redlabel {
+    color : #BF0000;
+    }
+.greenlabel {
+    color : #46C885;
+    }
+.bluelabel {
+    color : #49AFCD;
+    }
+
+.big {
+    font-size: 16px;
+    font-weight: bold;
+    text-rendering: optimizelegibility;
+    font-family: Optima;
+    }
+
+.optima {
+    font-family: Optima;
+    }
+
+.hero-unit {
+    padding: 20px;
+    }
+
+td {
+    font-size: 16px;
+    }

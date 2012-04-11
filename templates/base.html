@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Graphos</title>
+    <meta name="description" content="">
+    <meta name="Anoop Thomas Mathew" content="">
+    <link href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="icon" />
+    <link href="{{STATIC_URL}}img/favicon.gif" type="image/gif" rel="icon" />
+    <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{STATIC_URL}}js/excanvas.min.js"></script><![endif]-->
+    <script src="{{STATIC_URL}}js/jquery.flot.js"></script>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Graphos</a>
+          <a href="#" style="font-size: 14px;margin-top: 7px;" class="brand">Live data ticker app for django</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+        </div><!--/span-->
+        <div class="span9">
+          <div class="hero-unit">
+                <div class = "alert alert-info  optima">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+          </div>
+          </div>
+          </div>
+          <br>
+        <div class="span10 offset3">
+        </div>
+       </div>
+      <hr>
+
+      <footer>
+        <p> © 2012 Agiliq Info Solutions Pvt. Ltd. </p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+
+
+</body>
+</html>

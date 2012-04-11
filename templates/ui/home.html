@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load grapos_tags %}
+{% block content %}
+{% plot_model 'core' 'value' '100' '1000' %}
+    <h1>Flot Examples</h1>
+    <p>You can update a chart periodically to get a real-time effect
+    by using a timer to insert the new data in the plot and redraw it.</p>
+<form method="POST" >{% csrf_token %}
+<button> Add data </button>
+</form>
+{% endblock %}
