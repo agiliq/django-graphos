@@ -1,0 +1,14 @@
+Graphos v0.01
+
+NB: DON'T EVEN THINK OF USING THIS ON PRODUCTION, FOR NOW. WE'LL LET YOU KNOW AS COOKIES ARE FULLY BAKER
+
+Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list.
+
+As of now, this is just a proof of concept design. Missing a lot of functional implementations a lot code refactoring.
+
+HOW TO TRY
+syncdb, runserver, and click on the add data to see the magic.
+Or even, try POST to / with curl, and graph gets plotted automatically.
+
+HACKING
+More detailed documentation in HOWTO file on the same folder.
