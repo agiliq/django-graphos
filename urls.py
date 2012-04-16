@@ -7,9 +7,10 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'graphos.ui.views.home', name='home'),
-    url(r'^plot_data/$', 'graphos.ui.views.plot_data', name='plot_data'),
-    # url(r'^graphos/', include('graphos.ui.home')),
+    url(r'^graphos/', include('graphos.urls')),
+    url(r'^$', 'ui.views.home', name='home'),
+    url(r'^plot_data/$', 'ui.views.plot_data', name='plot_data'),
+    # url(r'^graphos/', include('ui.home')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

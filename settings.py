@@ -103,7 +103,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'graphos.urls'
+ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
         os.path.join(PROJECT_DIR, 'templates'),
         os.path.join(PROJECT_DIR, 'templates/ui'),
@@ -124,8 +124,9 @@ INSTALLED_APPS = (
 
     'south',
 
-    'graphos.core',
-    'graphos.ui',
+    'core',
+    'graphos',
+    'ui',
 )
 
 # A sample logging configuration. The only tangible logging
