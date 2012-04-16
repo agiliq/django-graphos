@@ -1,4 +1,4 @@
-Graphos v0.01
+Graphos v0.9.1
 
 NB: DON'T EVEN THINK OF USING THIS ON PRODUCTION, FOR NOW. WE'LL LET YOU KNOW AS COOKIES ARE FULLY BAKED.
 
@@ -14,3 +14,6 @@ Or even, try POST to / with curl, and graph gets plotted automatically.
 
 HACKING
 More detailed documentation in HOWTO file on the same folder.
+
+#TODO
+- Support for redis lists on the way.

@@ -27,16 +27,3 @@ def home(request):
     })
     return render_to_response('home.html', context_instance=c)
 
-
-def plot_data(request):
-    #t = [tm.value for tm in list(TimeSeries.objects.all())[-30:]]
-    #t = list(TimeSeries.objects.values_list('value', flat=True))[-100:]
-    series = TimeSeries.objects.order_by('-id')[:100]
-    t = [element.value for element in series]
-    t.reverse()
-    response = {}
-    for count, value in enumerate(t):
-        response[count] = value
-    # json data is just a JSON string now.
-    json_data = json.dumps(response)
-    return HttpResponse(json_data, mimetype="application/json")

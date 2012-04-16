@@ -1,0 +1,112 @@
+<div id="placeholder" style="width:{{width}}px;height:{{height}}px;"></div>
+<script type="text/javascript">
+$(function () {
+    // we use an inline data source in the example, usually data would
+    // be fetched from a server
+    var data = [], totalPoints = {{count}};
+    function getRandomData() {
+        if (data.length > 0)
+            data = data.slice(1);
+
+        // do a random walk
+        while (data.length < totalPoints) {
+            var prev = data.length > 0 ? data[data.length - 1] : 50;
+            var y = prev + Math.random() * 10 - 5;
+            if (y < 0)
+                y = 0;
+            if (y > 1000)
+                y = 1000;
+            data.push(y);
+        }
+
+        // zip the generated y values with the x values
+        var res = [];
+        for (var i = 0; i < data.length; ++i)
+            res.push([i, data[i]])
+        return res;
+    }
+
+    // setup control widget
+    var updateInterval = {{frequency}};
+    $("#updateInterval").val(updateInterval).change(function () {
+        var v = $(this).val();
+        if (v && !isNaN(+v)) {
+            updateInterval = +v;
+            if (updateInterval < 1)
+                updateInterval = 1;
+            if (updateInterval > 5000)
+                updateInterval = 5000;
+            $(this).val("" + updateInterval);
+        }
+    });
+
+    // setup plot
+    var options = {
+        series: { shadowSize: 0 }, // drawing is faster without shadows
+        lines: { show: true },
+        yaxis: { min: 0, max:{{y_max}} },
+        grid: {hoverable: true, clickable: true },
+        xaxis: { show: false },
+        colors: [{% autoescape off %} {{color}} {% endautoescape %}]
+    };
+    var plot = $.plot($("#placeholder"), [ getRandomData() ], options);
+    function update() {
+        var res = [];
+        $.getJSON("/graphos/plot_model_data/{{x_model_name}}/{{x_field_name}}/{{count}}",
+            function(data){
+        var count = 0;
+        for ( property in data)
+        {
+           if(data.hasOwnProperty(property))
+           {
+              count++;
+           }
+        }
+        for (var i = 0; i < count; ++i)
+            res.push([i, data[i]]);
+        plot.setData([ res ]);
+        // since the axes don't change, we don't need to call plot.setupGrid()
+        plot.draw();
+        setTimeout(update, updateInterval);
+    }
+    )};
+
+    update();
+});
+
+function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y + 5,
+            left: x + 5,
+            border: '1px solid #fdd',
+            padding: '2px',
+            'background-color': '#fee',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+
+$("#placeholder").bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(2));
+        $("#y").text(pos.y.toFixed(2));
+
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2);
+
+                    showTooltip(item.pageX, item.pageY,
+                                x + ", " + y);
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;
+            }
+    });
+
+</script>

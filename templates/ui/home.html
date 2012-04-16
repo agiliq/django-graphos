@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load grapos_tags %}
 {% block content %}
-{% plot_model 'core' 'value' '100' '1000' %}
+{% plot_model 'timeseries' 'value' '100' '15' '1000' '500' '200' %}
     <h1>Graphos Example</h1>
     <p>You can update a chart periodically to get a real-time effect
     by using a timer to insert the new data in the plot and redraw it.</p>
