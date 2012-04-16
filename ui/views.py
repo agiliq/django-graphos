@@ -13,7 +13,7 @@ from django.http import HttpResponseRedirect, HttpResponseNotModified, \
                         HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
-from graphos.core.models import TimeSeries
+from core.models import TimeSeries
 
 
 @csrf_exempt
@@ -30,7 +30,10 @@ def home(request):
 
 def plot_data(request):
     #t = [tm.value for tm in list(TimeSeries.objects.all())[-30:]]
-    t = list(TimeSeries.objects.values_list('value', flat=True))[-30:]
+    #t = list(TimeSeries.objects.values_list('value', flat=True))[-100:]
+    series = TimeSeries.objects.order_by('-id')[:100]
+    t = [element.value for element in series]
+    t.reverse()
     response = {}
     for count, value in enumerate(t):
         response[count] = value
