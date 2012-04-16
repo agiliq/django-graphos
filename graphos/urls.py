@@ -7,5 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^plot_data/<model_name>/<count>$', 'graphos.views.plot_data', name='plot_data'),
+    url(r'plot_model_data/(?P<model_name>\w+)/(?P<field_name>\w+)/(?P<count>\d+)/', \
+                                'graphos.views.plot_model_data', name='plot_model_data'),
 )
+
