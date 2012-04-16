@@ -1,4 +1,4 @@
-Graphos v0.01
+Graphos v0.91
 
 NB: DON'T EVEN THINK OF USING THIS ON PRODUCTION, FOR NOW. WE'LL LET YOU KNOW AS COOKIES ARE FULLY BAKED.
 
@@ -13,6 +13,20 @@ syncdb, runserver, and click on the add data to see the magic.
 Or even, try POST to / with curl, and graph gets plotted automatically.
 
 HACKING
+
+{% plot_model 'x_model_name' 'x_field_name' 'count' 'y_max' 'frequency' 'width' 'height' 'color' %}
+
+    x_model_name : name of the model in which data to be plotted is stored
+    x_field_name : field to be plotted
+    count : number of values to be retrieved
+    y_max : maximum y-length
+    frequency : Update delay in milliseconds
+    width : width of the plot in pixels
+    height : height of the plot in pixels
+    color : expected color of the plot
+
+Eg: {% plot_model 'core' 'value' '100' '1000' '500' '600' '300' '#F33' %}
+
 More detailed documentation in HOWTO file on the same folder.
 
 #TODO
