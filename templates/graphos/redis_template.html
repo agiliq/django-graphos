@@ -52,7 +52,7 @@ $(function () {
     var plot = $.plot($("#placeholder{{id}}"), [ getRandomData() ], options);
     function update() {
         var res = [];
-        $.getJSON("/graphos/plot_model_data/{{x_model_name}}/{{x_field_name}}/{{count}}",
+        $.getJSON("/graphos/plot_redis_data/{{server_address}}/{{x_list_name}}/{{count}}",
             function(data){
         var count = 0;
         for ( property in data)

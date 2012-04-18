@@ -1,6 +1,4 @@
-Graphos v0.91
-
-NB: DON'T EVEN THINK OF USING THIS ON PRODUCTION, FOR NOW. WE'LL LET YOU KNOW AS COOKIES ARE FULLY BAKED.
+Graphos v0.99
 
 Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list.
 
@@ -14,8 +12,9 @@ Or even, try POST to / with curl, and graph gets plotted automatically.
 
 HACKING
 
-{% plot_model 'x_model_name' 'x_field_name' 'count' 'y_max' 'frequency' 'width' 'height' 'color' %}
-
+PLOTTING DJANGO MODEL FIELDS
+{% plot_model 'id' 'x_model_name' 'x_field_name' 'count' 'y_max' 'frequency' 'width' 'height' 'color' %}
+    id : a unique identifier within the django project
     x_model_name : name of the model in which data to be plotted is stored
     x_field_name : field to be plotted
     count : number of values to be retrieved
@@ -25,9 +24,28 @@ HACKING
     height : height of the plot in pixels
     color : expected color of the plot
 
-Eg: {% plot_model 'core' 'value' '100' '1000' '500' '600' '300' '#F33' %}
+Eg: {% plot_model '1' 'core' 'value' '100' '1000' '500' '600' '300' '#F33' %}
+    {% plot_model '2' 'timeseries' 'value' '300' '10' '500' '800' '200' '#A77' %}
+
+PLOTTING REDIS LISTS
+-
+{% plot_redis 'id' 'servername' 'list' 'count' 'y_max' 'frequency' 'width' 'height' 'color' %}
+    id : a unique identifier within the django project
+    servername : Name of the redis server
+    list : name of the redis list with data to be plotted.
+    count : number of values to be retrieved
+    y_max : maximum y-length
+    frequency : Update delay in milliseconds
+    width : width of the plot in pixels
+    height : height of the plot in pixels
+    color : expected color of the plot
+
+
+Eg: {% plot_redis '3' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A' %}
+    {% plot_redis '4' 'seashell' 'tickers' '500' '500' '1000' '800' '200' '#99A' %}
 
 More detailed documentation in HOWTO file on the same folder.
 
 #TODO
 - Support for redis lists on the way.
+

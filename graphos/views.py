@@ -18,6 +18,10 @@ from django.contrib.contenttypes.models import ContentType
 
 
 def plot_model_data(request, model_name, field_name, count):
+    """"
+    receive model name, field name and number of elements and returns the json
+    response with required number of data points to plot the graph
+    """
     #t = [tm.value for tm in list(TimeSeries.objects.all())[-30:]]
     #t = list(TimeSeries.objects.values_list('value', flat=True))[-100:]
     try:
@@ -32,6 +36,31 @@ def plot_model_data(request, model_name, field_name, count):
         t = 'Model or Field cannot be found.'
     response = {}
     for count, value in enumerate(t):
+        response[count] = value
+    # json data is just a JSON string now.
+    json_data = json.dumps(response)
+    return HttpResponse(json_data, mimetype="application/json")
+
+
+def plot_redis_data(request, server_address, list_name, count):
+    """
+    Gets the server address listname and count to retrieve data points
+    for the graph from the database
+    """
+    try:
+        import redis
+    except ImportError, e:
+        logging.error("redis -redis server binding for Python is not installed. \
+                                        Try pip install redis")
+    try:
+        from redis import ConnectionError
+        r_inst = redis.Redis(server_address)
+        r_inst.ping()
+    except ConnectionError:
+        logging.error("redis server is not running. Start it to make graphos plot data.")
+    data_list = r_inst.lrange(list_name, -int(count), -1)
+    response = {}
+    for count, value in enumerate(data_list):
         response[count] = value
     # json data is just a JSON string now.
     json_data = json.dumps(response)

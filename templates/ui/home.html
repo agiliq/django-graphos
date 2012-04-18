@@ -1,11 +1,53 @@
 {% extends 'base.html' %}
 {% load grapos_tags %}
+{% block extra_head %}
+<script>
+
+$(document).ready(function() {
+$(".model_button").click(function() {
+$.post("/", {'data': 'model_data'});
+});
+$(".redis_button").click(function() {
+$.post("/", {'data': 'redis_data'});
+});
+});
+
+
+</script>
+{% endblock %}
 {% block content %}
-{% plot_model 'timeseries' 'value' '100' '15' '1000' '500' '200' %}
-    <h1>Graphos Example</h1>
-    <p>You can update a chart periodically to get a real-time effect
-    by using a timer to insert the new data in the plot and redraw it.</p>
-<form method="POST" >{% csrf_token %}
-<button> Add data </button>
-</form>
+
+    <h1>Graphos Examples</h1>
+    <p>
+    Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list.
+
+Just use a templatetag and specify which model you what to plot, and add jquery.js and jquery.plot.js to your base.html, you are done. You can tweak with extra options to the tag.
+
+As of now, this is just a proof of concept design. Missing a lot of functional implementations a lot code refactoring.
+</p>
+<h2>HOW TO TRY</h2>
+
+syncdb, runserver, and click on the add data to see the magic.
+Or even, try POST to / with curl, and graph gets plotted automatically.
+<p>You can update a chart, in real-time.</p>
+
+
+
+<h2>Django Model field TimeSeries Plot</h2>
+{% plot_model '1' 'timeseries' 'value' '300' '10' '500' '800' '200' '#A77' %}
+<!--
+This is where magic happens.
+-->
+{{ "{% plot_model '1' 'timeseries' 'value' '500' '15' '1000' '800' '200' '#A77' "|add:"%}" }}
+achieved just by adding following templatetag. <br>
+<button class='model_button'> Add Model Data </button>
+<br>
+<br>
+<h2>Redis List TimeSeries Plot</h2>
+{% plot_redis '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A'%}
+<!--
+This is where magic happens.
+-->
+{{ "{% plot_redis '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A' "|add:"%}" }}
+<button class='redis_button'> Add Redis Data </button>
 {% endblock %}

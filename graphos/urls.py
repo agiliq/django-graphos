@@ -9,5 +9,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'plot_model_data/(?P<model_name>\w+)/(?P<field_name>\w+)/(?P<count>\d+)/', \
                                 'graphos.views.plot_model_data', name='plot_model_data'),
+    url(r'plot_redis_data/(?P<server_address>\w+)/(?P<list_name>\w+)/(?P<count>\d+)/', \
+                                'graphos.views.plot_redis_data', name='plot_redis_data'),
 )
 

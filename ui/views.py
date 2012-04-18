@@ -1,7 +1,7 @@
 import urllib2
 import logging
 import json
-import random
+from random import randrange
 
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
@@ -15,13 +15,29 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from core.models import TimeSeries
 
-
 @csrf_exempt
 def home(request):
     """
-    Try a POST with curl and automatically adds a random value, this updates plot async"""
-    if request.POST:
-        TimeSeries.objects.create(value=random.randrange(0, 10))
+    Try a POST with curl and automatically adds a random value, this updates plot async
+    """
+    if request.POST and 'model_data' in request.POST.values():
+        TimeSeries.objects.create(value=randrange(0, 10))
+    if request.POST and 'redis_data' in request.POST.values():
+        try:
+            import redis
+        except ImportError, e:
+            logging.error("redis -redis server binding for Python is not installed. \
+                                            Try pip install redis")
+        try:
+            from redis import ConnectionError
+            r_inst = redis.Redis('localhost')  # works only on local
+            r_inst.ping()
+        except ConnectionError:
+            logging.error("redis server is not running. Start it to make graphos plot data.")
+#        import redis
+#        r_inst = redis.Redis('localhost')
+        r_inst.rpush('graphos', randrange(1, 100))
+
     c = RequestContext(request, {
 
     })
