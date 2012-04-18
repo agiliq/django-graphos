@@ -1,4 +1,4 @@
-Graphos v0.99
+Graphos v0.9.99
 
 Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list.
 
