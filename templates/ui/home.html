@@ -18,7 +18,7 @@ $.post("/", {'data': 'redis_data'});
 {% block content %}
 <div class='font-set'>
     <h1>Graphos Examples</h1>
-    <p>
+    <p class='font-set'>
     Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list.
 
 Just use a templatetag and specify which model you what to plot, and add jquery.js and jquery.plot.js to your base.html, you are done. You can tweak with extra options to the tag.
@@ -29,7 +29,7 @@ As of now, this is just a proof of concept design. Missing a lot of functional i
 
 syncdb, runserver, and click on the add data to see the magic.
 Or even, try POST to / with curl, and graph gets plotted automatically.
-<p>You can update a chart, in real-time.</p>
+<p class='font-set'>You can update a chart, in real-time.</p>
 
 
 
