@@ -16,7 +16,7 @@ $.post("/", {'data': 'redis_data'});
 </script>
 {% endblock %}
 {% block content %}
-
+<div class='font-set'>
     <h1>Graphos Examples</h1>
     <p>
     Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list.
@@ -34,20 +34,21 @@ Or even, try POST to / with curl, and graph gets plotted automatically.
 
 
 <h2>Django Model field TimeSeries Plot</h2>
-{% plot_model_series '1' 'timeseries' 'value' '300' '10' '500' '800' '200' '#A77' %}
+{{ "{% plot_model_series '1' 'timeseries' 'value' '500' '15' '1000' '800' '200' '#A77' "|add:"%}" }}
+{% plot_model_series '1' 'timeseries' 'value' '200' '100' '50' '800' '200' '#FF9100' %}
 <!--
 This is where magic happens.
 -->
-{{ "{% plot_model_series '1' 'timeseries' 'value' '500' '15' '1000' '800' '200' '#A77' "|add:"%}" }}
-achieved just by adding following templatetag. <br>
-<button class='model_button'> Add Model Data </button>
+<button class='model_button btn btn-info'> Add Model Data </button>
 <br>
 <br>
-<h2>Redis List TimeSeries Plot</h2>
+<h2>Redis List TimeSeries Plot</h2><br>
+{{ "{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A' "|add:"%}" }}
 {% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A'%}
 <!--
 This is where magic happens.
 -->
-{{ "{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A' "|add:"%}" }}
-<button class='redis_button'> Add Redis Data </button>
+<br>
+<button class='redis_button btn btn-info'> Add Redis Data </button>
+</div>
 {% endblock %}

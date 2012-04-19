@@ -21,7 +21,13 @@ def home(request):
     Try a POST with curl and automatically adds a random value, this updates plot async
     """
     if request.POST and 'model_data' in request.POST.values():
-        TimeSeries.objects.create(value=randrange(0, 10))
+        try:
+            last_value = TimeSeries.objects.order_by('-id')[0].value
+        except:
+            last_value = 50
+        if last_value < 5 or last_value > 100:
+            last_value = 50
+        TimeSeries.objects.create(value=randrange(last_value - 5, last_value + 5))
     if request.POST and 'redis_data' in request.POST.values():
         try:
             import redis
