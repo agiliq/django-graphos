@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load grapos_tags %}
+{% load graphos_tags %}
 {% block extra_head %}
 <script>
 
@@ -34,20 +34,20 @@ Or even, try POST to / with curl, and graph gets plotted automatically.
 
 
 <h2>Django Model field TimeSeries Plot</h2>
-{% plot_model '1' 'timeseries' 'value' '300' '10' '500' '800' '200' '#A77' %}
+{% plot_model_series '1' 'timeseries' 'value' '300' '10' '500' '800' '200' '#A77' %}
 <!--
 This is where magic happens.
 -->
-{{ "{% plot_model '1' 'timeseries' 'value' '500' '15' '1000' '800' '200' '#A77' "|add:"%}" }}
+{{ "{% plot_model_series '1' 'timeseries' 'value' '500' '15' '1000' '800' '200' '#A77' "|add:"%}" }}
 achieved just by adding following templatetag. <br>
 <button class='model_button'> Add Model Data </button>
 <br>
 <br>
 <h2>Redis List TimeSeries Plot</h2>
-{% plot_redis '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A'%}
+{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A'%}
 <!--
 This is where magic happens.
 -->
-{{ "{% plot_redis '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A' "|add:"%}" }}
+{{ "{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#99A' "|add:"%}" }}
 <button class='redis_button'> Add Redis Data </button>
 {% endblock %}

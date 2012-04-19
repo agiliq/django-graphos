@@ -5,8 +5,8 @@ from django.template.context import Context
 register = template.Library()
 
 
-@register.simple_tag(name="plot_model")
-def plot_model(id, x_model_name, x_field_name, count=100, y_max=100, frequency=500, width=600, \
+@register.simple_tag(name="plot_model_series")
+def plot_model_series(id, x_model_name, x_field_name, count=100, y_max=100, frequency=500, width=600, \
                                         height=300, color='#F33'):
     '''
     This is the function used to plot using the templatetag plot_model
@@ -42,8 +42,8 @@ def plot_model(id, x_model_name, x_field_name, count=100, y_max=100, frequency=5
     return response.content
 
 
-@register.simple_tag(name="plot_redis")
-def plot_redis(id, server_address, x_list_name, count=100, y_max=100, frequency=500, width=600, \
+@register.simple_tag(name="plot_redis_series")
+def plot_redis_series(id, server_address, x_list_name, count=100, y_max=100, frequency=500, width=600, \
                                         height=300, color='#F33'):
     '''
     This is the function used to plot using the templatetag plot_model

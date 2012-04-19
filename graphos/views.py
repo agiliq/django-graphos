@@ -17,7 +17,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 
 
-def plot_model_data(request, model_name, field_name, count):
+def plot_model_series_data(request, model_name, field_name, count):
     """"
     receive model name, field name and number of elements and returns the json
     response with required number of data points to plot the graph
@@ -42,7 +42,7 @@ def plot_model_data(request, model_name, field_name, count):
     return HttpResponse(json_data, mimetype="application/json")
 
 
-def plot_redis_data(request, server_address, list_name, count):
+def plot_redis_series_data(request, server_address, list_name, count):
     """
     Gets the server address listname and count to retrieve data points
     for the graph from the database
