@@ -5,15 +5,15 @@
     <title>Graphos</title>
     <meta name="description" content="">
     <meta name="Anoop Thomas Mathew" content="">
-    <link href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
-    <link href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="icon" />
-    <link href="{{STATIC_URL}}img/favicon.gif" type="image/gif" rel="icon" />
-    <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
+    <link href="/{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="/{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="icon" />
+    <link href="/{{STATIC_URL}}img/favicon.gif" type="image/gif" rel="icon" />
+    <link href="/{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
+    <link href="/{{STATIC_URL}}css/main.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu">
-    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script>
-    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{STATIC_URL}}js/excanvas.min.js"></script><![endif]-->
-    <script src="{{STATIC_URL}}js/jquery.flot.js"></script>
+    <script type="text/javascript" src="/{{STATIC_URL}}js/jquery.js"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/{{STATIC_URL}}js/excanvas.min.js"></script><![endif]-->
+    <script src="/{{STATIC_URL}}js/jquery.flot.js"></script>
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -23,12 +23,13 @@
         padding: 9px 0;
       }
     </style>
-    <link href="{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
     {% block extra_head %}
     {% endblock %}
   </head>
 
   <body>
+  <a href="http://github.com/agiliq/django-graphos"><img style="position: absolute; z-index:30000; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -39,6 +40,9 @@
           </a>
           <a class="brand" href="#">Graphos</a>
           <a href="#" style="font-size: 14px;margin-top: 7px;" class="brand">Live data ticker app for django</a>
+
+           {% block menu %}
+            {% endblock %}
         </div>
       </div>
     </div>

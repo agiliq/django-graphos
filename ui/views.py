@@ -28,6 +28,7 @@ def home(request):
         if last_value < 5 or last_value > 100:
             last_value = 50
         TimeSeries.objects.create(value=randrange(last_value - 5, last_value + 5))
+
     if request.POST and 'redis_data' in request.POST.values():
         try:
             import redis
@@ -40,12 +41,46 @@ def home(request):
             r_inst.ping()
         except ConnectionError:
             logging.error("redis server is not running. Start it to make graphos plot data.")
-#        import redis
-#        r_inst = redis.Redis('localhost')
+        #        import redis
+        #        r_inst = redis.Redis('localhost')
         r_inst.rpush('graphos', randrange(1, 100))
 
     c = RequestContext(request, {
 
     })
     return render_to_response('home.html', context_instance=c)
+
+def tutorial(request):
+    """
+    Try a POST with curl and automatically adds a random value, this updates plot async
+    """
+    if request.POST and 'model_data' in request.POST.values():
+        try:
+            last_value = TimeSeries.objects.order_by('-id')[0].value
+        except:
+            last_value = 50
+        if last_value < 5 or last_value > 100:
+            last_value = 50
+        TimeSeries.objects.create(value=randrange(last_value - 5, last_value + 5))
+
+    if request.POST and 'redis_data' in request.POST.values():
+        try:
+            import redis
+        except ImportError, e:
+            logging.error("redis -redis server binding for Python is not installed. \
+                                            Try pip install redis")
+        try:
+            from redis import ConnectionError
+            r_inst = redis.Redis('localhost')  # works only on local
+            r_inst.ping()
+        except ConnectionError:
+            logging.error("redis server is not running. Start it to make graphos plot data.")
+        #        import redis
+        #        r_inst = redis.Redis('localhost')
+        r_inst.rpush('graphos', randrange(1, 100))
+
+    c = RequestContext(request, {
+
+    })
+    return render_to_response('tutorial.html', context_instance=c)
 

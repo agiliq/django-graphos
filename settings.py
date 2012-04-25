@@ -63,7 +63,7 @@ MEDIA_URL = '/media/'
 # Example: "/home/media/media.lawrence.com/static/"
 
 
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
 STATIC_URL = 'static/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
@@ -107,6 +107,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
         os.path.join(PROJECT_DIR, 'templates'),
         os.path.join(PROJECT_DIR, 'templates/ui'),
+        os.path.join(PROJECT_DIR, 'graphos/templates'),
     )
 
 INSTALLED_APPS = (

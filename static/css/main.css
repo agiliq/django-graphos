@@ -28,6 +28,15 @@ td {
     }
 
 
-.font-set {
+.font-set{
     font-family: Ubuntu;
-    }
+    margin-left: 125px;
+}
+
+body, h3, div, p {
+    font-family: Ubuntu;
+}
+
+#reference {
+    text-decoration: underline;
+}

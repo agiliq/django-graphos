@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load graphos_tags %}
+{% block extra_head %}
+<script>
+
+$(document).ready(function() {
+$(".model_button").click(function() {
+$.post("/", {'data': 'model_data'});
+});
+$(".redis_button").click(function() {
+$.post("/", {'data': 'redis_data'});
+});
+});
+
+
+</script>
+{% endblock %}
+{% block menu %}
+<ul class="nav nav-tabs">
+    <li><a href="/">Home</a></li>
+    <li class="active"><a href="/tutorial/">Tutorial</a></li>
+    <li><a href="/tutorial#reference">Reference</a></li>
+</ul>
+{%  endblock %}
+{% block content %}
+<div class='font-set'>
+    <h1>Graphos Tutorial</h1>
+    <p class='font-set'>
+    <p>
+        You can use graphos to plot any <strong><em>integer or float &nbsp;</em></strong>values to a nice time-series without any hazzle.</p>
+    <p>
+        &nbsp;</p>
+    <p>
+        <span class='label label-success'>Step 1 </span></p>
+    <p>
+        Add graphos to your installed apps.</p><br>
+    <span class='label label-info'> Note</span> Either get it from <a href=https://github.com/agiliq/django-graphos">github</a> or use <i>pip install graphos</i>
+    <p>
+        <span class='label label-success'>Step 2 </span></p>
+    <p>
+        Include jquery and jquery flot in the template. Make sure it is accesible where template_tag is placed.<br>
+<span class='label label-info'> Note</span> is available at <a href="https://github.com/flot/flot">https://github.com/flot/flot</a>.</p></strong>
+    <p>
+        <span class="label label-success">Step 3</span></p>
+    <p>
+        load templatetag by giving, <strong>{{ "{% load graphos_tags "|add:"%}" }}</strong></p>
+    <p>
+        <span class="label label-success">Step 4</span></p>
+    <p>
+        where ever you want to add a new graph, just give the template tag, in below format.&nbsp;</p>
+
+    <div class="well">
+    <p>
+        <strong>{{ "{% plot_model_series '1' 'timeseries' 'value' '200' '100' '50' '800' '200' '#FF9100' "|add:"%}" }}</strong></p>
+    <p>
+        &nbsp;</p>
+    <p>
+        where,</p>
+    <p>
+            &#39;1&#39; is a unique id to identify each plot, within the project.</p>
+    <p>
+        &#39;timeseries&#39; - is the model name</p>
+    <p>
+        &#39;value&#39; - is the field name</p>
+    <p>
+        &#39;200&#39; - number of values to be retrieved(suggested in the range of 50 - 300)</p>
+    <p>
+        100 - maximum range in y axis</p>
+    <p>
+        50 - Update delay in milliseconds (suggested in the range of 500 - 1000, as it gets server heavy otherwise)</p>
+    <p>
+        800 -&nbsp;width of the plot in pixels</p>
+    <p>
+        200 - height of the plot in pixels</p>
+    <p>
+        #FF1900 - &nbsp;expected color of the plot</p>
+    <p>
+        &nbsp;</p>
+       </div>
+    <div><span class="label label-success">Step 5</span></div>
+    <div>
+        Sit back, and see data in the model getting plotted in real-time.</div>
+<br><br>
+
+    <h3 id='reference'><br><br>Reference</h3>
+    <p>
+        &nbsp;</p>
+    <h4>
+        &nbsp;</h4>
+    <h4>
+        PLOTTING DJANGO MODEL FIELDS</h4>
+    <br>
+    <br>
+        <strong>{{ "{% plot_model_series 'id' 'x_model_name' 'x_field_name' 'count' 'y_max' 'frequency' 'width' 'height' 'color' "|add:"%}" }}</strong>
+    <br>
+        &nbsp; &nbsp; id : a unique identifier within the django project.
+    <div>
+        &nbsp; &nbsp; x_model_name : name of the model in which data to be plotted is stored</div>
+    <div>
+        &nbsp; &nbsp; x_field_name : field to be plotted</div>
+    <div>
+        &nbsp; &nbsp; count : number of values to be retrieved</div>
+    <div>
+        &nbsp; &nbsp; y_max : maximum y-length</div>
+    <div>
+        &nbsp; &nbsp; frequency : Update delay in milliseconds</div>
+    <div>
+        &nbsp; &nbsp; width : width of the plot in pixels</div>
+    <div>
+        &nbsp; &nbsp; height : height of the plot in pixels</div>
+    <div>
+        &nbsp; &nbsp; color : expected color of the plot</div>
+    <div>
+        &nbsp;</div>
+    <br><br>
+    <h4>
+        PLOTTING REDIS LISTS</h4>
+    <br><br>
+    <div>
+        {{ "{% plot_redis_series 'id' 'redis_servername' 'redis_list'  'count' 'y_max' 'frequency' 'width' 'height' 'color' "|add:"%}" }}
+    </div>
+    <div>
+        &nbsp; &nbsp; id : a unique identifier within the django project</div>
+    <div>
+        &nbsp; &nbsp; redis_servername : Name of the redis server</div>
+    <div>
+        &nbsp; &nbsp; redis_list : name of the redis list with data to be plotted.</div>
+    <div>
+        &nbsp; &nbsp; count : number of values to be retrieved</div>
+    <div>
+        &nbsp; &nbsp; y_max : maximum y-length</div>
+    <div>
+        &nbsp; &nbsp; frequency : Update delay in milliseconds</div>
+    <div>
+        &nbsp; &nbsp; width : width of the plot in pixels</div>
+    <div>
+        &nbsp; &nbsp; height : height of the plot in pixels</div>
+    <div>
+        &nbsp; &nbsp; color : expected color of the plot</div>
+    <div>
+        &nbsp;</div>
+    <div>
+        &nbsp;</div>
+    <p>
+        &nbsp;</p>
+
+
+
+<h2>Django Model field TimeSeries Plot</h2>
+{{ "{% plot_model_series '1' 'timeseries' 'value' '200' '100' '50' '800' '200' '#FF9100' "|add:"%}" }}
+{% plot_model_series '1' 'timeseries' 'value' '200' '100' '50' '800' '200' '#FF9100' %}
+<!--
+This is where magic happens.
+-->
+<button class='model_button btn btn-info'> Add Model Data </button>
+<br>
+<br>
+<h2>Redis List TimeSeries Plot</h2><br>
+{{ "{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE' "|add:"%}" }}
+{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#5BC0DE'%}
+<!--
+This is where magic happens.
+-->
+<br>
+<button class='redis_button btn btn-info'> Add Redis Data </button>
+</div>
+{% endblock %}
