@@ -27,17 +27,11 @@ $.post("/", {'data': 'redis_data'});
 <div class='font-set'>
     <h1>Graphos Examples</h1>
     <p class='font-set'>
-    Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list.
-
-Just use a templatetag and specify which model you what to plot, and add jquery.js and jquery.plot.js to your base.html, you are done. You can tweak with extra options to the tag.
-
-As of now, this is just a proof of concept design. Missing a lot of functional implementations a lot code refactoring.
+    Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list. Just use a templatetag and specify which model you what to plot, and add jquery.js and jquery.plot.js to your base.html, you are done. You can tweak with extra options to the tag. As of now, this is just a proof of concept design. Missing a lot of functional implementations a lot code refactoring.
 </p>
-<h2>HOW TO TRY</h2>
+<br>
 
-syncdb, runserver, and click on the add data to see the magic.
-Or even, try POST to / with curl, and graph gets plotted automatically.
-<p class='font-set'>You can update a chart, in real-time.</p>
+<p class='control-group success font-set'>You can update a chart, in real-time.</p>
 
 
 
@@ -51,8 +45,8 @@ This is where magic happens.
 <br>
 <br>
 <h2>Redis List TimeSeries Plot</h2><br>
-{{ "{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE' "|add:"%}" }}
-{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE'%}
+{{ "{% plot_redis_series '2' 'localhost' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE' "|add:"%}" }}
+{% plot_redis_series '2' 'localhost' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE'%}
 <!--
 This is where magic happens.
 -->

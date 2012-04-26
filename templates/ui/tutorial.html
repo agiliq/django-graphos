@@ -27,7 +27,7 @@ $.post("/", {'data': 'redis_data'});
     <h1>Graphos Tutorial</h1>
     <p class='font-set'>
     <p>
-        You can use graphos to plot any <strong><em>integer or float &nbsp;</em></strong>values to a nice time-series without any hazzle.</p>
+        You can use graphos to plot any <strong><em>integer or float &nbsp;</em></strong>values to a nice time-series without any hazzle, from a django model or from a redis list.</p>
     <p>
         &nbsp;</p>
     <p>
@@ -92,7 +92,7 @@ $.post("/", {'data': 'redis_data'});
     <br>
     <br>
         <strong>{{ "{% plot_model_series 'id' 'x_model_name' 'x_field_name' 'count' 'y_max' 'frequency' 'width' 'height' 'color' "|add:"%}" }}</strong>
-    <br>
+    <br><br>
         &nbsp; &nbsp; id : a unique identifier within the django project.
     <div>
         &nbsp; &nbsp; x_model_name : name of the model in which data to be plotted is stored</div>
@@ -117,8 +117,9 @@ $.post("/", {'data': 'redis_data'});
         PLOTTING REDIS LISTS</h4>
     <br><br>
     <div>
-        {{ "{% plot_redis_series 'id' 'redis_servername' 'redis_list'  'count' 'y_max' 'frequency' 'width' 'height' 'color' "|add:"%}" }}
+        <strong>{{ "{% plot_redis_series 'id' 'redis_servername' 'redis_list'  'count' 'y_max' 'frequency' 'width' 'height' 'color' "|add:"%}" }}</strong>
     </div>
+	<br><br>
     <div>
         &nbsp; &nbsp; id : a unique identifier within the django project</div>
     <div>
@@ -156,8 +157,8 @@ This is where magic happens.
 <br>
 <br>
 <h2>Redis List TimeSeries Plot</h2><br>
-{{ "{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE' "|add:"%}" }}
-{% plot_redis_series '2' 'seashell' 'graphos' '200' '100' '1000' '800' '200' '#5BC0DE'%}
+{{ "{% plot_redis_series '2' 'localhost' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE' "|add:"%}" }}
+{% plot_redis_series '2' 'localhost' 'graphos' '200' '100' '1000' '800' '200' '#5BC0DE'%}
 <!--
 This is where magic happens.
 -->
