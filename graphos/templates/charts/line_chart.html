@@ -1,0 +1,17 @@
+<div id="placeholder" style="width:600px;height:300px;"></div>
+<script type="text/javascript">
+$(function () {
+
+    // setup plot
+    var options = {
+        series: { shadowSize: 0 }, // drawing is faster without shadows
+        lines: { show: true },
+        yaxis: { min: 0, max: 10 },
+        grid: {hoverable: true, clickable: true },
+        xaxis: { show: false },
+        colors: ['#F33']
+    };
+
+    $.plot($("#placeholder"), [{{ series }}],  options);
+});
+</script>
