@@ -35,3 +35,7 @@ Todo
 ### Installation
 Todo - need to publish the app at Pypi after competion
 
+### License
+
+BSD
+
