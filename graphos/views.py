@@ -16,8 +16,6 @@ from django.shortcuts import get_object_or_404
 
 from django.contrib.contenttypes.models import ContentType
 
-from django.views.base import View
-
 from django.conf import settings
 
 
@@ -94,7 +92,7 @@ def plot_data(request):
 
         try:
             site_id = request.GET['site_id']
-        else:
+        except:
             site_id = settings.SITE_ID
 
         data_obj = ModelPlotDataHandler(site_id, model_name, field_name, count)

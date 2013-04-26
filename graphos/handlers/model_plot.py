@@ -43,6 +43,7 @@ class ModelPlotDataHandler(BasePlotDataHandler):
         data.update({
             'x_model_name': self.model_name,
             'x_field_name': self.field_name,
+            'backend': 'model',
         })
 
         return data
