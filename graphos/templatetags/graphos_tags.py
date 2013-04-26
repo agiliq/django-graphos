@@ -79,14 +79,15 @@ def plot_redis_series(id, server_address, x_list_name, count=100, y_max=100, fre
 
 
 @register.simple_tag(name="plot")
-def plot(data_instance):
+def plot(chart):
     '''
     '''
 
-    data = data_instance.get_data()
-    template = data_instance.get_template()
+    series = chart.get_series_json()
+    options = chart.get_options_json()
+    template = chart.get_template()
 
-    c = Context(data)
+    c = Context({'series': series, 'options': options})
 
     response = render_to_response(template, context_instance=c)
 
