@@ -15,6 +15,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from core.models import TimeSeries
 
+from graphos.flot_charts import LineChart
+
 @csrf_exempt
 def home(request):
     """
@@ -45,10 +47,11 @@ def home(request):
         #        r_inst = redis.Redis('localhost')
         r_inst.rpush('graphos', randrange(1, 100))
 
-    c = RequestContext(request, {
+    model_series = [[1, 2], [2, 2], [3, 2], [4, 4], [5, 6], [6, 7]]
+    TimeSeriesChart = LineChart(series=model_series)
 
-    })
-    return render_to_response('home.html', context_instance=c)
+    c = RequestContext(request)
+    return render_to_response('home.html', {'Chart': TimeSeriesChart}, context_instance=c)
 
 def tutorial(request):
     """
