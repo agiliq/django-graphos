@@ -56,6 +56,19 @@ class LineChart(Chart):
             serieses.append(current_series)
         return serieses
 
+    def get_series_objects(self):
+        series_objects = []
+        serieses = self.get_serieses()
+        for i in range(1, len(self.header)):
+            series_object = {}
+            series_object['label'] = self.header[i]
+            series_object['data'] = serieses[i-1]
+            series_objects.append(series_object)
+        return series_objects
+
+    def get_series_objects_json(self):
+        return json.dumps(self.get_series_objects())
+
     def get_options(self):
         pass
 
