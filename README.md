@@ -5,6 +5,8 @@ Graphos is a Django app to plot data into a live graph.
 
 ### Supported Backends:
 
+* Python Nested lists
+* CSV Files
 * MongoDB
 * Redis
 * Django ORM
@@ -18,6 +20,7 @@ Graphos is a Django app to plot data into a live graph.
 
 * Line chart
 * Bar chart
+
 
 ### Overview of Plot generation
 
@@ -40,12 +43,6 @@ And then in the template:
 
     {% plot chart %}
 
-### Supported DataSources
-
-* SimpleDataSource - Creating charts from Python data structure
-* CSVDataSource - Creating charts from CSV files
-
-
 
 ### Examples
 
@@ -58,13 +55,18 @@ And then in the template:
             [2006, 660, 1120],
             [2007, 1030, 540]
         ]
-    Chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
+    Chart = LineChart(SimpleDataSource(data=data))
 
 #### Generating a plot from CSV file
-TODO
+
+    csv_file = open("hello.csv")
+    LineChart(CSVDataSource(csv_file))
 
 #### Generating a plot from the ORM
-Todo
+
+    queryset = Accounts.objects.filter(foo=bar)
+    LineChart(ModelDataSource(queryset, fields=["year", "sales", "expenses"]))
+
 
 #### Generating a plot from Redis
 Todo
