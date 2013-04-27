@@ -1,6 +1,8 @@
 Graphos
 ----------------
 
+[![Build Status](https://travis-ci.org/agiliq/django-graphos.png)](https://travis-ci.org/agiliq/django-graphos)
+
 Graphos is a Django app to plot data into a live graph.
 
 ### Supported Backends:

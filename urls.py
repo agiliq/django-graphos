@@ -7,7 +7,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^graphos/', include('graphos.urls')),
     url(r'^$', 'demo.views.home', name='home'),
     url(r'^tutorial/$', 'demo.views.tutorial', name='tutorial'),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve',
