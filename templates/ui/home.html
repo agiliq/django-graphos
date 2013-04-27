@@ -1,20 +1,5 @@
 {% extends 'base.html' %}
 {% load graphos_tags %}
-{% block extra_head %}
-<script>
-
-$(document).ready(function() {
-$(".model_button").click(function() {
-$.post("/", {'data': 'model_data'});
-});
-$(".redis_button").click(function() {
-$.post("/", {'data': 'redis_data'});
-});
-});
-
-
-</script>
-{% endblock %}
 
 {% block menu %}
     <ul class="nav nav-tabs">
@@ -34,27 +19,6 @@ $.post("/", {'data': 'redis_data'});
 <p class='control-group success font-set'>You can update a chart, in real-time.</p>
 
 
-
-<h2>Django Model field TimeSeries Plot</h2>
-{{ "{% plot_model_series '1' 'timeseries' 'value' '200' '100' '50' '800' '200' '#FF9100' "|add:"%}" }}
-{% plot_model_series '1' 'timeseries' 'value' '200' '100' '50' '800' '200' '#FF9100' %}
-<!--
-This is where magic happens.
--->
-<br>
-<button class='model_button btn btn-info'> Add Model Data </button>
-<br>
-<br>
-<h2>Redis List TimeSeries Plot</h2><br>
-{{ "{% plot_redis_series '2' 'localhost' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE' "|add:"%}" }}
-{% plot_redis_series '2' 'localhost' 'graphos' '200' '100' '1000' '800' '200' '##5BC0DE'%}
-<!--
-This is where magic happens.
--->
-<br>
-<button class='redis_button btn btn-info'> Add Redis Data </button>
-<br>
-<br>
 <h2>Raw Model Series Plot</h2><br>
 {{ "{% plot chart %}" }}
 {% plot chart %}
