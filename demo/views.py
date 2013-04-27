@@ -16,6 +16,7 @@ from django.shortcuts import get_object_or_404
 from .models import TimeSeries
 
 from graphos.renderers.flot import LineChart
+from graphos.sources.simple import SimpleDataSource
 
 @csrf_exempt
 def home(request):
@@ -55,7 +56,7 @@ def home(request):
                 ['2007',  1030,      540]
             ]
 
-    Chart = LineChart(data=data)
+    Chart = LineChart(SimpleDataSource(data=data))
 
     c = RequestContext(request)
     return render_to_response('home.html', {'Chart': Chart}, context_instance=c)

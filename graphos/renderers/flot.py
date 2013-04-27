@@ -12,8 +12,9 @@ class LineChart(object):
     #         ]
 
 
-    def __init__(self, data=[], options={}, **kwargs):
-        self.data = data
+    def __init__(self, data_source, options={}, **kwargs):
+        self.data_source = data_source
+        self.data = data_source.get_data()
         self.options = options
 
     def _get_series(self, data):
