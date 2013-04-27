@@ -3,7 +3,36 @@ import random
 import string
 
 
-class LineChart(object):
+class Chart(object):
+
+    def __init__(self, data_source, html_id=None, options={}, *args, **kwargs):
+        self.data_source = data_source
+        self.data = data_source.get_data()
+        self.header = data_source.get_header()
+        self.options = options
+        random_letter = lambda : random.choice(string.ascii_letters)
+        self.html_id = html_id or "".join([random_letter() for el in range(10)])
+
+    def get_html_id(self):
+        return self.html_id
+
+    def get_serieses(self):
+        pass
+
+    def get_options(self):
+        pass
+
+    def get_template(self):
+        pass
+
+    def get_serieses_json(self):
+        return json.dumps(self.get_serieses())
+
+    def get_options_json(self):
+        return json.dumps(self.options)
+
+
+class LineChart(Chart):
     """ LineChart """
 
     # data = [
@@ -14,23 +43,8 @@ class LineChart(object):
     #             ['2007',  1030,      540]
     #         ]
 
-    def __init__(self, data_source, html_id=None, options={}, **kwargs):
-        self.data_source = data_source
-        self.data = data_source.get_data()
-        self.header = self.data_source.get_header()
-        self.options = options
-        random_letter = lambda : random.choice(string.ascii_letters)
-        self.html_id = html_id or "".join([random_letter() for el in range(10)])
-
-    def _get_series(self, data):
-        pass
-
-    def set_header(self):
-        pass
-
-    def get_html_id(self):
-        return self.html_id
-
+    def __init__(self, *args, **kwargs):
+        super(LineChart, self).__init__(*args, **kwargs)
 
     def get_serieses(self):
         data_only = self.data[1:]
@@ -42,11 +56,8 @@ class LineChart(object):
             serieses.append(current_series)
         return serieses
 
-    def get_serieses_json(self):
-        return json.dumps(self.get_serieses())
-
-    def get_options_json(self):
-        return json.dumps({})
+    def get_options(self):
+        pass
 
     def get_template(self):
         template = 'charts/line_chart.html'
