@@ -13,7 +13,7 @@ from django.http import HttpResponseRedirect, HttpResponseNotModified, \
                         HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
-from core.models import TimeSeries
+from .models import TimeSeries
 
 from graphos.renderers.flot import LineChart
 
