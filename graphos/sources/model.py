@@ -1,37 +1,28 @@
 """ Model Plot Data Handler"""
-
-from .base_plot import BaseDataSource
-
-
-class ModelDataSource(BaseDataSource):
-
-    model_name = ''
-    field_name = ''
+from .simple import SimpleDataSource
 
 
+def get_field_values(row, fields):
+    data = []
+    for field in fields:
+        data.append(getattr(row, field))
+    return data
 
-    def __init__(self, quertyset):
 
-        self.model_name = model_name
-        self.field_name = field_name
-
-        super(ModelPlotDataHandler, self).__init__(
-            id, model_name, field_name, count, *args, **kwargs)
-
+class ModelDataSource(SimpleDataSource):
+    def __init__(self, quertyset, fields=None):
+        self.queryset = quertyset
+        if fields:
+            self.fields = fields
+        else:
+            self.fields = [el.name for el in self.quertyset.model._meta.fields]
+        self.data = self.get_data()
 
     def get_data(self):
-        data = [
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
-        ]
-
+        data = [self.fields]
+        for row in self.queryset:
+            data.append(get_field_values(row, self.fields))
         return data
 
     def get_header(self):
-        return ['Year', 'Sales', 'Expenses']
-
-    def get_first_values_column(self):
-        return ("2004", "2005", "2006", "2007")
+        return self.fields
