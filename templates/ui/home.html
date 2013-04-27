@@ -1,20 +1,5 @@
 {% extends 'base.html' %}
 {% load graphos_tags %}
-{% block extra_head %}
-<script>
-
-$(document).ready(function() {
-$(".model_button").click(function() {
-$.post("/", {'data': 'model_data'});
-});
-$(".redis_button").click(function() {
-$.post("/", {'data': 'redis_data'});
-});
-});
-
-
-</script>
-{% endblock %}
 
 {% block menu %}
     <ul class="nav nav-tabs">
