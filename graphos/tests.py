@@ -4,8 +4,12 @@ from graphos.templatetags.graphos_tags import plot_redis_series
 
 from .sources.base import BaseDataSource
 from .sources.simple import SimpleDataSource
+from .sources.csv_file import CSVDataSource
 from .renderers.flot import LineChart
 from .exceptions import GraphosException
+
+import os
+current_path = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestSources(TestCase):
@@ -32,6 +36,23 @@ class TestSources(TestCase):
                          ['Year', 'Sales', 'Expenses'])
         self.assertEqual(data_source.get_first_column(),
                          ['2004', '2005', '2006', '2007'])
+
+    def test_csv_data_source(self):
+        data = [
+            ['Year', 'Sales', 'Expense'],
+            ['2006', '1000', '400'],
+            ['2007', '1170', '460'],
+            ['2008', '660', '1120'],
+            ['2009', '1030', '540']
+        ]
+        csv_file = open(os.path.join(current_path, "test_data/accounts.csv"),
+                        "r")
+        data_source = CSVDataSource(csv_file)
+        self.assertEqual(data, data_source.get_data())
+        self.assertEqual(data_source.get_header(),
+                         ['Year', 'Sales', 'Expense'])
+        self.assertEqual(data_source.get_first_column(),
+                         ['2006', '2007', '2008', '2009'])
 
 
 class TestRenderers(TestCase):
