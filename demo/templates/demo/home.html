@@ -20,8 +20,7 @@
 
 
 <h2>Flot Chart</h2>
-{{ "{% plot chart %}" }}
-{% plot chart %}
+{{ chart.as_html|safe }}
 <!--
 This is where magic happens.
 -->
