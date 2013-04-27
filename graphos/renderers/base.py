@@ -19,14 +19,19 @@ class BaseChart(object):
         self.html_id = html_id or "".join([random_letter()
                                           for el in range(10)])
 
-        self.heigth = height or DEFAULT_HEIGHT
+        self.height = height or DEFAULT_HEIGHT
         self.width = width or DEFAULT_WIDTH
+        self.options = options
+        self.header = data_source.get_header()
+
+    def get_data(self):
+        return self.data_source.get_data()
 
     def get_data_json(self):
         return json.dumps(self.get_data())
 
-    def get_data(self):
-        return self.data_source.get_data()
+    def get_options_json(self):
+        return json.dumps(self.options)
 
     def get_html_id(self):
         return self.html_id
