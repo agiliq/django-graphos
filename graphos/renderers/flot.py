@@ -10,8 +10,9 @@ class Chart(object):
         self.data = data_source.get_data()
         self.header = data_source.get_header()
         self.options = options
-        random_letter = lambda : random.choice(string.ascii_letters)
-        self.html_id = html_id or "".join([random_letter() for el in range(10)])
+        random_letter = lambda: random.choice(string.ascii_letters)
+        self.html_id = html_id or "".join([random_letter()
+                                          for el in range(10)])
 
     def get_html_id(self):
         return self.html_id

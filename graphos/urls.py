@@ -6,10 +6,4 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
-
-    url(r'plot_model_series_data/(?P<model_name>\w+)/(?P<field_name>\w+)/(?P<count>\d+)/', \
-                        'graphos.views.plot_model_series_data', name='plot_model_series_data'),
-    url(r'plot_redis_series_data/(?P<server_address>\w+)/(?P<list_name>\w+)/(?P<count>\d+)/', \
-                        'graphos.views.plot_redis_series_data', name='plot_redis_series_data'),
-    url(r'plot_data/', 'graphos.views.plot_data', name='plot_data'),
 )

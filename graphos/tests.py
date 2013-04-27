@@ -5,8 +5,12 @@ from graphos.templatetags.graphos_tags import plot_redis_series
 from .sources.base import BaseDataSource
 from .sources.simple import SimpleDataSource
 from .sources.csv_file import CSVDataSource
+from .sources.model import ModelDataSource
+
 from .renderers.flot import LineChart
 from .exceptions import GraphosException
+
+from demo.models import Account
 
 import os
 current_path = os.path.dirname(os.path.abspath(__file__))
@@ -53,6 +57,31 @@ class TestSources(TestCase):
                          ['Year', 'Sales', 'Expense'])
         self.assertEqual(data_source.get_first_column(),
                          ['2006', '2007', '2008', '2009'])
+
+    def test_model_data_source(self):
+        data = [
+            ['year', 'sales', 'expenses'],
+            [u'2004', 1000, 400],
+            [u'2005', 1170, 460],
+            [u'2006', 660, 1120],
+            [u'2007', 1030, 540]
+        ]
+        #Create some rows
+        Account.objects.create(year="2004", sales=1000,
+                               expenses=400, ceo="Welch")
+        Account.objects.create(year="2005", sales=1170,
+                               expenses=460, ceo="Jobs")
+        Account.objects.create(year="2006", sales=660,
+                               expenses=1120, ceo="Page")
+        Account.objects.create(year="2007", sales=1030,
+                               expenses=540, ceo="Welch")
+        query_set = Account.objects.all()
+        data_source = ModelDataSource(query_set, ['year', 'sales', 'expenses'])
+        self.assertEqual(data, data_source.get_data())
+        self.assertEqual(data_source.get_header(),
+                         ['year', 'sales', 'expenses'])
+        self.assertEqual(data_source.get_first_column(),
+                         ['2004', '2005', '2006', '2007'])
 
 
 class TestRenderers(TestCase):
