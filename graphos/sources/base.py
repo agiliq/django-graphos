@@ -17,5 +17,4 @@ class BaseDataSource(object):
         pass
 
     def get_data(self):
-        pass
-
+        raise GraphosException("Not Implemented")

@@ -8,5 +8,5 @@ from .sources.base import BaseDataSource
 class TestSources(TestCase):
     def test_base_data_source(self):
         data_source = BaseDataSource()
-        self.assertEquals(1, 2)
-        self.assertRaises(data_source.get_data())
+        self.assertTrue(hasattr(data_source, "get_data"))
+        self.assertRaises(Exception, data_source.get_data,)
