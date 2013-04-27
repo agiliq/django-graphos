@@ -77,6 +77,31 @@ Todo
 ### Installation
 Todo - need to publish the app at Pypi after competion
 
+
+### Creating new backend
+
+A backend is  class which has these three methods.
+
+    get_data
+    get_header
+    get_first_column
+
+`get_header` is used by a `Renderer` to create the labels.
+`get_first_column` is used to set the x axis labels
+`get_data` is used to get the data for display. It should always return a nested list. Eg:
+
+    [
+        ['Year', 'Sales', 'Expenses'],
+        [2004, 1000, 400],
+        [2005, 1170, 460],
+        [2006, 660, 1120],
+        [2007, 1030, 540]
+    ]
+
+If you create a class extending SimpleDataSource, and implement `get_data`. You get
+`get_header` and `get_first_column` for free.
+
+
 ### License
 
 BSD
