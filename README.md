@@ -30,6 +30,15 @@ Graphos is a Django app to plot data into a live graph.
 * Line chart
 * Column chart
 
+#### YUI
+
+* Coming Soon
+
+### Demo
+
+Install the requirements, `manage.py runserver`.
+The installed demo app shows the various suported chart types.
+
 
 ### Overview of Plot generation
 
