@@ -60,9 +60,7 @@ In your view, you do something like this:
 
 And then in the template:
 
-    {% load graphos_tags %}
-
-    {% plot chart %}
+    {{ chart.as_html }}
 
 
 ### Examples
