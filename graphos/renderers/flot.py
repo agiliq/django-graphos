@@ -16,6 +16,9 @@ class LineChart(object):
         self.data = data
         self.options = options
 
+    def _get_series(self, data):
+        pass
+
     def set_header(self):
         pass
 
