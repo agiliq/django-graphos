@@ -1,0 +1,22 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
+
+    {% if chart.get_options_json %}
+      var options = {{ chart.get_options_json|safe }}
+    {% else %}
+      var options = {};
+    {% endif %}
+
+    {% block create_chart %}
+    var chart = new google.visualization.ColumnChart(document.getElementById('{{ chart.get_html_id }}'));
+    {% endblock %}
+    chart.draw(data, options);
+  }
+</script>
+
+<div id="{{ chart.get_html_id }}"></div>
+

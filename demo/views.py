@@ -16,9 +16,10 @@ def home(request):
             ]
 
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
-    g_chart = gchart.ColumnChart(SimpleDataSource(data=data))
+    g_chart = gchart.LineChart(SimpleDataSource(data=data))
     c = RequestContext(request)
-    return render_to_response('home.html', {'chart': chart, 'g_chart': g_chart},
+    return render_to_response('home.html', {'chart': chart,
+                                            'g_chart': g_chart},
                               context_instance=c)
 
 def tutorial(request):
