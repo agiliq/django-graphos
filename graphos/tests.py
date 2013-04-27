@@ -1,6 +1,4 @@
 from django.test import TestCase
-from graphos.templatetags.graphos_tags import plot_model_series
-from graphos.templatetags.graphos_tags import plot_redis_series
 
 from .sources.base import BaseDataSource
 from .sources.simple import SimpleDataSource
