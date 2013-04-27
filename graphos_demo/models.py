@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+
+class TimeSeries(models.Model):
+    """
+    value is used as y axis for the graph
+    """
+    value = models.IntegerField()
