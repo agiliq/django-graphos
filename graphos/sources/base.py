@@ -4,17 +4,18 @@ from ..exceptions import GraphosException
 
 
 class BaseDataSource(object):
-
-    id = ''
-    count = ''
-    frequency = ''
-    width = ''
-    height = ''
-    y_max = ''
-    color = ''
-
     def __init__(*args, **kwargs):
         pass
 
     def get_data(self):
+        "Get all the data. Subclasses should override this"
+        raise GraphosException("Not Implemented")
+
+    def get_header(self):
+        "Get the header - First row. Subcalsses should override this"
+        raise GraphosException("Not Implemented")
+
+    def get_first_column(self):
+        "Get the first column. Generally would be the x axis."
+        "Subcalsses should override this"
         raise GraphosException("Not Implemented")
