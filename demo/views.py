@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from graphos.renderers.flot import LineChart
-from graphos.renderers import gchart
+from graphos.renderers import gchart, yui
 from graphos.sources.simple import SimpleDataSource
 
 data = [
@@ -31,3 +31,9 @@ def gchart_demo(request):
     context = {"line_chart": line_chart, "column_chart": column_chart,
                'bar_chart': bar_chart}
     return render(request, 'demo/gchart.html', context)
+
+
+def yui_demo(request):
+    line_chart = yui.LineChart(SimpleDataSource(data=data))
+    context = {"line_chart": line_chart}
+    return render(request, 'demo/yui.html', context)

@@ -6,7 +6,7 @@ from .sources.csv_file import CSVDataSource
 from .sources.model import ModelDataSource
 
 from .renderers.flot import LineChart
-from .renderers import gchart
+from .renderers import gchart, yui
 from .exceptions import GraphosException
 
 from demo.models import Account
@@ -129,3 +129,22 @@ class TestGchartRenderer(TestCase):
         chart = gchart.BarChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("BarChart" in chart.as_html())
+
+
+class TestYUIRenderer(TestCase):
+    def setUp(self):
+        data = [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+        self.data_source = SimpleDataSource(data)
+        self.data = data
+
+    def test_line_chart(self):
+        chart = yui.LineChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("line" in chart.as_html())
+

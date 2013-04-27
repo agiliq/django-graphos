@@ -1,0 +1,17 @@
+<div id="{{ chart.html_id }}" style="width: {{ chart.width }}px; height: {{ chart.heigth }}px;"></div>
+<script src="http://yui.yahooapis.com/3.10.0/build/yui/yui-min.js"></script>
+<script>
+// Create a new YUI instance and populate it with the required modules.
+YUI().use('charts', function (Y) {
+    var myDataValues = {{ chart.get_data_json|safe }};
+
+    // Instantiate and render the chart
+    var mychart = new Y.Chart({
+        dataProvider: myDataValues,
+        render: "#{{ chart.html_id }}",
+        type: "line",
+        categoryKey:"{{ chart.get_category_key }}"
+    });
+});
+
+</script>
