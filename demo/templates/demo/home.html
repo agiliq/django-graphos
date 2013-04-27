@@ -3,11 +3,11 @@
 
 {% block menu %}
     <ul class="nav nav-tabs">
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="/tutorial/">Tutorial</a></li>
-        <li><a href="/tutorial#reference">Reference</a></li>
+        <li class="active"><a href="{% url 'demo_home' %}">Home</a></li>
+        <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
     </ul>
 {%  endblock %}
+
 {% block content %}
 <div class='font-set'>
     <h1>Graphos Examples</h1>
