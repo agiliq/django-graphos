@@ -6,6 +6,7 @@ from .sources.csv_file import CSVDataSource
 from .sources.model import ModelDataSource
 
 from .renderers.flot import LineChart
+from .renderers import gchart
 from .exceptions import GraphosException
 
 from demo.models import Account
@@ -82,7 +83,7 @@ class TestSources(TestCase):
                          ['2004', '2005', '2006', '2007'])
 
 
-class TestRenderers(TestCase):
+class TestFlotRenderer(TestCase):
     def setUp(self):
         data = [
             ['Year', 'Sales', 'Expenses'],
@@ -100,3 +101,20 @@ class TestRenderers(TestCase):
         series_1 = [(2004, 1000), (2005, 1170), (2006, 660), (2007, 1030)]
         series_2 = [(2004, 400), (2005, 460), (2006, 1120), (2007, 540)]
         self.assertEqual([series_1, series_2], json_data)
+
+
+class TestGchartRenderer(TestCase):
+    def setUp(self):
+        data = [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+        self.data_source = SimpleDataSource(data)
+        self.data = data
+
+    def test_line_chart(self):
+        chart = gchart.LineChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
