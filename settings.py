@@ -10,7 +10,6 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Anoop Thomas Mathew', 'atm@profoundis.com'),
 )
 
 MANAGERS = ADMINS
@@ -106,8 +105,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
         os.path.join(PROJECT_DIR, 'templates'),
-        os.path.join(PROJECT_DIR, 'templates/ui'),
-        os.path.join(PROJECT_DIR, 'graphos/templates'),
     )
 
 INSTALLED_APPS = (

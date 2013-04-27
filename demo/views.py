@@ -14,13 +14,12 @@ data = [
 
 def home(request):
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
-    import pdb; pdb.set_trace()
     g_chart = gchart.LineChart(SimpleDataSource(data=data))
-    return render(request, 'home.html', {'chart': chart,
+    return render(request, 'demo/home.html', {'chart': chart,
                                          'g_chart': g_chart},
                   )
 
 
 def tutorial(request):
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
-    return render(request, 'tutorial.html', {'chart': chart}, )
+    return render(request, 'demo/tutorial.html', {'chart': chart}, )
