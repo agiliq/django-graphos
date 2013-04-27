@@ -47,7 +47,7 @@ def home(request):
         #        r_inst = redis.Redis('localhost')
         r_inst.rpush('graphos', randrange(1, 100))
 
-    series = [
+    data = [
                 ['Year', 'Sales', 'Expenses'],
                 ['2004',  1000,      400],
                 ['2005',  1170,      460],
@@ -55,7 +55,7 @@ def home(request):
                 ['2007',  1030,      540]
             ]
 
-    Chart = LineChart(series)
+    Chart = LineChart(data=data)
 
     c = RequestContext(request)
     return render_to_response('home.html', {'Chart': Chart}, context_instance=c)
