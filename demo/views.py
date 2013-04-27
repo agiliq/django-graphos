@@ -55,6 +55,7 @@ def home(request):
             [2006, 660, 1120],
             [2007, 1030, 540]
         ]
+        
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
 
     c = RequestContext(request)
@@ -89,8 +90,15 @@ def tutorial(request):
         #        r_inst = redis.Redis('localhost')
         r_inst.rpush('graphos', randrange(1, 100))
 
-    c = RequestContext(request, {
+    data =  [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+    chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
 
-    })
-    return render_to_response('tutorial.html', context_instance=c)
+    c = RequestContext(request)
+    return render_to_response('tutorial.html', {'chart': chart}, context_instance=c)
 
