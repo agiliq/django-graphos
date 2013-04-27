@@ -83,11 +83,11 @@ def plot(chart):
     '''
     '''
 
-    series = chart.get_series_json()
+    series = chart.get_serieses_json()
     options = chart.get_options_json()
     template = chart.get_template()
 
-    c = Context({'series': series, 'options': options})
+    c = Context({'series': series, 'chart':chart, 'options': options})
 
     response = render_to_response(template, context_instance=c)
 

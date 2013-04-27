@@ -48,15 +48,14 @@ def home(request):
         #        r_inst = redis.Redis('localhost')
         r_inst.rpush('graphos', randrange(1, 100))
 
-    data = [
-                ['Year', 'Sales', 'Expenses'],
-                ['2004',  1000,      400],
-                ['2005',  1170,      460],
-                ['2006',  660,       1120],
-                ['2007',  1030,      540]
-            ]
-
-    Chart = LineChart(SimpleDataSource(data=data))
+    data =  [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+    Chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
 
     c = RequestContext(request)
     return render_to_response('home.html', {'Chart': Chart}, context_instance=c)
