@@ -58,7 +58,7 @@ def home(request):
     Chart = LineChart(series)
 
     c = RequestContext(request)
-    return render_to_response('home.html', {'Chart': TimeSeriesChart}, context_instance=c)
+    return render_to_response('home.html', {'Chart': Chart}, context_instance=c)
 
 def tutorial(request):
     """
