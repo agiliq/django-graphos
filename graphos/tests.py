@@ -118,3 +118,9 @@ class TestGchartRenderer(TestCase):
     def test_line_chart(self):
         chart = gchart.LineChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("LineChart" in chart.as_html())
+
+    def test_column_chart(self):
+        chart = gchart.ColumnChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("Column" in chart.as_html())
