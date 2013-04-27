@@ -1,4 +1,4 @@
-<div id="{{ chart.get_html_id }}" style="width:600px;height:300px;"></div>
+<div id="{{ html_id }}" style="width:600px;height:300px;"></div>
 <script type="text/javascript">
 $(function () {
 
@@ -11,6 +11,6 @@ $(function () {
         colors: ['#F33']
     };
 
-    $.plot($("#{{ chart.get_html_id }}"), {{ series|safe }},  options);
+    $.plot($("#{{ html_id }}"), {{ series|safe }},  options);
 });
 </script>
