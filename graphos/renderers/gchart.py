@@ -11,3 +11,8 @@ class ColumnChart(BaseChart):
     def get_template(self):
         return "graphos/gchart/column_chart.html"
 
+class BarChart(BaseChart):
+    def get_template(self):
+        return "graphos/gchart/bar_chart.html"
+
+

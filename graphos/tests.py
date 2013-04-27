@@ -124,3 +124,8 @@ class TestGchartRenderer(TestCase):
         chart = gchart.ColumnChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("Column" in chart.as_html())
+
+    def test_bar_chart(self):
+        chart = gchart.BarChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("BarChart" in chart.as_html())

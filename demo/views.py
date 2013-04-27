@@ -27,5 +27,7 @@ def tutorial(request):
 def gchart_demo(request):
     line_chart = gchart.LineChart(SimpleDataSource(data=data))
     column_chart = gchart.ColumnChart(SimpleDataSource(data=data))
-    context = {"line_chart": line_chart, "column_chart": column_chart}
+    bar_chart = gchart.BarChart(SimpleDataSource(data=data))
+    context = {"line_chart": line_chart, "column_chart": column_chart,
+               'bar_chart': bar_chart}
     return render(request, 'demo/gchart.html', context)
