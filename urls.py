@@ -8,8 +8,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^graphos/', include('graphos.urls')),
-    url(r'^$', 'ui.views.home', name='home'),
-    url(r'^tutorial/$', 'ui.views.tutorial', name='tutorial'),
+    url(r'^$', 'demo.views.home', name='home'),
+    url(r'^tutorial/$', 'demo.views.tutorial', name='tutorial'),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_ROOT}),
 )
