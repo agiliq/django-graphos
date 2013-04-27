@@ -1,7 +1,7 @@
 """Base Plot Data Handler"""
 
 
-class BasePlotDataHandler(object):
+class BaseDataSource(object):
 
     id = ''
     count = ''
