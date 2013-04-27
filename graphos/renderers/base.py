@@ -2,6 +2,9 @@ import random
 import string
 import json
 
+from django.template.loader import render_to_string
+
+
 random_letter = lambda: random.choice(string.ascii_letters)
 
 
@@ -20,3 +23,7 @@ class BaseChart(object):
 
     def get_html_id(self):
         return self.html_id
+
+    def as_html(self):
+        context = {"data": self.get_data(), "chart": self}
+        return render_to_string(self.get_template(), context)

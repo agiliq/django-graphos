@@ -13,10 +13,10 @@ def home(request):
             [2005, 1170, 460],
             [2006, 660, 1120],
             [2007, 1030, 540]
-        ]
+            ]
 
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
-    g_chart = gchart.LineChart(SimpleDataSource(data=data))
+    g_chart = gchart.ColumnChart(SimpleDataSource(data=data))
     c = RequestContext(request)
     return render_to_response('home.html', {'chart': chart, 'g_chart': g_chart},
                               context_instance=c)
