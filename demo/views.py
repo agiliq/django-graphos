@@ -13,7 +13,7 @@ from django.http import HttpResponseRedirect, HttpResponseNotModified, \
                         HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
-from core.models import TimeSeries
+from .models import TimeSeries
 
 from graphos.renderers.flot import LineChart
 
@@ -47,7 +47,7 @@ def home(request):
         #        r_inst = redis.Redis('localhost')
         r_inst.rpush('graphos', randrange(1, 100))
 
-    series = [
+    data = [
                 ['Year', 'Sales', 'Expenses'],
                 ['2004',  1000,      400],
                 ['2005',  1170,      460],
@@ -55,10 +55,10 @@ def home(request):
                 ['2007',  1030,      540]
             ]
 
-    Chart = LineChart(series)
+    Chart = LineChart(data=data)
 
     c = RequestContext(request)
-    return render_to_response('home.html', {'Chart': TimeSeriesChart}, context_instance=c)
+    return render_to_response('home.html', {'Chart': Chart}, context_instance=c)
 
 def tutorial(request):
     """
