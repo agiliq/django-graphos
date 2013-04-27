@@ -1,0 +1,2 @@
+class GraphosException(Exception):
+    pass
