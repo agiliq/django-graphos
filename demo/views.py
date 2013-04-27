@@ -16,10 +16,16 @@ def home(request):
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
     g_chart = gchart.LineChart(SimpleDataSource(data=data))
     return render(request, 'demo/home.html', {'chart': chart,
-                                         'g_chart': g_chart},
-                  )
+                                              'g_chart': g_chart},)
 
 
 def tutorial(request):
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
     return render(request, 'demo/tutorial.html', {'chart': chart}, )
+
+
+def gchart_demo(request):
+    line_chart = gchart.LineChart(SimpleDataSource(data=data))
+    column_chart = gchart.ColumnChart(SimpleDataSource(data=data))
+    context = {"line_chart": line_chart, "column_chart": column_chart}
+    return render(request, 'demo/gchart.html', context)

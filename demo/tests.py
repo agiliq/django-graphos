@@ -13,3 +13,6 @@ class SimpleTest(TestCase):
 
     def test_tutorial(self):
         self.client.get(reverse("demo_tutorial"))
+
+    def test_gchart_demo(self):
+        self.client.get(reverse("demo_gchart_demo"))
