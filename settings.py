@@ -125,9 +125,8 @@ INSTALLED_APPS = (
 
     'south',
 
-    'core',
+    'demo',
     'graphos',
-    'ui',
 )
 
 # A sample logging configuration. The only tangible logging
