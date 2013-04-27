@@ -23,7 +23,7 @@ Graphos is a Django app to plot data into a live graph.
 
 #### Flot
 
-* Line Chart
+* Line chart
 
 #### Google Charts
 
@@ -33,7 +33,9 @@ Graphos is a Django app to plot data into a live graph.
 
 #### YUI
 
-* Coming Soon
+* Line chart
+
+(More coming soon)
 
 ### Demo
 
