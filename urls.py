@@ -6,9 +6,8 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    url(r'^$', 'demo.views.home', name='home'),
-    url(r'^tutorial/$', 'demo.views.tutorial', name='tutorial'),
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve',
+    url(r'^$', 'demo.views.home', name='demo_home'),
+    url(r'^tutorial/$', 'demo.views.tutorial', name='demo_tutorial'),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_ROOT}),
 )
