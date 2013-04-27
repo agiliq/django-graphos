@@ -3,7 +3,7 @@ import random
 import string
 
 
-class Chart(object):
+class BaseChart(object):
 
     def __init__(self, data_source, html_id=None, options={}, *args, **kwargs):
         self.data_source = data_source
@@ -33,7 +33,7 @@ class Chart(object):
         return json.dumps(self.options)
 
 
-class LineChart(Chart):
+class LineChart(BaseChart):
     """ LineChart """
 
     # data = [
