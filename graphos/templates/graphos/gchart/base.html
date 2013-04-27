@@ -1,6 +1,5 @@
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 <script type="text/javascript">
-  google.load("visualization", "1", {packages:["corechart"]});
   google.setOnLoadCallback(drawChart);
   function drawChart() {
     var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
@@ -18,5 +17,5 @@
   }
 </script>
 
-<div id="{{ chart.get_html_id }}"></div>
+<div id="{{ chart.get_html_id }}" style="width: {{ chart.width }}px; height: {{ chart.heigth }}px;"></div>
 
