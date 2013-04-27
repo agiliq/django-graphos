@@ -12,20 +12,23 @@
 <div class='font-set'>
     <h1>Graphos Examples</h1>
     <p class='font-set'>
-    Graphos is a helper library for django to plot data into a live graph, fetching data from a modelfield or a redis list. Just use a templatetag and specify which model you what to plot, and add jquery.js and jquery.plot.js to your base.html, you are done. You can tweak with extra options to the tag. As of now, this is just a proof of concept design. Missing a lot of functional implementations a lot code refactoring.
-</p>
+        Graphos is an app for django to plot data into a graph. We currently support
+        Flot, Google Chart API and YUI Charts. Graphos can read data from CSV, Models, MongoDB and Redis.
+    </p>
 <br>
 
-<p class='control-group success font-set'>You can update a chart, in real-time.</p>
 
 
-<h2>Raw Model Series Plot</h2><br>
+<h2>Flot Chart</h2>
 {{ "{% plot chart %}" }}
 {% plot chart %}
 <!--
 This is where magic happens.
 -->
-</div>
+
+<h2>Google charts<h2>
 
 {{ g_chart.as_html|safe }}
+
+</div>
 {% endblock %}

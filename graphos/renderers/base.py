@@ -7,13 +7,20 @@ from django.template.loader import render_to_string
 
 random_letter = lambda: random.choice(string.ascii_letters)
 
+DEFAULT_HEIGHT = 300
+DEFAULT_WIDTH = 600
+
 
 class BaseChart(object):
     def __init__(self, data_source, html_id=None,
+                 width=None, height=None,
                  options={}, *args, **kwargs):
         self.data_source = data_source
         self.html_id = html_id or "".join([random_letter()
                                           for el in range(10)])
+
+        self.heigth = height or DEFAULT_HEIGHT
+        self.width = width or DEFAULT_WIDTH
 
     def get_data_json(self):
         return json.dumps(self.get_data())

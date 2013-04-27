@@ -14,6 +14,7 @@ data = [
 
 def home(request):
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
+    import pdb; pdb.set_trace()
     g_chart = gchart.LineChart(SimpleDataSource(data=data))
     return render(request, 'home.html', {'chart': chart,
                                          'g_chart': g_chart},
