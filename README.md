@@ -13,15 +13,22 @@ Graphos is a Django app to plot data into a live graph.
 * Redis
 * Django ORM
 
-### JS Libraries used
+### Charting API Supported
 
-* Jquery
-* Flot
+* [Flot](http://flotcharts.org)
+* [Google Charts API](https://developers.google.com/chart/)
+* [YUI Charts](http://yuilibrary.com/yui/docs/charts/)
 
-# Chart types supported
+### Chart types supported
+
+#### Flot
+
+* Line Chart
+
+#### Google Charts
 
 * Line chart
-* Bar chart
+* Column chart
 
 
 ### Overview of Plot generation
