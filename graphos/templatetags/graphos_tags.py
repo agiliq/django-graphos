@@ -83,7 +83,7 @@ def plot(chart):
     '''
     '''
 
-    series = chart.get_serieses_json()
+    series = chart.get_series_objects_json()
     options = chart.get_options_json()
     template = chart.get_template()
 
