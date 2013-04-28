@@ -17,6 +17,13 @@ class BarChart(BaseChart):
     def get_template(self):
         return "graphos/gchart/bar_chart.html"
 
+    def get_options(self):
+        options = super(BarChart, self).get_options()
+        if not 'vAxis' in options:
+            vaxis = self.data_source.get_header()[0]
+            options['vAxis'] = {'title': vaxis}
+        return options
+
 
 class CandlestickChart(BaseChart):
     def get_template(self):

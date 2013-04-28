@@ -14,14 +14,14 @@ DEFAULT_WIDTH = 900
 class BaseChart(object):
     def __init__(self, data_source, html_id=None,
                  width=None, height=None,
-                 options={}, *args, **kwargs):
+                 options=None, *args, **kwargs):
         self.data_source = data_source
         self.html_id = html_id or "".join([random_letter()
                                           for el in range(10)])
 
         self.height = height or DEFAULT_HEIGHT
         self.width = width or DEFAULT_WIDTH
-        self.options = options
+        self.options = options or {}
         self.header = data_source.get_header()
 
     def get_data(self):
@@ -30,8 +30,14 @@ class BaseChart(object):
     def get_data_json(self):
         return json.dumps(self.get_data())
 
+    def get_options(self):
+        options = self.options
+        if not 'title' in options:
+            options['title'] = "Chart"
+        return options
+
     def get_options_json(self):
-        return json.dumps(self.options)
+        return json.dumps(self.get_options())
 
     def get_html_id(self):
         return self.html_id
