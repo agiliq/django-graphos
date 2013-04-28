@@ -1,0 +1,5 @@
+{% extends "graphos/gchart/base.html" %}
+
+{% block create_chart %}
+  var chart = new google.visualization.CandlestickChart(document.getElementById('{{ chart.get_html_id }}', true));
+{% endblock %}

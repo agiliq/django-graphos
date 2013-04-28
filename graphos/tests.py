@@ -130,6 +130,11 @@ class TestGchartRenderer(TestCase):
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("BarChart" in chart.as_html())
 
+    def test_bar_chart(self):
+        chart = gchart.CandelStickChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("CandleStickChart" in chart.as_html())
+
 
 class TestYUIRenderer(TestCase):
     def setUp(self):
@@ -147,4 +152,3 @@ class TestYUIRenderer(TestCase):
         chart = yui.LineChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("line" in chart.as_html())
-
