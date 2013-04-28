@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Graphos</title>
     <meta name="description" content="">
-    <meta name="Anoop Thomas Mathew" content="">
     <link href="/{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
     <link href="/{{STATIC_URL}}img/favicon.ico" type="image/x-icon" rel="icon" />
     <link href="/{{STATIC_URL}}img/favicon.gif" type="image/gif" rel="icon" />
@@ -41,8 +40,15 @@
           <a class="brand" href="#">Graphos</a>
           <a href="#" style="font-size: 14px;margin-top: 7px;" class="brand">Live data ticker app for django</a>
 
-           {% block menu %}
-            {% endblock %}
+     {% block menu %}
+          <ul class="nav nav-tabs">
+              <li class="active"><a href="{% url 'demo_home' %}">Home</a></li>
+              <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
+              <li><a href="{% url 'demo_gchart_demo' %}">Gchart</a></li>
+              <li><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
+              <li><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
+          </ul>
+      {%  endblock %}
         </div>
       </div>
     </div>

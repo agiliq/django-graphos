@@ -57,11 +57,14 @@ def gchart_demo(request):
                                   fields=['year', 'sales',],)
     line_chart = gchart.LineChart(data_source, options={'title': "Sales Growth"})
     column_chart = gchart.ColumnChart(SimpleDataSource(data=data),
-                                                      {'title': "Sales Growth"})
-    bar_chart = gchart.BarChart(SimpleDataSource(data=data))
+                                                      options={'title': "Sales vs Expense"})
+    data_source2 = ModelDataSource(queryset,
+                                  fields=['year', 'expenses',],)
+    bar_chart = gchart.BarChart(data_source,
+                                options={'title': "Expense Growth"})
     candlestick_chart = gchart.CandlestickChart(SimpleDataSource
                                                 (data=candlestick_data))
-    pie_chart = gchart.PieChart(ModelDataSource(queryset, fields=fields[:2]))
+    pie_chart = gchart.PieChart(data_source)
     context = {"line_chart": line_chart, "column_chart": column_chart,
                'bar_chart': bar_chart, 'candlestick_chart': candlestick_chart,
                'pie_chart': pie_chart}
@@ -72,3 +75,7 @@ def yui_demo(request):
     line_chart = yui.LineChart(SimpleDataSource(data=data))
     context = {"line_chart": line_chart}
     return render(request, 'demo/yui.html', context)
+
+def flot_demo(request):
+  pass
+  #TODO

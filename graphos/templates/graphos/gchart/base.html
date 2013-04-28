@@ -1,7 +1,7 @@
 
 <script type="text/javascript">
-  google.setOnLoadCallback(drawChart);
-  function drawChart() {
+  google.setOnLoadCallback(drawChart{{ chart.get_html_id }});
+  function drawChart{{ chart.get_html_id }}() {
     var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
 
     {% if chart.get_options_json %}

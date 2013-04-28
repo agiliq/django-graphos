@@ -5,4 +5,5 @@ urlpatterns = patterns('',
     url(r'^tutorial/$', 'demo.views.tutorial', name='demo_tutorial'),
     url(r'^gchart/$', 'demo.views.gchart_demo', name='demo_gchart_demo'),
     url(r'^yui/$', 'demo.views.yui_demo', name='demo_yui_demo'),
+    url(r'^flot/$', 'demo.views.flot_demo', name='demo_flot_demo'),
 )
