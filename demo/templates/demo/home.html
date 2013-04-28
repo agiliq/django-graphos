@@ -20,14 +20,19 @@
 
 
 <h2>Flot Chart</h2>
-{{ chart.as_html|safe }}
+{{ chart.as_html }}
 <!--
 This is where magic happens.
 -->
-
+<br />
 <h2>Google charts<h2>
 
-{{ g_chart.as_html|safe }}
+{{ g_chart.as_html }}
 
+<br />
+<h2>Mongo Data with BaseChart</h2>
+{{ m_chart.as_html }}
+
+<br />
 </div>
 {% endblock %}
