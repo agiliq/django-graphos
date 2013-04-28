@@ -54,6 +54,7 @@ mongo_series_object_2 = [[400, 4],
 mongo_data = [{'data': mongo_series_object_1, 'label': 'hours'},
               {'data': mongo_series_object_2, 'label': 'hours'}]
 
+
 def create_demo_accounts():
     Account.objects.all().delete()
     #Create some rows
@@ -69,6 +70,7 @@ def create_demo_accounts():
                            expenses=1540, ceo="Zuck")
     Account.objects.create(year="2009", sales=2230,
                            expenses=1840, ceo="Cook")
+
 
 def home(request):
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
@@ -88,21 +90,22 @@ def tutorial(request):
     url = "https://raw.github.com/agiliq/django-graphos/master/README.md"
     str = urllib2.urlopen(url).read()
     readme = markdown.markdown(str)
-    return render(request, 'demo/tutorial.html',
-                  {'chart': chart, "readme": readme},
-                  )
+    context = {'chart': chart, "readme": readme}
+    return render(request, 'demo/tutorial.html', context)
+
 
 def gchart_demo(request):
     create_demo_accounts()
     queryset = Account.objects.all()
-    fields = ['year', 'sales', 'expenses']
+    # fields = ['year', 'sales', 'expenses']
     data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales',],)
-    line_chart = gchart.LineChart(data_source, options={'title': "Sales Growth"})
+                                  fields=['year', 'sales'])
+    line_chart = gchart.LineChart(data_source,
+                                  options={'title': "Sales Growth"})
     column_chart = gchart.ColumnChart(SimpleDataSource(data=data),
-                                                      options={'title': "Sales vs Expense"})
-    data_source2 = ModelDataSource(queryset,
-                                  fields=['year', 'expenses',],)
+                                      options={'title': "Sales vs Expense"})
+    # data_source2 = ModelDataSource(queryset,
+    #                              fields=['year', 'expenses',],)
     bar_chart = gchart.BarChart(data_source,
                                 options={'title': "Expense Growth"})
     candlestick_chart = gchart.CandlestickChart(SimpleDataSource
@@ -119,6 +122,6 @@ def yui_demo(request):
     context = {"line_chart": line_chart}
     return render(request, 'demo/yui.html', context)
 
+
 def flot_demo(request):
-  pass
-  #TODO
+    pass  # TODO
