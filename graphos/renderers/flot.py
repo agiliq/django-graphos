@@ -1,6 +1,4 @@
 import json
-import random
-import string
 
 from .base import BaseChart
 
@@ -29,7 +27,7 @@ class LineChart(BaseChart):
         for i in range(1, len(self.header)):
             series_object = {}
             series_object['label'] = self.header[i]
-            series_object['data'] = serieses[i-1]
+            series_object['data'] = serieses[i - 1]
             series_objects.append(series_object)
         return series_objects
 
@@ -41,7 +39,5 @@ class LineChart(BaseChart):
         return template
 
     def as_html(self):
-        series = self.get_series_objects_json()
-        options = self.get_options_json()
-        context = { 'series': series, 'html_id': self.html_id, 'options': options}
+        context = {'chart': self}
         return render_to_string(self.get_template(), context)
