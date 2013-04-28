@@ -131,9 +131,9 @@ class TestGchartRenderer(TestCase):
         self.assertTrue("BarChart" in chart.as_html())
 
     def test_bar_chart(self):
-        chart = gchart.CandelStickChart(data_source=self.data_source)
+        chart = gchart.CandlestickChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
-        self.assertTrue("CandleStickChart" in chart.as_html())
+        self.assertTrue("CandlestickChart" in chart.as_html())
 
 
 class TestYUIRenderer(TestCase):

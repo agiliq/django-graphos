@@ -6,10 +6,10 @@ from graphos.sources.simple import SimpleDataSource
 
 data = [
        ['Year', 'Sales', 'Expenses'],
-       [2004, 1000, 400],
-       [2005, 1170, 460],
-       [2006, 660, 1120],
-       [2007, 1030, 540], ]
+       ['2004', 1000, 400],
+       ['2005', 1170, 460],
+       ['2006', 660, 1120],
+       ['2007', 1030, 540], ]
 
 candlestick_data = [
           ['Mon', 20, 28, 38, 45],
