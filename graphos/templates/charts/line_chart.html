@@ -1,16 +1,34 @@
-<div id="{{ html_id }}" style="width:600px;height:300px;"></div>
+<div id="{{ chart.html_id }}" style="width:600px;height:300px;"></div>
 <script type="text/javascript">
 $(function () {
 
     // setup plot
-    var options = {
-        series: { shadowSize: 0 }, // drawing is faster without shadows
-        lines: { show: true },
-        grid: {hoverable: true, clickable: true },
-        xaxis: { show: false },
-        colors: ['#F33']
-    };
+   var options = {
+				series: {
+					lines: {
+						show: true,
+						fill: true,
+						lineWidth: 4,
+						steps: true,
+					},
+					points: {
+						show: true,
+						radius: 4,
+						fill: true
+					}
+				},
+				legend: {
+					position: 'ne'
+				},
+				tooltip: true,
+				tooltipOpts: {
+					content: '%s: %y'
+				},
+				xaxis: { mode: "time" },
+				grid: { borderWidth: 2, hoverable: true }
+			};
 
-    $.plot($("#{{ html_id }}"), {{ series|safe }},  options);
+
+    $.plot($("#{{ chart.html_id }}"), {{ chart.get_series_objects_json|safe }}, options);
 });
 </script>
