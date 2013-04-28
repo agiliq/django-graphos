@@ -42,6 +42,9 @@ class BaseChart(object):
     def get_html_id(self):
         return self.html_id
 
+    def get_template(self):
+        return 'charts/base_chart.html'
+
     def as_html(self):
-        context = {"data": self.get_data(), "chart": self}
+        context = {"chart": self}
         return render_to_string(self.get_template(), context)
