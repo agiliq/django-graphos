@@ -1,10 +1,15 @@
 from django.shortcuts import render
+from django.views.decorators.cache import cache_page
 
 from graphos.renderers.flot import LineChart
 from graphos.renderers import gchart, yui
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.model import ModelDataSource
 from .models import Account
+
+import markdown
+import urllib2
+
 
 data = [
        ['Year', 'Sales', 'Expenses'],
@@ -44,10 +49,15 @@ def home(request):
                                               'g_chart': g_chart},)
 
 
+@cache_page
 def tutorial(request):
     chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
-    return render(request, 'demo/tutorial.html', {'chart': chart}, )
-
+    url = "https://raw.github.com/agiliq/django-graphos/master/README.md"
+    str = urllib2.urlopen(url).read()
+    readme = markdown.markdown(str)
+    return render(request, 'demo/tutorial.html',
+                  {'chart': chart, "readme": readme},
+                  )
 
 def gchart_demo(request):
     create_demo_accounts()
