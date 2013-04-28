@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
-{% load graphos_tags %}
 
-{% block menu %}
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="{% url 'demo_home' %}">Home</a></li>
-        <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
-    </ul>
-{%  endblock %}
+{% block extra_head %}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+{% endblock %}
 
 {% block content %}
 <div class='font-set'>

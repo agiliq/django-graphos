@@ -10,12 +10,12 @@ def get_field_values(row, fields):
 
 
 class ModelDataSource(SimpleDataSource):
-    def __init__(self, quertyset, fields=None):
-        self.queryset = quertyset
+    def __init__(self, queryset, fields=None):
+        self.queryset = queryset
         if fields:
             self.fields = fields
         else:
-            self.fields = [el.name for el in self.quertyset.model._meta.fields]
+            self.fields = [el.name for el in self.queryset.model._meta.fields]
         self.data = self.get_data()
 
     def get_data(self):

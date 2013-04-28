@@ -1,84 +1,9 @@
 {% extends 'base.html' %}
-{% load graphos_tags %}
-{% block extra_head %}
-<script>
-
-$(document).ready(function() {
-$(".model_button").click(function() {
-$.post("/", {'data': 'model_data'});
-});
-$(".redis_button").click(function() {
-$.post("/", {'data': 'redis_data'});
-});
-});
 
 
-</script>
-{% endblock %}
-{% block menu %}
-<ul class="nav nav-tabs">
-    <li><a href="/">Home</a></li>
-    <li class="active"><a href="/tutorial/">Tutorial</a></li>
-    <li><a href="/tutorial#reference">Reference</a></li>
-</ul>
-{%  endblock %}
+
 {% block content %}
-<div class='font-set'>
-    <h1>Graphos Tutorial</h1>
-    <p class='font-set'>
-    <p>
-        You can use graphos to plot any <strong><em>integer or float &nbsp;</em></strong>values to a nice time-series without any hazzle, from a <strong>django model</strong> or from a <strong>redis list</strong>.</p>
-    <p>
-        &nbsp;</p>
-    <p>
-        <span class='label label-success'>Step 1 </span></p>
-    <p>
-        Add graphos to your installed apps.</p><br>
-    <span class='label label-info'> Note</span> Either get it from <a href="https://github.com/agiliq/django-graphos">github</a> or use <i>pip install graphos</i>
-    <p>
-        <span class='label label-success'>Step 2 </span></p>
-    <p>
-        Include jquery and jquery flot in the template. Make sure it is accesible where template_tag is placed.<br>
-<span class='label label-info'> Note</span> is available at <a href="https://github.com/flot/flot">https://github.com/flot/flot</a>.</p></strong>
-    <p>
-        <span class="label label-success">Step 3</span></p>
-    <p>
-        load templatetag by giving, <strong>{{ "{% load graphos_tags "|add:"%}" }}</strong></p>
-    <p>
-        <span class="label label-success">Step 4</span></p>
-    <p>
-        where ever you want to add a new graph, just give the template tag, in below format.&nbsp;</p>
-
-    <div class="well">
-    <p>
-        <strong>{{ "{% plot chart %}" }}</strong></p>
-    <p>
-        &nbsp;</p>
-    <p>
-        where,</p>
-    <p>
-            &#39;chart&#39; is a Chart object.</p>
-    <p>
-        &nbsp;</p>
-       </div>
-    <div><span class="label label-success">Step 5</span></div>
-    <div>
-        Sit back, and see data in the model getting plotted in real-time.</div>
-<br><br>
-
-    <h3 id='reference'><br><br>Reference</h3>
-    <p>
-        &nbsp;</p>
-    <h4>
-        &nbsp;</h4>
-
-<h2>Django Model field TimeSeries Plot</h2>
-
-<br />
-
-{{ "{% plot chart %}" }}
-<br />
-{% plot chart %}
-
-</div>
+    <div id="readme">
+        {{ readme|safe }}
+    </div>
 {% endblock %}
