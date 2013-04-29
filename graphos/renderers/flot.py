@@ -5,6 +5,16 @@ from .base import BaseChart
 from django.template.loader import render_to_string
 
 
+def get_default_options():
+    """ default options """
+    lines = {"show": "true"}
+    points = {"show": "true"}
+    legend = {"position": 'ne'}
+    series = {"lines": lines, "points": points}
+    global_options = {"series": series, "legend": legend}
+    return global_options
+
+
 class LineChart(BaseChart):
     """ LineChart """
 
@@ -33,6 +43,12 @@ class LineChart(BaseChart):
 
     def get_series_objects_json(self):
         return json.dumps(self.get_series_objects())
+
+    def get_options(self):
+        options = get_default_options()
+        context = super(LineChart, self).get_options()
+        options.update(context)
+        return options
 
     def get_template(self):
         template = 'charts/line_chart.html'
