@@ -7,8 +7,8 @@ from django.template.loader import render_to_string
 
 random_letter = lambda: random.choice(string.ascii_letters)
 
-DEFAULT_HEIGHT = 500
-DEFAULT_WIDTH = 900
+DEFAULT_HEIGHT = 400
+DEFAULT_WIDTH = 800
 
 
 class BaseChart(object):
