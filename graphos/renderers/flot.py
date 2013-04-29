@@ -1,15 +1,9 @@
 import json
 
 from .base import BaseChart
+from ..utils import get_default_options
 
 from django.template.loader import render_to_string
-
-
-def get_default_options():
-    """ default options """
-    legend = {"position": 'ne'}
-    global_options = {"legend": legend}
-    return global_options
 
 
 class BaseFlotChart(BaseChart):
@@ -38,14 +32,6 @@ class BaseFlotChart(BaseChart):
     def get_series_objects_json(self):
         return json.dumps(self.get_series_objects())
 
-    def _get_options(self, type):
-        series = {"%s" % type: {"show": "true"}}
-        options = get_default_options()
-        options.update({"series": series})
-        context = super(BaseFlotChart, self).get_options()
-        options.update(context)
-        return options
-
     def get_template(self):
         template = 'charts/line_chart.html'
         return template
@@ -58,7 +44,8 @@ class BaseFlotChart(BaseChart):
 class PointChart(BaseFlotChart):
 
     def get_options(self):
-        options = super(PointChart, self)._get_options("points")
+        options = get_default_options("lines")
+        options.update(self.options)
         return options
 
 
@@ -66,12 +53,14 @@ class LineChart(BaseFlotChart):
     """ LineChart """
 
     def get_options(self):
-        options = super(LineChart, self)._get_options("lines")
+        options = get_default_options("lines")
+        options.update(self.options)
         return options
 
 
 class BarChart(BaseFlotChart):
 
     def get_options(self):
-        options = super(BarChart, self)._get_options("bars")
+        options = get_default_options("lines")
+        options.update(self.options)
         return options
