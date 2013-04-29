@@ -8,3 +8,4 @@ psycopg2==2.5
 python-dateutil==1.5
 redis==2.7.4
 requests==1.2.0
+pymongo
