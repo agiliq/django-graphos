@@ -7,12 +7,38 @@
         </p>
     </div>
 
+    <h2>Line Chart</h2>
+
     <div id="line_chart" class="well">
 
         {{ line_chart.as_html }}
         <pre class="code">
             data_source = ModelDataSource(queryset, fields=['year', 'sales'])
             line_chart = flot.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+
+    <br />
+    <h2>Bar Chart</h2>
+    <div id="bar_chart" class="well">
+
+        {{ bar_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+            bar_chart = flot.BarChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+
+    <br />
+    <h2>Point Chart</h2>
+    <div id="point_chart" class="well">
+
+        {{ point_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+            bar_chart = flot.PointChart(data_source, options={'title': "Sales Growth"})
         </pre>
     </div>
     <br />
