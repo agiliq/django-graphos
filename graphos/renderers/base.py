@@ -3,6 +3,7 @@ import string
 import json
 
 from django.template.loader import render_to_string
+from ..utils import get_default_options
 
 
 random_letter = lambda: random.choice(string.ascii_letters)
@@ -31,9 +32,8 @@ class BaseChart(object):
         return json.dumps(self.get_data())
 
     def get_options(self):
-        options = self.options
-        if not 'title' in options:
-            options['title'] = "Chart"
+        options = get_default_options()
+        options.update(self.options)
         return options
 
     def get_options_json(self):
