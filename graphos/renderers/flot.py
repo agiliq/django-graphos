@@ -3,8 +3,6 @@ import json
 from .base import BaseChart
 from ..utils import get_default_options
 
-from django.template.loader import render_to_string
-
 
 class BaseFlotChart(BaseChart):
     """ LineChart """
@@ -31,14 +29,6 @@ class BaseFlotChart(BaseChart):
 
     def get_series_objects_json(self):
         return json.dumps(self.get_series_objects())
-
-    def get_template(self):
-        template = 'charts/line_chart.html'
-        return template
-
-    def as_html(self):
-        context = {'chart': self}
-        return render_to_string(self.get_template(), context)
 
 
 class PointChart(BaseFlotChart):
