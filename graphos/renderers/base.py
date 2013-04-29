@@ -13,6 +13,7 @@ DEFAULT_WIDTH = 800
 
 
 class BaseChart(object):
+
     def __init__(self, data_source, html_id=None,
                  width=None, height=None,
                  options=None, *args, **kwargs):
@@ -31,6 +32,9 @@ class BaseChart(object):
     def get_data_json(self):
         return json.dumps(self.get_data())
 
+    def get_series_objects_json(self):
+        return self.get_data_json()
+
     def get_options(self):
         options = get_default_options()
         options.update(self.options)
@@ -43,7 +47,7 @@ class BaseChart(object):
         return self.html_id
 
     def get_template(self):
-        return 'charts/base_chart.html'
+        return 'graphos/flot.html'
 
     def as_html(self):
         context = {"chart": self}
