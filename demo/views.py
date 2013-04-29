@@ -137,5 +137,11 @@ def flot_demo(request):
                                   fields=['year', 'sales'])
     line_chart = flot.LineChart(data_source,
                                 options={'title': "Sales Growth"})
-    context = {'line_chart': line_chart}
+    bar_chart = flot.BarChart(data_source,
+                              options={'title': "Sales Growth"})
+    point_chart = flot.PointChart(data_source,
+                                  options={'title': "Sales Growth"})
+    context = {'line_chart': line_chart,
+               'bar_chart': bar_chart,
+               'point_chart': point_chart}
     return render(request, 'demo/flot.html', context)
