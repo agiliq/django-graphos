@@ -121,9 +121,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'south',
-
     'demo',
     'graphos',
+    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging
