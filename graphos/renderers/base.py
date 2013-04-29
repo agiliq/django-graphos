@@ -31,9 +31,6 @@ class BaseChart(object):
     def get_data_json(self):
         return json.dumps(self.get_data())
 
-    def get_series_objects_json(self):
-        return self.get_data_json()
-
     def get_options(self):
         options = self.options
         if not 'title' in options:
@@ -45,9 +42,6 @@ class BaseChart(object):
 
     def get_html_id(self):
         return self.html_id
-
-    def get_template(self):
-        return 'graphos/flot.html'
 
     def as_html(self):
         context = {"chart": self}

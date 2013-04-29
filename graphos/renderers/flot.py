@@ -30,6 +30,9 @@ class BaseFlotChart(BaseChart):
     def get_series_objects_json(self):
         return json.dumps(self.get_series_objects())
 
+    def get_template(self):
+        return 'graphos/flot.html'
+
 
 class PointChart(BaseFlotChart):
 
