@@ -1,17 +1,17 @@
 """ Redis Plot Data Handler """
 
-from .base_plot import BasePlotDataHandler
+from .base import BaseDataSource
 
 
-class RedisPlotDataHandler(BasePlotDataHandler):
+class RedisDataSource(BaseDataSource):
 
     server_address = ''
     x_list_name = ''
 
     def __init__(self, server_address, x_list_name, *args, **kwargs):
-        self.server_address = model_name
-        self.x_list_name = field_name
-        super(RedisPlotDataHandler, self).__init__(
+        self.server_address = server_address
+        self.x_list_name = x_list_name
+        super(RedisDataSource, self).__init__(
             server_address, x_list_name, *args, **kwargs)
 
     def get_data_instance(self):
