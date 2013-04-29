@@ -3,15 +3,17 @@ import string
 import json
 
 from django.template.loader import render_to_string
+from ..utils import get_default_options
 
 
 random_letter = lambda: random.choice(string.ascii_letters)
 
-DEFAULT_HEIGHT = 500
-DEFAULT_WIDTH = 900
+DEFAULT_HEIGHT = 400
+DEFAULT_WIDTH = 800
 
 
 class BaseChart(object):
+
     def __init__(self, data_source, html_id=None,
                  width=None, height=None,
                  options=None, *args, **kwargs):
@@ -30,10 +32,12 @@ class BaseChart(object):
     def get_data_json(self):
         return json.dumps(self.get_data())
 
+    def get_series_objects_json(self):
+        return self.get_data_json()
+
     def get_options(self):
-        options = self.options
-        if not 'title' in options:
-            options['title'] = "Chart"
+        options = get_default_options()
+        options.update(self.options)
         return options
 
     def get_options_json(self):
@@ -43,7 +47,7 @@ class BaseChart(object):
         return self.html_id
 
     def get_template(self):
-        return 'charts/base_chart.html'
+        return 'graphos/flot.html'
 
     def as_html(self):
         context = {"chart": self}

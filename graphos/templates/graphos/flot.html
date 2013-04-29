@@ -1,0 +1,10 @@
+<div id="{{ chart.html_id }}" style="width:{{ chart.width }}px;height:{{ chart.height }}px;"></div>
+<script type="text/javascript">
+$(function () {
+	$.plot(
+   		$("#{{ chart.html_id }}"), 
+   		{{ chart.get_series_objects_json|safe }}, 
+   		{{ chart.get_options_json|safe }}
+   	);
+});
+</script>

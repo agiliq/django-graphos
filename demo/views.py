@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
-from graphos.renderers.base import BaseChart
-from graphos.renderers.flot import LineChart
-from graphos.renderers import gchart, yui
+from graphos.renderers import gchart, yui, flot
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -12,6 +10,7 @@ from .models import Account
 
 import markdown
 import urllib2
+import pymongo
 
 data = [
        ['Year', 'Sales', 'Expenses'],
@@ -54,6 +53,7 @@ mongo_series_object_2 = [[400, 4],
 mongo_data = [{'data': mongo_series_object_1, 'label': 'hours'},
               {'data': mongo_series_object_2, 'label': 'hours'}]
 
+
 def create_demo_accounts():
     Account.objects.all().delete()
     #Create some rows
@@ -70,11 +70,23 @@ def create_demo_accounts():
     Account.objects.create(year="2009", sales=2230,
                            expenses=1840, ceo="Cook")
 
+
+def get_mongo_cursor(rows=10):
+    DB_HOST = ["localhost"]
+    DB_PORT = 27017
+
+    db = pymongo.Connection(DB_HOST, DB_PORT)['graphos_mongo']
+    collection = db['zips']
+    cursor = collection.find()[:rows]
+    return cursor
+
+
 def home(request):
-    chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
+    chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     g_chart = gchart.LineChart(SimpleDataSource(data=data))
-    m_chart = BaseChart(data_source=MongoDBDataSource(data=mongo_data),
-                        html_id='mongo_chart')
+    cursor = get_mongo_cursor(100)
+    m_data = MongoDBDataSource(cursor=cursor, fields=['_id', 'pop'])
+    m_chart = flot.LineChart(m_data)
 
     context = {'chart': chart,
                'g_chart': g_chart,
@@ -84,25 +96,23 @@ def home(request):
 
 @cache_page
 def tutorial(request):
-    chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
+    chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     url = "https://raw.github.com/agiliq/django-graphos/master/README.md"
     str = urllib2.urlopen(url).read()
     readme = markdown.markdown(str)
-    return render(request, 'demo/tutorial.html',
-                  {'chart': chart, "readme": readme},
-                  )
+    context = {'chart': chart, "readme": readme}
+    return render(request, 'demo/tutorial.html', context)
+
 
 def gchart_demo(request):
     create_demo_accounts()
     queryset = Account.objects.all()
-    fields = ['year', 'sales', 'expenses']
     data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales',],)
-    line_chart = gchart.LineChart(data_source, options={'title': "Sales Growth"})
+                                  fields=['year', 'sales'])
+    line_chart = gchart.LineChart(data_source,
+                                  options={'title': "Sales Growth"})
     column_chart = gchart.ColumnChart(SimpleDataSource(data=data),
-                                                      options={'title': "Sales vs Expense"})
-    data_source2 = ModelDataSource(queryset,
-                                  fields=['year', 'expenses',],)
+                                      options={'title': "Sales vs Expense"})
     bar_chart = gchart.BarChart(data_source,
                                 options={'title': "Expense Growth"})
     candlestick_chart = gchart.CandlestickChart(SimpleDataSource
@@ -119,6 +129,19 @@ def yui_demo(request):
     context = {"line_chart": line_chart}
     return render(request, 'demo/yui.html', context)
 
+
 def flot_demo(request):
-  pass
-  #TODO
+    create_demo_accounts()
+    queryset = Account.objects.all()
+    data_source = ModelDataSource(queryset,
+                                  fields=['year', 'sales'])
+    line_chart = flot.LineChart(data_source,
+                                options={'title': "Sales Growth"})
+    bar_chart = flot.BarChart(data_source,
+                              options={'title': "Sales Growth"})
+    point_chart = flot.PointChart(data_source,
+                                  options={'title': "Sales Growth"})
+    context = {'line_chart': line_chart,
+               'bar_chart': bar_chart,
+               'point_chart': point_chart}
+    return render(request, 'demo/flot.html', context)
