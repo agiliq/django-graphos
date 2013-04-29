@@ -1,34 +1,10 @@
-<div id="{{ chart.html_id }}" style="width:600px;height:300px;"></div>
+<div id="{{ chart.html_id }}" style="width:{{ chart.width }}px;height:{{ chart.height }}px;"></div>
 <script type="text/javascript">
 $(function () {
-
-    // setup plot
-   var options = {
-				series: {
-					lines: {
-						show: true,
-						fill: true,
-						lineWidth: 4,
-						steps: true,
-					},
-					points: {
-						show: true,
-						radius: 4,
-						fill: true
-					}
-				},
-				legend: {
-					position: 'ne'
-				},
-				tooltip: true,
-				tooltipOpts: {
-					content: '%s: %y'
-				},
-				xaxis: { mode: "time" },
-				grid: { borderWidth: 2, hoverable: true }
-			};
-
-
-    $.plot($("#{{ chart.html_id }}"), {{ chart.get_series_objects_json|safe }}, options);
+	$.plot(
+   		$("#{{ chart.html_id }}"), 
+   		{{ chart.get_series_objects_json|safe }}, 
+   		{{ chart.get_options_json|safe }}
+   	);
 });
 </script>
