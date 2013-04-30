@@ -30,6 +30,11 @@ class BaseFlotChart(BaseChart):
     def get_series_objects_json(self):
         return json.dumps(self.get_series_objects())
 
+    def get_options(self):
+        options = get_default_options()
+        options.update(self.options)
+        return options
+
     def get_template(self):
         return 'graphos/flot.html'
 
@@ -37,7 +42,7 @@ class BaseFlotChart(BaseChart):
 class PointChart(BaseFlotChart):
 
     def get_options(self):
-        options = get_default_options("lines")
+        options = get_default_options("points")
         options.update(self.options)
         return options
 
@@ -54,6 +59,6 @@ class LineChart(BaseFlotChart):
 class BarChart(BaseFlotChart):
 
     def get_options(self):
-        options = get_default_options("lines")
+        options = get_default_options("bars")
         options.update(self.options)
         return options
