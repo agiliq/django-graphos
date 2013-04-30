@@ -1,9 +1,12 @@
 from django.test import TestCase
 
+from pymongo.errors import CollectionInvalid
+
 from .sources.base import BaseDataSource
 from .sources.simple import SimpleDataSource
 from .sources.csv_file import CSVDataSource
 from .sources.model import ModelDataSource
+from .sources.mongo import MongoDBDataSource
 
 from .renderers import base, flot, gchart, yui
 from .exceptions import GraphosException
@@ -85,16 +88,51 @@ class TestSources(TestCase):
                          ['2004', '2005', '2006', '2007'])
 
 
+def get_mongodb_test_db(db_name, collection_name):
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    test_data_file = open(cur_dir + '/test_data/mongodb/test_zips.json')
+    db = get_db(db_name)
+    try:
+        db.create_collection(collection_name)
+    except CollectionInvalid:
+        pass
+    for line in test_data_file:
+        doc = json.loads(line)
+        db[collection_name].save(doc)
+    test_data_file.close()
+    return db
+
+
 class TestMongoDBSource(TestCase):
 
-    fixtures = ['test_data/mongodb/zips.json']
-
     def setUp(self):
-        self.db = get_db('test')
-        self.db.create_collection('zips')
+        db_name = "test_db"
+        collection_name = "zips"
+        self.db = get_mongodb_test_db(db_name, collection_name)
+        self.collection = self.db[collection_name]
+        self.cursor = self.collection.find()
+        self.fields = ['_id', 'pop']
+        self.data = [['_id', 'pop'], ['35004', 6055], ['35005', 10616],
+                     ['35006', 3205], ['35007', 14218], ['35010', 19942],
+                     ['35014', 3062], ['35016', 13650], ['35019', 1781],
+                     ['35020', 40549], ['35023', 39677], ['35031', 9058],
+                     ['35033', 3448], ['35034', 3791], ['35035', 1282],
+                     ['35040', 4675], ['35042', 4902], ['35043', 4781],
+                     ['35044', 7985], ['35045', 13990], ['35049', '']]
+        self.data_source = MongoDBDataSource(cursor=self.cursor,
+                                             fields=self.fields)
+
+    def test_data_source(self):
+        self.assertTrue(getattr(self.data_source, 'get_data'))
+        self.assertTrue(getattr(self.data_source, 'get_header'))
+        self.assertTrue(getattr(self.data_source, 'get_first_column'))
+        self.assertEqual(self.data, self.data_source.get_data())
+        self.assertEqual(self.fields, self.data_source.get_header())
+        self.assertEqual(self.fields, self.data_source.get_first_column())
 
     def tearDown(self):
-        self.db.drop_collection('zips')
+        self.db.drop_collection(self.collection.name)
+        print self.db["zips"].find()
 
 
 class TestBaseRenderer(TestCase):
