@@ -16,13 +16,13 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'linuxdb',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'time_base',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'postgresqladmin',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '5432',                      # Set to empty string for default.
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
     }
 }
 
@@ -106,8 +106,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
-        os.path.join(PROJECT_DIR, 'templates'),
-    )
+    os.path.join(PROJECT_DIR, 'templates'),
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -125,7 +125,6 @@ INSTALLED_APPS = (
     'south',
     'demo',
     'graphos',
-    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -161,13 +160,3 @@ try:
     from local_settings import *
 except ImportError:
     pass
-
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-
-dbconfig = dj_database_url.config()
-if dbconfig:
-    DATABASES['default'] =  dbconfig
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
