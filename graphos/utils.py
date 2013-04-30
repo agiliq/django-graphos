@@ -26,8 +26,16 @@ def get_default_options(graph_type="lines"):
     return options
 
 
+def get_db(db_name=None):
+    """ GetDB - simple function to wrap getting a database
+    connection from the connection pool.
+    """
+    return pymongo.Connection(host=DB_HOST,
+                              port=DB_PORT)[db_name]
+
+
 def get_mongo_cursor(db_name, collection_name, max_docs=100):
-    db = pymongo.Connection(DB_HOST, DB_PORT)['graphos_mongo']
+    db = get_db('graphos_mongo')
     collection = db['zips']
     cursor = collection.find()
     if cursor.count >= max_docs:
