@@ -8,9 +8,10 @@ from graphos.sources.model import ModelDataSource
 
 from .models import Account
 
+from graphos.utils import get_mongo_cursor
+
 import markdown
 import urllib2
-import pymongo
 
 data = [
        ['Year', 'Sales', 'Expenses'],
@@ -71,20 +72,12 @@ def create_demo_accounts():
                            expenses=1840, ceo="Cook")
 
 
-def get_mongo_cursor(rows=10):
-    DB_HOST = ["localhost"]
-    DB_PORT = 27017
-
-    db = pymongo.Connection(DB_HOST, DB_PORT)['graphos_mongo']
-    collection = db['zips']
-    cursor = collection.find()[:rows]
-    return cursor
-
-
 def home(request):
     chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     g_chart = gchart.LineChart(SimpleDataSource(data=data))
-    cursor = get_mongo_cursor(100)
+    cursor = get_mongo_cursor(db_name="graphos_mongo",
+                              collection_name="zips",
+                              max_docs=100)
     m_data = MongoDBDataSource(cursor=cursor, fields=['_id', 'pop'])
     m_chart = flot.LineChart(m_data)
 
