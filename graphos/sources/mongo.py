@@ -6,11 +6,11 @@ from .base import BaseDataSource
 def get_row(doc, fields):
     current_row = []
     for i in range(len(fields)):
-        field = doc[fields[i]]
-        if field:
-            current_row.append(field)
-        else:
-            current_row.append("")
+        try:
+            field = doc[fields[i]]
+        except KeyError:
+            field = ""
+        current_row.append(field)
     return current_row
 
 
