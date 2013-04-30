@@ -7,7 +7,8 @@ from .sources.model import ModelDataSource
 
 from .renderers import base, flot, gchart, yui
 from .exceptions import GraphosException
-from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_default_options
+from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, \
+                   get_default_options, get_db
 
 from demo.models import Account
 
@@ -83,8 +84,17 @@ class TestSources(TestCase):
         self.assertEqual(data_source.get_first_column(),
                          ['2004', '2005', '2006', '2007'])
 
-    def test_mongo_data_source(self):
-        pass
+
+class TestMongoDBSource(TestCase):
+
+    fixtures = ['test_data/mongodb/zips.json']
+
+    def setUp(self):
+        self.db = get_db('test')
+        self.db.create_collection('zips')
+
+    def tearDown(self):
+        self.db.drop_collection('zips')
 
 
 class TestBaseRenderer(TestCase):
