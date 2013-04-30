@@ -35,8 +35,8 @@ def get_db(db_name=None):
 
 
 def get_mongo_cursor(db_name, collection_name, max_docs=100):
-    db = get_db('graphos_mongo')
-    collection = db['zips']
+    db = get_db(db_name)
+    collection = db[collection_name]
     cursor = collection.find()
     if cursor.count >= max_docs:
         cursor = cursor[0:max_docs]
