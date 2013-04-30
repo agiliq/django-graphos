@@ -16,13 +16,13 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'time_base',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'linuxdb',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'USER': 'postgresqladmin',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '5432',                      # Set to empty string for default.
     }
 }
 
@@ -123,9 +123,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'south',
-
     'demo',
     'graphos',
+    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -136,9 +136,15 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
@@ -150,14 +156,18 @@ LOGGING = {
         },
     }
 }
+
 try:
     from local_settings import *
 except ImportError:
     pass
 
-# # Parse database configuration from $DATABASE_URL
-# import dj_database_url
-# DATABASES['default'] =  dj_database_url.config()
+# Parse database configuration from $DATABASE_URL
+import dj_database_url
 
-# # Honor the 'X-Forwarded-Proto' header for request.is_secure()
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+dbconfig = dj_database_url.config()
+if dbconfig:
+    DATABASES['default'] =  dbconfig
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
