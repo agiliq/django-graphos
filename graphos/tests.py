@@ -5,13 +5,14 @@ from .sources.simple import SimpleDataSource
 from .sources.csv_file import CSVDataSource
 from .sources.model import ModelDataSource
 
-from .renderers.flot import LineChart
-from .renderers import gchart, yui
+from .renderers import base, flot, gchart, yui
 from .exceptions import GraphosException
+from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_default_options
 
 from demo.models import Account
 
 import os
+import json
 current_path = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -82,8 +83,64 @@ class TestSources(TestCase):
         self.assertEqual(data_source.get_first_column(),
                          ['2004', '2005', '2006', '2007'])
 
+    def test_mongo_data_source(self):
+        pass
+
+
+class TestBaseRenderer(TestCase):
+
+    def setUp(self):
+        data = [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+
+        options = {"title": "Sales and Expences Graph"}
+
+        self.default_options = {'title': 'Chart'}
+        self.empty_options = {}
+        self.data_source = SimpleDataSource(data)
+        self.data = data
+        self.options = options
+        self.html_id = 'base_chart'
+        self.header = data[0]
+
+    def test_base_chart(self):
+        chart = base.BaseChart(data_source=self.data_source,
+                               options=self.options,
+                               html_id=self.html_id)
+        empty_options_chart = base.BaseChart(data_source=self.data_source,
+                                             options=self.empty_options)
+        self.assertTrue(hasattr(chart, "width"))
+        self.assertEqual(DEFAULT_WIDTH, chart.width)
+        self.assertTrue(hasattr(chart, "height"))
+        self.assertEqual(DEFAULT_HEIGHT, chart.height)
+        self.assertTrue(hasattr(chart, "header"))
+        self.assertEqual(self.header, chart.header)
+        self.assertTrue(hasattr(chart, "get_data"))
+        self.assertEqual(self.data, chart.get_data())
+        self.assertTrue(hasattr(chart, "get_data_json"))
+        self.assertEqual(json.dumps(self.data), chart.get_data_json())
+        self.assertTrue(hasattr(chart, "get_options"))
+        self.assertEqual(self.options, chart.get_options())
+        self.assertEqual(self.default_options,
+                         empty_options_chart.get_options())
+        self.assertTrue(hasattr(chart, "get_options_json"))
+        self.assertEqual(json.dumps(self.options),
+                         chart.get_options_json())
+        self.assertTrue(hasattr(chart, "get_template"))
+        self.assertRaises(GraphosException, chart.get_template)
+        self.assertTrue(hasattr(chart, "get_html_id"))
+        self.assertTrue(self.html_id, chart.get_html_id())
+        self.assertTrue(hasattr(chart, "as_html"))
+
 
 class TestFlotRenderer(TestCase):
+    """ Test Cases for the graphos.renderers.flot module"""
+
     def setUp(self):
         data = [
             ['Year', 'Sales', 'Expenses'],
@@ -94,13 +151,89 @@ class TestFlotRenderer(TestCase):
         ]
         self.data_source = SimpleDataSource(data)
         self.data = data
+        self.options = {"title": "Sales and Expences Graph"}
+        self.default_options = get_default_options()
+        self.series_1 = [(2004, 1000), (2005, 1170), (2006, 660), (2007, 1030)]
+        self.series_2 = [(2004, 400), (2005, 460), (2006, 1120), (2007, 540)]
+        self.template = 'graphos/flot.html'
+        self.data_source = SimpleDataSource(data)
+        self.data = data
+        self.html_id = 'base_chart'
+        self.header = data[0]
+        series_object_1 = {'data': [(2004, 1000),
+                                    (2005, 1170),
+                                    (2006, 660),
+                                    (2007, 1030)],
+                           'label': 'Sales'}
+        series_object_2 = {'data': [(2004, 400),
+                                    (2005, 460),
+                                    (2006, 1120),
+                                    (2007, 540)],
+                           'label': 'Expenses'}
+        self.series_objects = [series_object_1, series_object_2]
+
+    def test_base_flot_chart(self):
+        chart = flot.BaseFlotChart(data_source=self.data_source,
+                                   options=self.options)
+        empty_options_chart = flot.BaseFlotChart(data_source=self.data_source,
+                                                 options={})
+        json_data = chart.get_serieses()
+        self.assertEqual([self.series_1, self.series_2], json_data)
+        self.assertEqual(self.template, chart.get_template())
+        default = get_default_options()
+        self.assertEqual(default,
+                         empty_options_chart.get_options())
+        default.update(self.options)
+        self.assertEqual(default, chart.get_options())
+        self.assertEqual(json.dumps(default), chart.get_options_json())
+        self.assertEqual(self.series_objects, chart.get_series_objects())
+        self.assertEqual(json.dumps(self.series_objects),
+                         chart.get_series_objects_json())
 
     def test_line_chart(self):
-        chart = LineChart(data_source=self.data_source)
+        chart = flot.LineChart(data_source=self.data_source,
+                               options=self.options)
+        empty_options_chart = flot.LineChart(data_source=self.data_source,
+                                             options={})
         json_data = chart.get_serieses()
-        series_1 = [(2004, 1000), (2005, 1170), (2006, 660), (2007, 1030)]
-        series_2 = [(2004, 400), (2005, 460), (2006, 1120), (2007, 540)]
-        self.assertEqual([series_1, series_2], json_data)
+        self.assertEqual([self.series_1, self.series_2], json_data)
+        self.assertEqual(self.template, chart.get_template())
+        default = get_default_options("lines")
+        self.assertEqual(default,
+                         empty_options_chart.get_options())
+        default.update(self.options)
+        self.assertEqual(default,
+                         chart.get_options())
+
+    def test_bar_chart(self):
+        chart = flot.BarChart(data_source=self.data_source,
+                              options=self.options)
+        empty_options_chart = flot.BarChart(data_source=self.data_source,
+                                            options={})
+        json_data = chart.get_serieses()
+        self.assertEqual([self.series_1, self.series_2], json_data)
+        self.assertEqual(self.template, chart.get_template())
+        default = get_default_options("bars")
+        self.assertEqual(default,
+                         empty_options_chart.get_options())
+        default.update(self.options)
+        self.assertEqual(default,
+                         chart.get_options())
+
+    def test_point_chart(self):
+        chart = flot.PointChart(data_source=self.data_source,
+                                options=self.options)
+        empty_options_chart = flot.PointChart(data_source=self.data_source,
+                                              options={})
+        json_data = chart.get_serieses()
+        self.assertEqual([self.series_1, self.series_2], json_data)
+        self.assertEqual(self.template, chart.get_template())
+        default = get_default_options("points")
+        self.assertEqual(default,
+                         empty_options_chart.get_options())
+        default.update(self.options)
+        self.assertEqual(default,
+                         chart.get_options())
 
 
 class TestGchartRenderer(TestCase):
@@ -130,7 +263,7 @@ class TestGchartRenderer(TestCase):
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("BarChart" in chart.as_html())
 
-    def test_bar_chart(self):
+    def test_candlestick_chart(self):
         chart = gchart.CandlestickChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("CandlestickChart" in chart.as_html())
