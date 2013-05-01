@@ -16,3 +16,12 @@ class SimpleTest(TestCase):
 
     def test_gchart_demo(self):
         self.client.get(reverse("demo_gchart_demo"))
+
+    def test_demo_yui_demo(self):
+        self.client.get(reverse("demo_gchart_demo"))
+
+    def test_demo_flot_demo(self):
+        self.client.get(reverse('demo_flot_demo'))
+
+    def test_demo_mongodb_source_demo(self):
+        self.client.get(reverse('demo_mongodb_source_demo'))
