@@ -10,3 +10,7 @@
       <li class="active"><a href="{% url 'demo_mongodb_source_demo' %}">MongoDB Source</a></li>
   </ul>
 {%  endblock %}
+
+{% block content %}
+	{{ chart.as_html }}
+{% endblock %}
