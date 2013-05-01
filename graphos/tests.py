@@ -17,7 +17,6 @@ from demo.models import Account
 
 import os
 import json
-import datetime
 
 current_path = os.path.dirname(os.path.abspath(__file__))
 
