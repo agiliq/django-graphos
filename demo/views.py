@@ -8,7 +8,7 @@ from graphos.sources.model import ModelDataSource
 
 from .models import Account
 
-from graphos.utils import get_mongo_cursor
+from .utils import get_mongo_cursor
 
 import markdown
 import urllib2
