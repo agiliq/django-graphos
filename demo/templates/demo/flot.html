@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% block menu %}
+  <ul class="nav nav-tabs">
+      <li><a href="{% url 'demo_home' %}">Home</a></li>
+      <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
+      <li><a href="{% url 'demo_gchart_demo' %}">Gchart</a></li>
+      <li class="active"><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
+      <li><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
+      <li><a href="{% url 'demo_mongodb_source_demo' %}">MongoDB Source</a></li>
+  </ul>
+{%  endblock %}
+
 {% block content %}
     <div>
         <p>
