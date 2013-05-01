@@ -138,3 +138,8 @@ def flot_demo(request):
                'bar_chart': bar_chart,
                'point_chart': point_chart}
     return render(request, 'demo/flot.html', context)
+
+
+def mongodb_source_demo(request):
+    context = {}
+    return render(request, 'demo/mongodb_source.html', context)
