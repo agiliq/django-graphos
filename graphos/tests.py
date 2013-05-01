@@ -17,6 +17,8 @@ from demo.models import Account
 
 import os
 import json
+import datetime
+
 current_path = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -86,8 +88,6 @@ class TestSources(TestCase):
                          ['year', 'sales', 'expenses'])
         self.assertEqual(data_source.get_first_column(),
                          ['2004', '2005', '2006', '2007'])
-        data_source_without_fields = ModelDataSource(query_set)
-        self.assertEqual(data, data_source_without_fields.get_data())
 
 
 def get_mongodb_test_db(db_name, collection_name):
