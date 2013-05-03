@@ -7,11 +7,15 @@ from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
 
 from .models import Account
-
 from .utils import get_mongo_cursor
 
-import markdown
+import json
+import time
 import urllib2
+import markdown
+import datetime
+import pymongo
+from dateutil.parser import parse
 
 data = [
        ['Year', 'Sales', 'Expenses'],
@@ -75,8 +79,8 @@ def create_demo_accounts():
 def home(request):
     chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     g_chart = gchart.LineChart(SimpleDataSource(data=data))
-    cursor = get_mongo_cursor(db_name="graphos_mongo",
-                              collection_name="zips",
+    cursor = get_mongo_cursor("graphos_mongo",
+                              "zips",
                               max_docs=100)
     m_data = MongoDBDataSource(cursor=cursor, fields=['_id', 'pop'])
     m_chart = flot.LineChart(m_data)
@@ -140,6 +144,105 @@ def flot_demo(request):
     return render(request, 'demo/flot.html', context)
 
 
-def mongodb_source_demo(request):
-    context = {}
+def get_query(start=None, end=None, query_filter=None):
+
+    query = {}
+
+    if start is not None:
+        ts = int(time.mktime(smart_date(start).timetuple())) * 1000
+        query = {'_id': {'$gt': '%s' % ts}}
+
+    if end is not None:
+        ts = int(time.mktime(smart_date(end).timetuple())) * 1000
+        if query == {}:
+            query = {'_id': {'$lt': '%s' % ts}}
+        else:
+            query = {'$and': [{'_id': {'$lt': '%s' % ts}}, query]}
+
+    if query_filter is not None:
+        query = {'$and': [{'_id': {'$regex': query_filter}}, query]}
+    else:
+        query = {'$and': [{'_id': {'$regex': 'all'}}, query]}
+
+    return query
+
+
+def get_db(db_name):
+    DB_HOST = ["localhost"]
+    DB_PORT = 27017
+    db = pymongo.Connection(DB_HOST, DB_PORT)[db_name]
+    return db
+
+
+def build_timeseries_chart(period,
+                           series,
+                           start=None,
+                           end=None):
+    datasets = {}
+    db = get_db('charts')
+
+    for i in range(len(series)):
+        s = series[i]
+        collection = "mapreduce_%s__%s__%s__%s" % (period,
+                                                   s['mapreduce_function'],
+                                                   s['resource'],
+                                                   s['field'])
+        new_series = []
+
+        query = get_query(start, end, s['filter'])
+        for rec in db[collection].find(query):
+            key_timestamp = int(rec['_id'].split(':')[0])
+            new_series.append([key_timestamp, rec['value']])
+
+        datasets[i] = {'data': new_series,
+                       'label': s['field']}
+    return datasets
+
+
+def time_series_demo(request):
+
+    period = 'weekly'
+    start = 'year_ago'
+    end = None
+
+    series = [
+        {'resource': 'time_record',
+         'field': 'hours',
+         'filter': 'employee=/example/employee/500ff1b8e147f74f7000000c/',
+         'mapreduce_function': 'sumof'},
+
+        {'resource': 'other_time_record',
+         'field': 'hours',
+         'filter': 'employee=/example/employee/500ff1b8e147f74f7000000c/',
+         'mapreduce_function': 'sumof'}]
+
+    datasets = build_timeseries_chart(period=period,
+                                      series=series,
+                                      start=start,
+                                      end=end)
+
+    context = {'datasets': json.dumps(datasets)}
     return render(request, 'demo/mongodb_source.html', context)
+
+
+def smart_date(value):
+
+    if type(value) == datetime.datetime:
+        return value
+
+    if value == 'today':
+        return datetime.datetime.now()
+    elif value == 'yesterday':
+        return datetime.datetime.now() - datetime.timedelta(days=1)
+    elif value == 'tomorrow':
+        return datetime.datetime.now() + datetime.timedelta(days=1)
+    elif value == 'year_ago':
+        return datetime.datetime.now() - datetime.timedelta(days=365)
+    elif value == 'start_of_month':
+        today = datetime.datetime.today()
+        return datetime.datetime(today.year, today.month, 1)
+    elif value == 'start_of_year':
+        today = datetime.datetime.today()
+        return datetime.datetime(today.year, 1, 1)
+    else:
+        return parse(value, dayfirst=True)
