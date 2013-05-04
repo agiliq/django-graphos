@@ -12,14 +12,21 @@
 
 		datasets = {{ datasets|safe }}
 
-		// hard-code color indices to prevent them from shifting as
-		// countries are turned on/off
 
 		var i = 0;
 		$.each(datasets, function(key, val) {
 			val.color = i;
 			++i;
 		});
+
+		var reset_state = function(){
+			$.each(datasets, function(key, val){
+				$(".color-control").val("");
+				plotAccordingToChoices();
+			});
+
+		};
+		$("#reset").click(reset_state);
 
 		// insert checkboxes
 		var choiceContainer = $("#choices");
@@ -28,9 +35,9 @@
 				"' checked='checked' id='id" + key + "'></input>" +
 				"<label for='id" + key + "'>"
 				+ val.label + "</label>"
-				+"color: <input type='textinput' id='color"+key+"'></input>"
-				+"label: <input type='textinput' id='label"+key+"'></input>"
-				+"points: <input type='checkbox' id='points"+key+"'></input>");
+				+"color: <input type='textinput' class='color-control' id='color"+key+"'></input>"
+				+"label: <input type='textinput' class='label-control' id='label"+key+"'></input>"
+				+"points: <input type='checkbox' class='points-control' id='points"+key+"'></input>");
 		});
 
 		choiceContainer.find('input[type="checkbox"]').click(plotAccordingToChoices);
@@ -102,6 +109,7 @@
 
 {% block content %}
 		<div class="demo-container">
+			<a href="#" id="reset" class="btn">reset</a>
 			<p id="choices" style="width:135px;"></p>
 			<div id="placeholder" class="demo-placeholder" style="width:700px; height: 400px"></div>
 
