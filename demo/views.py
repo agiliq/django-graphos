@@ -266,8 +266,7 @@ def time_series_demo(request):
     accounts_cursor = get_db("accounts").docs.find()
     data_source_3 = MongoDBDataSource(accounts_cursor,
                                       fields=['Year', 'Sales', 'Expenses'])
-    chart_2 = flot.LineChart(data_source_3)
-    import pdb; pdb.set_trace()
+    chart_2 = gchart.LineChart(data_source_3)
     period = 'weekly'
     start = 'year_ago'
     end = None
