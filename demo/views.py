@@ -254,6 +254,7 @@ class DemoMongoDBDataSource(MongoDBDataSource):
 
 
 def time_series_demo(request):
+    create_demo_mongo()
     db = get_db('charts')
     coll_name = "mapreduce_daily__sumof__time_record__hours"
     query = get_query('year_ago', None,
@@ -266,7 +267,7 @@ def time_series_demo(request):
     data_source_3 = MongoDBDataSource(accounts_cursor,
                                       fields=['Year', 'Sales', 'Expenses'])
     chart_2 = flot.LineChart(data_source_3)
-
+    import pdb; pdb.set_trace()
     period = 'weekly'
     start = 'year_ago'
     end = None
