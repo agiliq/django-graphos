@@ -48,15 +48,11 @@
 			var data = [];
 
 			choiceContainer.find("input:checked").each(function () {
-				var dataset = datasets[key];
 				var key = $(this).attr("name");
 				color = $("#color"+key).val();
 				label = $("#label"+key).val();
 				points = $("#points"+key).attr("checked");
 				points = Boolean(points);
-				console.log(points);
-				console.log(color);
-				console.log(color);
 				if(color){
 					datasets[key].color=color;
 				}
@@ -87,10 +83,6 @@
 		}
 
 		plotAccordingToChoices();
-
-		// Add the Flot version string to the footer
-
-		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 	});
 
 	</script>
