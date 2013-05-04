@@ -101,9 +101,9 @@ Todo
 Todo - need to publish the app at Pypi after competion
 
 
-### Creating new backend
+### Creating new DataSource
 
-A backend is  class which has these three methods.
+A DataSource is a class which has these three methods.
 
     get_data
     get_header
@@ -121,8 +121,16 @@ A backend is  class which has these three methods.
         [2007, 1030, 540]
     ]
 
-If you create a class extending SimpleDataSource, and implement `get_data`. You get
+If you create a class extending `SimpleDataSource`, and implement `get_data`. You get
 `get_header` and `get_first_column` for free.
+
+### Creating new Renderer
+
+A renderer is a class which takes a  `DataSource` and can convert it to the html to display.
+
+The only required method on a `Renderer` is `as_html`. This will convert the dat ato a format which can display the chart.
+
+Generally you will convert the data to json and pass it to the template which you return.
 
 
 ### License
