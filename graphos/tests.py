@@ -124,9 +124,9 @@ class TestMongoDBSource(TestCase):
                                              fields=self.fields)
 
     def test_data_source(self):
-        self.assertTrue(getattr(self.data_source, 'get_data'))
-        self.assertTrue(getattr(self.data_source, 'get_header'))
-        self.assertTrue(getattr(self.data_source, 'get_first_column'))
+        self.assertTrue(hasattr(self.data_source, 'get_data'))
+        self.assertTrue(hasattr(self.data_source, 'get_header'))
+        self.assertTrue(hasattr(self.data_source, 'get_first_column'))
         self.assertEqual(self.data, self.data_source.get_data())
         self.assertEqual(self.fields, self.data_source.get_header())
         self.assertEqual(self.fields, self.data_source.get_first_column())
