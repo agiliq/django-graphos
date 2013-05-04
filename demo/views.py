@@ -78,7 +78,7 @@ def create_demo_accounts():
 def create_demo_mongo():
     accounts = get_db("accounts")
     docs = accounts.docs
-    docs.drop
+    docs.drop()
 
     docs = accounts.docs
     header = data[0]
@@ -257,17 +257,19 @@ class DemoMongoDBDataSource(MongoDBDataSource):
 def time_series_demo(request):
     create_demo_mongo()
     db = get_db('charts')
-    coll_name = "mapreduce_daily__sumof__time_record__hours"
+
     query = get_query('year_ago', None,
                       'employee=/example/employee/500ff1b8e147f74f7000000c/')
+    coll_name = "mapreduce_daily__sumof__time_record__hours"
     cursor = db[coll_name].find(query)
     data_source_2 = DemoMongoDBDataSource(cursor, fields=["_id", "value"])
-    chart = flot.LineChart(data_source_2)
+    chart_2 = flot.LineChart(data_source_2)
 
     accounts_cursor = get_db("accounts").docs.find()
     data_source_3 = MongoDBDataSource(accounts_cursor,
                                       fields=['Year', 'Sales', 'Expenses'])
-    chart_2 = flot.LineChart(data_source_3)
+
+    chart_3 = gchart.LineChart(data_source_3)
     period = 'weekly'
     start = 'year_ago'
     end = None
@@ -287,5 +289,8 @@ def time_series_demo(request):
                                       start=start,
                                       end=end)
 
-    context = {'datasets': json.dumps(datasets), 'chart': chart, "chart_2": chart_2}
+    context = {'datasets': json.dumps(datasets),
+                'chart_2': chart_2,
+                "chart_3": chart_3
+                }
     return render(request, 'demo/mongodb_source.html', context)
