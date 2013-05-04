@@ -75,6 +75,17 @@ def create_demo_accounts():
     Account.objects.create(year="2009", sales=2230,
                            expenses=1840, ceo="Cook")
 
+def create_demo_mongo():
+    accounts = get_db("accounts")
+    docs = accounts.docs
+    docs.drop
+
+    docs = accounts.docs
+    header = data[0]
+    data_only = data[1:]
+    for row in data_only:
+        docs.insert(dict(zip(header, row)))
+
 
 def home(request):
     chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
@@ -202,8 +213,9 @@ def build_timeseries_chart(period,
                            start=None,
                            end=None):
     datasets = {}
-    db = get_db('charts')
 
+    db = get_db('charts')
+    data_source = []
     for i in range(len(series)):
         s = series[i]
         collection = "mapreduce_%s__%s__%s__%s" % (period,
@@ -213,21 +225,51 @@ def build_timeseries_chart(period,
         new_series = []
 
         query = get_query(start, end, s['filter'])
+
         for rec in db[collection].find(query):
-            key_timestamp = int(rec['_id'].split(':')[0])
+            key_timestamp = int(rec['_id'].split(':')[0]) / 10000
             new_series.append([key_timestamp, rec['value']])
 
         datasets[i] = {'data': new_series,
                        'label': s['field']}
+
+        cursor = db[collection].find(query)
+        data_source.append([(get_val_from_id(rec["_id"]),
+                           rec['value']) for rec in cursor])
+
     return datasets
 
 
+def get_val_from_id(id_):
+    return int(id_.split(':')[0]) / 10000
+
+class DemoMongoDBDataSource(MongoDBDataSource):
+    def get_data(self):
+        data = super(DemoMongoDBDataSource, self).get_data()
+        new_data = [data[0]]
+        for el in data[1:]:
+            id_ = get_val_from_id(el[0])
+            new_data.append([id_, el[1]])
+        return new_data
+
+
 def time_series_demo(request):
+    db = get_db('charts')
+    coll_name = "mapreduce_daily__sumof__time_record__hours"
+    query = get_query('year_ago', None,
+                      'employee=/example/employee/500ff1b8e147f74f7000000c/')
+    cursor = db[coll_name].find(query)
+    data_source_2 = DemoMongoDBDataSource(cursor, fields=["_id", "value"])
+    chart = flot.LineChart(data_source_2)
+
+    accounts_cursor = get_db("accounts").docs.find()
+    data_source_3 = MongoDBDataSource(accounts_cursor,
+                                      fields=['Year', 'Sales', 'Expenses'])
+    chart_2 = flot.LineChart(data_source_3)
 
     period = 'weekly'
     start = 'year_ago'
     end = None
-
     series = [
         {'resource': 'time_record',
          'field': 'hours',
@@ -244,5 +286,5 @@ def time_series_demo(request):
                                       start=start,
                                       end=end)
 
-    context = {'datasets': json.dumps(datasets)}
+    context = {'datasets': json.dumps(datasets), 'chart': chart, "chart_2": chart_2}
     return render(request, 'demo/mongodb_source.html', context)

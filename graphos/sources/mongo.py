@@ -25,13 +25,17 @@ class MongoDBDataSource(BaseDataSource):
 
         self.cursor = cursor
         self.fields = fields
+        self._doc_list = []
 
     def get_data(self):
+        if self._doc_list:
+            return self._doc_list
         doc_list = []
         doc_list.append(self.fields)
         for doc in self.cursor:
             current_row = get_row(doc, self.fields)
             doc_list.append(current_row)
+        self._doc_list = doc_list
         return doc_list
 
     def get_header(self):
