@@ -144,6 +144,36 @@ def flot_demo(request):
     return render(request, 'demo/flot.html', context)
 
 
+def get_db(db_name):
+    DB_HOST = ["localhost"]
+    DB_PORT = 27017
+    db = pymongo.Connection(DB_HOST, DB_PORT)[db_name]
+    return db
+
+
+def smart_date(value):
+
+    if type(value) == datetime.datetime:
+        return value
+
+    if value == 'today':
+        return datetime.datetime.now()
+    elif value == 'yesterday':
+        return datetime.datetime.now() - datetime.timedelta(days=1)
+    elif value == 'tomorrow':
+        return datetime.datetime.now() + datetime.timedelta(days=1)
+    elif value == 'year_ago':
+        return datetime.datetime.now() - datetime.timedelta(days=365)
+    elif value == 'start_of_month':
+        today = datetime.datetime.today()
+        return datetime.datetime(today.year, today.month, 1)
+    elif value == 'start_of_year':
+        today = datetime.datetime.today()
+        return datetime.datetime(today.year, 1, 1)
+    else:
+        return parse(value, dayfirst=True)
+
+
 def get_query(start=None, end=None, query_filter=None):
 
     query = {}
@@ -165,13 +195,6 @@ def get_query(start=None, end=None, query_filter=None):
         query = {'$and': [{'_id': {'$regex': 'all'}}, query]}
 
     return query
-
-
-def get_db(db_name):
-    DB_HOST = ["localhost"]
-    DB_PORT = 27017
-    db = pymongo.Connection(DB_HOST, DB_PORT)[db_name]
-    return db
 
 
 def build_timeseries_chart(period,
@@ -223,26 +246,3 @@ def time_series_demo(request):
 
     context = {'datasets': json.dumps(datasets)}
     return render(request, 'demo/mongodb_source.html', context)
-
-
-def smart_date(value):
-
-    if type(value) == datetime.datetime:
-        return value
-
-    if value == 'today':
-        return datetime.datetime.now()
-    elif value == 'yesterday':
-        return datetime.datetime.now() - datetime.timedelta(days=1)
-    elif value == 'tomorrow':
-        return datetime.datetime.now() + datetime.timedelta(days=1)
-    elif value == 'year_ago':
-        return datetime.datetime.now() - datetime.timedelta(days=365)
-    elif value == 'start_of_month':
-        today = datetime.datetime.today()
-        return datetime.datetime(today.year, today.month, 1)
-    elif value == 'start_of_year':
-        today = datetime.datetime.today()
-        return datetime.datetime(today.year, 1, 1)
-    else:
-        return parse(value, dayfirst=True)
