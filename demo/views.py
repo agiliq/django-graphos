@@ -243,6 +243,7 @@ def build_timeseries_chart(period,
 def get_val_from_id(id_):
     return int(id_.split(':')[0]) / 10000
 
+
 class DemoMongoDBDataSource(MongoDBDataSource):
     def get_data(self):
         data = super(DemoMongoDBDataSource, self).get_data()
@@ -267,7 +268,6 @@ def time_series_demo(request):
     data_source_3 = MongoDBDataSource(accounts_cursor,
                                       fields=['Year', 'Sales', 'Expenses'])
     chart_2 = flot.LineChart(data_source_3)
-    import pdb; pdb.set_trace()
     period = 'weekly'
     start = 'year_ago'
     end = None
