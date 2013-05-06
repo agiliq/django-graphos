@@ -30,11 +30,12 @@
 		});
 
 		var reset_state = function(){
+			datasets = {{ datasets|safe }}
 			$.each(datasets, function(key, val){
-				$(".color-control").val("");
+				$(".text-control").val("");
+				$("check-control").attr("checked", false)
 				plotAccordingToChoices();
 			});
-
 		};
 
 		$("#reset").click(reset_state);
@@ -46,16 +47,16 @@
 				"' checked='checked' id='id" + key + "'></input>" +
 				"<label for='id" + key + "'>"
 				+ val.label + "</label>"
-				+"color: <input type='textinput' class='color-control' id='color"+key+"'></input>"
-				+"label: <input type='textinput' class='label-control' id='label"+key+"'></input>"
-				+"points: <input type='checkbox' class='points-control' id='points"+key+"'></input><br/>");
+				+"color: <input type='textinput' class='text-control' id='color"+key+"'></input>"
+				+"label: <input type='textinput' class='text-control' id='label"+key+"'></input>"
+				+"points: <input type='checkbox' class='check-control' id='points"+key+"'></input><br/>");
 		});
 
 		choiceContainer.append(
-			"xmin: <input type='textinput' class='xmin-control' id='xmin'></input>"
-			+"xmax: <input type='textinput' class='xmax-control' id='xmax'></input>"
-			+"ymin: <input type='textinput' class='ymin-control' id='ymin'></input>"
-			+"ymax: <input type='textinput' class='ymax-control' id='ymax'></input>");
+			"xmin: <input type='textinput' class='text-control' id='xmin'></input>"
+			+"xmax: <input type='textinput' class='text-control' id='xmax'></input>"
+			+"ymin: <input type='textinput' class='text-control' id='ymin'></input>"
+			+"ymax: <input type='textinput' class='text-control' id='ymax'></input>");
 
 		choiceContainer.find('input[type="checkbox"]').click(plotAccordingToChoices);
 		choiceContainer.find('input[type="textinput"]').blur(plotAccordingToChoices);
