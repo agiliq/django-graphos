@@ -231,7 +231,7 @@ def build_timeseries_chart(period,
             new_series.append([key_timestamp, rec['value']])
 
         datasets[i] = {'data': new_series,
-                       'label': s['field']}
+                       'label': "series %s: %s" % (i + 1, s['field'])}
 
         cursor = db[collection].find(query)
         data_source.append([(get_val_from_id(rec["_id"]),
