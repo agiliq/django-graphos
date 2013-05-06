@@ -31,9 +31,11 @@
 
 		var reset_state = function(){
 			datasets = {{ datasets|safe }}
+			options = default_options
+
+			$(".text-control").val("");
+			$(".check-control").attr("checked", false)
 			$.each(datasets, function(key, val){
-				$(".text-control").val("");
-				$("check-control").attr("checked", false)
 				plotAccordingToChoices();
 			});
 		};
