@@ -12,6 +12,16 @@
 
 		datasets = {{ datasets|safe }}
 
+		default_options = {
+					yaxis: {
+						min: 0
+					},
+					xaxis: {
+						tickDecimals: 0
+					}
+				}
+
+		options = default_options
 
 		var i = 0;
 		$.each(datasets, function(key, val) {
@@ -26,6 +36,7 @@
 			});
 
 		};
+
 		$("#reset").click(reset_state);
 
 		// insert checkboxes
@@ -37,8 +48,14 @@
 				+ val.label + "</label>"
 				+"color: <input type='textinput' class='color-control' id='color"+key+"'></input>"
 				+"label: <input type='textinput' class='label-control' id='label"+key+"'></input>"
-				+"points: <input type='checkbox' class='points-control' id='points"+key+"'></input>");
+				+"points: <input type='checkbox' class='points-control' id='points"+key+"'></input><br/>");
 		});
+
+		choiceContainer.append(
+			"xmin: <input type='textinput' class='xmin-control' id='xmin'></input>"
+			+"xmax: <input type='textinput' class='xmax-control' id='xmax'></input>"
+			+"ymin: <input type='textinput' class='ymin-control' id='ymin'></input>"
+			+"ymax: <input type='textinput' class='ymax-control' id='ymax'></input>");
 
 		choiceContainer.find('input[type="checkbox"]').click(plotAccordingToChoices);
 		choiceContainer.find('input[type="textinput"]').blur(plotAccordingToChoices);
@@ -47,23 +64,42 @@
 
 			var data = [];
 
+			xmin = $("#xmin").val();
+			xmax = $("#xmax").val();
+			ymin = $("#ymin").val();
+			ymax = $("#ymax").val();
+
+			if(xmin){
+				options.xaxis.min = xmin;
+			}
+			if(xmax){
+				options.xaxis.max = xmax;
+			}
+			if(ymin){
+				options.yaxis.min = ymin;
+			}
+			if(ymax){
+				options.yaxis.max = ymax
+			}
+
 			choiceContainer.find("input:checked").each(function () {
 				var key = $(this).attr("name");
 				color = $("#color"+key).val();
 				label = $("#label"+key).val();
 				points = $("#points"+key).attr("checked");
 				points = Boolean(points);
+
 				if(color){
 					datasets[key].color=color;
 				}
 				if(label){
 					datasets[key].label=label;
 				}
+
 				if(points){
 					datasets[key].points = {"show": points};
 					datasets[key].lines = {"show": true};
 				}
-
 
 				if (key && datasets[key]) {
 					data.push(datasets[key]);
@@ -71,14 +107,7 @@
 			});
 
 			if (data.length > 0) {
-				$.plot("#placeholder", data, {
-					yaxis: {
-						min: 0
-					},
-					xaxis: {
-						tickDecimals: 0
-					}
-				});
+				$.plot("#placeholder", data, options);
 			}
 		}
 
