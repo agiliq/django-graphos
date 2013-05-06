@@ -246,7 +246,7 @@ def build_timeseries_chart(period,
             new_series.append([key_timestamp, rec['value']])
 
         datasets[i] = {'data': new_series,
-                       'label': s['field']}
+                       'label': "series %s: %s" % (i + 1, s['field'])}
 
         cursor = db[collection].find(query)
         data_source.append([(get_val_from_id(rec["_id"]),
@@ -257,6 +257,7 @@ def build_timeseries_chart(period,
 
 def get_val_from_id(id_):
     return int(id_.split(':')[0]) / 10000
+
 
 class DemoMongoDBDataSource(MongoDBDataSource):
     def get_data(self):
@@ -282,9 +283,8 @@ def time_series_demo(request):
     accounts_cursor = get_db("accounts").docs.find()
     data_source_3 = MongoDBDataSource(accounts_cursor,
                                       fields=['Year', 'Sales', 'Expenses'])
+
     chart_3 = gchart.LineChart(data_source_3)
-
-
     period = 'weekly'
     start = 'year_ago'
     end = None
