@@ -38,8 +38,10 @@ Graphos is a Django app to plot data into a live graph.
 #### YUI
 
 * Line chart
+* Column chart
+* Bar chart
+* Pie chart
 
-(More coming soon)
 
 ### Demo
 
