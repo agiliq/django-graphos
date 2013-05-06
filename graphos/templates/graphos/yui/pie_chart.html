@@ -1,0 +1,11 @@
+{% extends "graphos/yui/base.html" %}
+
+{% block yui_chart_type %}
+    // Instantiate and render the chart
+    var mychart = new Y.Chart({
+        dataProvider: datasets,
+        render: "#{{ chart.html_id }}",
+        type: "pie",
+        categoryKey:"{{ chart.get_category_key }}"
+    });
+{% endblock %}

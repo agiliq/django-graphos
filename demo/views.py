@@ -75,6 +75,7 @@ def create_demo_accounts():
     Account.objects.create(year="2009", sales=2230,
                            expenses=1840, ceo="Cook")
 
+
 def create_demo_mongo():
     accounts = get_db("accounts")
     docs = accounts.docs
@@ -133,9 +134,23 @@ def gchart_demo(request):
 
 
 def yui_demo(request):
+    create_demo_accounts()
+    queryset = Account.objects.all()
     line_chart = yui.LineChart(SimpleDataSource(data=data))
-    context = {"line_chart": line_chart}
-    return render(request, 'demo/yui.html', context)
+    data_source = ModelDataSource(queryset,
+                                  fields=['year', 'sales'])
+    line_chart = yui.LineChart(data_source,
+                                  options={'title': "Sales Growth"})
+    column_chart = yui.ColumnChart(SimpleDataSource(data=data),
+                                      options={'title': "Sales vs Expense"})
+    bar_chart = yui.BarChart(data_source,
+                                options={'title': "Expense Growth"})
+    pie_chart = yui.PieChart(data_source)
+    context = {"line_chart": line_chart,
+               "column_chart": column_chart,
+               'bar_chart': bar_chart,
+               'pie_chart': pie_chart}
+    return render(request, 'demo/gchart.html', context)
 
 
 def flot_demo(request):

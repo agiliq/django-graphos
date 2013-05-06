@@ -21,3 +21,17 @@ class BaseYuiChart(BaseChart):
 class LineChart(BaseYuiChart):
     def get_template(self):
         return "graphos/yui/line_chart.html"
+
+
+class BarChart(BaseYuiChart):
+    def get_template(self):
+        return "graphos/yui/bar_chart.html"
+
+
+class ColumnChart(BaseYuiChart):
+    def get_template(self):
+        return "graphos/yui/column_chart.html"
+
+class PieChart(BaseYuiChart):
+    def get_template(self):
+        return "graphos/yui/pie_chart.html"
