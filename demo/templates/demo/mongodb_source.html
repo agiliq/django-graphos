@@ -45,20 +45,20 @@
 		// insert checkboxes
 		var choiceContainer = $("#choices");
 		$.each(datasets, function(key, val) {
-			choiceContainer.append("<br/><input type='checkbox' name='" + key +
-				"' checked='checked' id='id" + key + "'></input>" +
-				"<label for='id" + key + "'>"
-				+ val.label + "</label>"
+			choiceContainer.append("<br />"
+				+ val.label +" <input type='checkbox' name='"+key+"' checked='checked' id='id" + key + "'></input>"
+				+"<br />"
 				+"color: <input type='textinput' class='text-control' id='color"+key+"'></input>"
 				+"label: <input type='textinput' class='text-control' id='label"+key+"'></input>"
-				+"points: <input type='checkbox' class='check-control' id='points"+key+"'></input><br/>");
+				+"points: <input type='checkbox' class='check-control' id='points"+key+"'></input>");
 		});
 
-		choiceContainer.append(
-			"xmin: <input type='textinput' class='text-control' id='xmin'></input>"
+		choiceContainer.append("<br />"
+			+"xmin: <input type='textinput' class='text-control' id='xmin'></input>"
 			+"xmax: <input type='textinput' class='text-control' id='xmax'></input>"
 			+"ymin: <input type='textinput' class='text-control' id='ymin'></input>"
-			+"ymax: <input type='textinput' class='text-control' id='ymax'></input>");
+			+"ymax: <input type='textinput' class='text-control' id='ymax'></input>"
+			+"<br />");
 
 		choiceContainer.find('input[type="checkbox"]').click(plotAccordingToChoices);
 		choiceContainer.find('input[type="textinput"]').blur(plotAccordingToChoices);
@@ -133,10 +133,10 @@
 
 {% block content %}
 		<div class="demo-container">
-			<a href="#" id="reset" class="btn">reset</a>
-			<p id="choices" style="width:135px;"></p>
-			<div id="placeholder" class="demo-placeholder" style="width:700px; height: 400px"></div>
 
+			<div id="placeholder" class="demo-placeholder" style="width:700px; height: 400px"></div>
+			<div id="choices"></div>
+			<a href="" id="reset" class="btn">reset</a>
 		</div>
 
 		<div id="chart_2">
