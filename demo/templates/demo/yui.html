@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 
 {% block extra_head %}
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-    google.load("visualization", "1", {packages:["corechart"]});
-</script>
+  <script src="http://yui.yahooapis.com/3.10.0/build/yui/yui-min.js"></script>
 {% endblock %}
 
 {% block menu %}
@@ -19,9 +16,39 @@
 {%  endblock %}
 
 {% block content %}
-    <div id="line_chart">
+    <div>
+        <p>
+            graphos.renderer.yui provides charting via YUI chart API.
+        </p>
+    </div>
+
+    <div id="line_chart" class="well">
+
         {{ line_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            gchart.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
     </div>
     <br />
+
+    <div id="column_chart">
+        {{ column_chart.as_html }}
+    </div>
+
+    <br />
+
+    <div id="bar_chart">
+        {{ bar_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="candlestick_chart">
+        {{ candlestick_chart.as_html }}
+    </div>
+
+    <div id="pie_chart">
+        {{ pie_chart.as_html }}
+    </div>
 
 {% endblock %}

@@ -150,7 +150,7 @@ def yui_demo(request):
                "column_chart": column_chart,
                'bar_chart': bar_chart,
                'pie_chart': pie_chart}
-    return render(request, 'demo/gchart.html', context)
+    return render(request, 'demo/yui.html', context)
 
 
 def flot_demo(request):
