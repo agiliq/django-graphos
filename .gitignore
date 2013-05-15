@@ -1,5 +1,5 @@
 *.pyc
-time_base
+*.db
 *~
 *local_settings.py
 build/
