@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
-from graphos.renderers import gchart, yui, flot, morris
+from graphos.renderers import gchart, yui, flot, morris, matplotlib_renderer
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -328,4 +328,9 @@ def morris_demo(request):
     context = {"line_chart": line_chart,
                'bar_chart': bar_chart,
                'donut_chart': donut_chart}
+    return render(request, 'demo/morris.html', context)
+
+def matplotlib_demo(request):
+    line_chart = matplotlib_renderer.LineChart(SimpleDataSource(data=data))
+    context = {"line_chart": line_chart}
     return render(request, 'demo/morris.html', context)
