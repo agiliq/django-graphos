@@ -1,0 +1,17 @@
+<div id="{{ chart.get_html_id }}" style="width: {{ chart.width }}px; height: {{ chart.height }}px;"></div>
+<script type="text/javascript">
+new Morris.{{ chart.chart_type }}({
+  // ID of the element in which to draw the chart.
+  element: '{{ chart.get_html_id }}',
+  // Chart data records -- each entry in this array corresponds to a point on
+  // the chart.
+  data: {{ chart.get_data_json|safe }},
+  // The name of the data record attribute that contains x-values.
+  xkey: '{{ chart.get_category_key }}',
+  // A list of names of data record attributes that contain y-values.
+  ykeys: {{ chart.get_y_keys|safe }},
+  // Labels for the ykeys -- will be displayed when you hover over the
+  // chart.
+  labels: {{ chart.get_y_keys|safe }}
+});
+</script>
