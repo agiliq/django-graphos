@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
-from graphos.renderers import gchart, yui, flot
+from graphos.renderers import gchart, yui, flot, morris
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -309,3 +309,23 @@ def time_series_demo(request):
                 "chart_3": chart_3
                 }
     return render(request, 'demo/mongodb_source.html', context)
+
+
+def morris_demo(request):
+
+    create_demo_accounts()
+    queryset = Account.objects.all()
+    data_source = ModelDataSource(queryset,
+                                  fields=['year', 'sales'])
+    line_chart = morris.LineChart(SimpleDataSource(data=data))
+    data_source = ModelDataSource(queryset,
+                                  fields=['year', 'sales'])
+    line_chart = morris.LineChart(data_source,
+                                  options={'title': "Sales Growth"})
+    bar_chart = morris.BarChart(SimpleDataSource(data=data),
+                                      options={'title': "Sales vs Expense"})
+    donut_chart = morris.DonutChart(data_source)
+    context = {"line_chart": line_chart,
+               'bar_chart': bar_chart,
+               'donut_chart': donut_chart}
+    return render(request, 'demo/morris.html', context)

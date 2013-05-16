@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+
+<link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+
+{% endblock %}
+
+{% block menu %}
+  <ul class="nav nav-tabs">
+      <li><a href="{% url 'demo_home' %}">Home</a></li>
+      <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
+      <li class="active"><a href="{% url 'demo_gchart_demo' %}">Gchart</a></li>
+      <li><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
+      <li><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
+      <li><a href="{% url 'demo_time_series_example' %}">Time Series Example</a></li>
+  </ul>
+{%  endblock %}
+
+{% block content %}
+    <div>
+        <p>
+            graphos.renderer.morris provides charting via morris and raphael.js.
+        </p>
+    </div>
+
+    <div id="line_chart" class="well">
+
+        {{ line_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            morris.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+    <div id="bar_chart" class="well">
+
+        {{ bar_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            morris.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+
+    <div id="donut_chart" class="well">
+
+        {{ donut_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            morris.DonutChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+{% endblock %}
