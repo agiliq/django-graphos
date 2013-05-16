@@ -10,8 +10,7 @@ from .sources.mongo import MongoDBDataSource
 
 from .renderers import base, flot, gchart, yui
 from .exceptions import GraphosException
-from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, \
-                   get_default_options, get_db
+from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_default_options, get_db
 
 from demo.models import Account
 
