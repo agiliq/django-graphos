@@ -23,6 +23,3 @@ class ModelDataSource(SimpleDataSource):
         for row in self.queryset:
             data.append(get_field_values(row, self.fields))
         return data
-
-    def get_header(self):
-        return self.fields
