@@ -5,6 +5,19 @@
 <script type="text/javascript">
     google.load("visualization", "1", {packages:["corechart"]});
 </script>
+<script>
+  $(function(){
+    $("#get-data").on("click", function(){
+        alert(10);
+        $.getJSON("/ghcart-json/", function(data){
+          alert(data);
+          //custom_line_chart.draw()
+
+        });
+    });
+
+  });
+</script>
 {% endblock %}
 
 {% block menu %}
@@ -53,6 +66,11 @@
 
     <div id="pie_chart">
         {{ pie_chart.as_html }}
+    </div>
+
+    <div>
+      {{ custom_chart.as_html }}
+      <a href="#" id="get-data" class="btn">Get Data</a>
     </div>
     <br />
 {% endblock %}

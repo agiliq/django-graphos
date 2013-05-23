@@ -5,9 +5,11 @@ from graphos.renderers import gchart, yui, flot, morris
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
+from graphos.views import RendererAsJson
 
 from .models import Account
 from .utils import get_mongo_cursor
+from .custom_charts import CustomGchart
 
 import json
 import time
@@ -127,9 +129,10 @@ def gchart_demo(request):
     candlestick_chart = gchart.CandlestickChart(SimpleDataSource
                                                 (data=candlestick_data))
     pie_chart = gchart.PieChart(data_source)
+    custom_chart = CustomGchart(data_source)
     context = {"line_chart": line_chart, "column_chart": column_chart,
                'bar_chart': bar_chart, 'candlestick_chart': candlestick_chart,
-               'pie_chart': pie_chart}
+               'pie_chart': pie_chart, "custom_chart": custom_chart}
     return render(request, 'demo/gchart.html', context)
 
 
@@ -329,3 +332,19 @@ def morris_demo(request):
                'bar_chart': bar_chart,
                'donut_chart': donut_chart}
     return render(request, 'demo/morris.html', context)
+
+class GhcartRendererAsJson(RendererAsJson):
+    def get_context_data(self):
+        create_demo_accounts()
+        Account.objects.create(year="2010", sales=2130,
+                           expenses=1940, ceo="Cook")
+        queryset = Account.objects.all()
+        data_source = ModelDataSource(queryset,
+                                  fields=['year', 'sales'])
+        line_chart = gchart.LineChart(data_source)
+        context = {"chart": line_chart}
+        return context
+
+custom_gchart_renderer = GhcartRendererAsJson.as_view()
+
+

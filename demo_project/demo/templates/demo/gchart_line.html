@@ -11,10 +11,11 @@
     {% endif %}
 
     {% block create_chart %}
-    var chart = new google.visualization.ColumnChart(document.getElementById('{{ chart.get_html_id }}'));
+    var chart = new google.visualization.LineChart(document.getElementById('{{ chart.get_html_id }}'));
     {% endblock %}
-    chart.draw(data, options);
-    chart{{ chart.get_html_id }} = chart;
+    custom_line_chart = chart;
+    custom_line_chart.draw(data, options);
+
   }
 </script>
 
