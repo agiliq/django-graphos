@@ -117,6 +117,18 @@
 		plotAccordingToChoices();
 	});
 
+	$(function(){
+		$("#get-data-1").on("click", function(){
+			$.getJSON("/mongo-json/", function(data){
+
+			data_custom.push(data);
+			console.log(data_custom);
+			$.plot($("#custom_chart"), data_custom, {});
+			return false;
+			});
+		});
+
+	});
 	</script>
 {% endblock %}
 
@@ -147,5 +159,6 @@
 		<div id="chart_3">
 
 			{{ chart_3.as_html }}
+			<a href="#" class="btn" id="get-data-1">Get new data</a>
 		</div>
 {% endblock %}

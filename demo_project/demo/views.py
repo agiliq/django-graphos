@@ -5,11 +5,11 @@ from graphos.renderers import gchart, yui, flot, morris
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
-from graphos.views import RendererAsJson
+from graphos.views import FlotAsJson, RendererAsJson
 
 from .models import Account
 from .utils import get_mongo_cursor
-from .custom_charts import CustomGchart
+from .custom_charts import CustomGchart, CustomFlot
 
 import json
 import time
@@ -20,11 +20,12 @@ import pymongo
 from dateutil.parser import parse
 
 data = [
-       ['Year', 'Sales', 'Expenses'],
-       ['2004', 1000, 400],
-       ['2005', 1170, 460],
-       ['2006', 660, 1120],
-       ['2007', 1030, 540]]
+       ['Year', 'Sales', 'Expenses', 'Items Sold'],
+       ['2004', 1000, 400, 100],
+       ['2005', 1170, 460, 120],
+       ['2006', 660, 1120, 50],
+       ['2007', 1030, 540, 100]
+       ]
 
 candlestick_data = [['Mon', 20, 28, 38, 45],
                     ['Tue', 31, 38, 55, 66],
@@ -271,6 +272,22 @@ class DemoMongoDBDataSource(MongoDBDataSource):
             new_data.append([id_, el[1]])
         return new_data
 
+class MongoJson(FlotAsJson):
+    def get_context_data(self, *args, **kwargs):
+        accounts_cursor = get_db("accounts").docs.find()
+        data_source = MongoDBDataSource(accounts_cursor,
+                                      fields=['Year', 'Items Sold'])
+        chart = flot.LineChart(data_source)
+        return {"chart": chart}
+
+mongo_json = MongoJson.as_view()
+
+
+
+def get_time_sereies_json(request):
+    get_query('year_ago', None,
+                      'employee=/example/employee/500ff1b8e147f74f7000000c/')
+
 
 def time_series_demo(request):
     create_demo_mongo()
@@ -287,7 +304,7 @@ def time_series_demo(request):
     data_source_3 = MongoDBDataSource(accounts_cursor,
                                       fields=['Year', 'Sales', 'Expenses'])
 
-    chart_3 = gchart.LineChart(data_source_3)
+    chart_3 = CustomFlot(data_source_3)
     period = 'weekly'
     start = 'year_ago'
     end = None

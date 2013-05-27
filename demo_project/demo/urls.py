@@ -10,5 +10,7 @@ urlpatterns = patterns('',
     url(r'^morris/$', 'demo.views.morris_demo', name='demo_morris_demo'),
     url(r'^time_series/$', 'demo.views.time_series_demo',
                            name='demo_time_series_example'),
-    url(r"^gchart-json/$", "demo.views.custom_gchart_renderer", name="demo_custom_gchart")
+    url(r"^gchart-json/$", "demo.views.custom_gchart_renderer", name="demo_custom_gchart"),
+    url(r"^mongo-json/$", "demo.views.mongo_json", name="demo_mongo_json"),
+
 )
