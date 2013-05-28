@@ -18,4 +18,5 @@ class FlotAsJson(View):
     def get(self, *args, **kwargs):
         context = self.get_context_data()
         chart = context["chart"]
-        return HttpResponse(json.dumps({"data": chart.get_data(), "label": "Items"}))
+        label = chart.get_data()[0][1]
+        return HttpResponse(json.dumps({"data": chart.get_data(), "label": label}))

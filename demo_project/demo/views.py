@@ -20,11 +20,11 @@ import pymongo
 from dateutil.parser import parse
 
 data = [
-       ['Year', 'Sales', 'Expenses', 'Items Sold'],
-       ['2004', 1000, 400, 100],
-       ['2005', 1170, 460, 120],
-       ['2006', 660, 1120, 50],
-       ['2007', 1030, 540, 100]
+       ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+       ['2004', 1000, 400, 100, 600, 300],
+       ['2005', 1170, 460, 120, 310],
+       ['2006', 660, 1120, 50, -460],
+       ['2007', 1030, 540, 100, ]
        ]
 
 candlestick_data = [['Mon', 20, 28, 38, 45],
@@ -282,7 +282,15 @@ class MongoJson(FlotAsJson):
 
 mongo_json = MongoJson.as_view()
 
+class MongoJson2(FlotAsJson):
+    def get_context_data(self, *args, **kwargs):
+        accounts_cursor = get_db("accounts").docs.find()
+        data_source = MongoDBDataSource(accounts_cursor,
+                                      fields=['Year', 'Net Profit'])
+        chart = flot.LineChart(data_source)
+        return {"chart": chart}
 
+mongo_json2 = MongoJson2.as_view()
 
 def get_time_sereies_json(request):
     get_query('year_ago', None,

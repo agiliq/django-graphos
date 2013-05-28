@@ -124,8 +124,17 @@
 			data_custom.push(data);
 			console.log(data_custom);
 			$.plot($("#custom_chart"), data_custom, {});
-			return false;
 			});
+		return false;
+		});
+		$("#get-data-2").on("click", function(){
+			$.getJSON("/mongo-json2/", function(data){
+
+			data_custom.push(data);
+			console.log(data_custom);
+			$.plot($("#custom_chart"), data_custom, {});
+			});
+		return false;
 		});
 
 	});
@@ -159,6 +168,7 @@
 		<div id="chart_3">
 
 			{{ chart_3.as_html }}
-			<a href="#" class="btn" id="get-data-1">Get new data</a>
+			<a href="#" class="btn" id="get-data-1">Plot Items Sold</a>
+			<a href="#" class="btn" id="get-data-2">Plot Net Profit</a>
 		</div>
 {% endblock %}
