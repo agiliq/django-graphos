@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
+from django.http import HttpResponse
 
 from graphos.renderers import gchart, yui, flot, morris
 from graphos.sources.simple import SimpleDataSource
@@ -9,7 +10,7 @@ from graphos.views import FlotAsJson, RendererAsJson
 
 from .models import Account
 from .utils import get_mongo_cursor
-from .custom_charts import CustomGchart, CustomFlot
+from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
 import json
 import time
@@ -292,6 +293,22 @@ class MongoJson2(FlotAsJson):
 
 mongo_json2 = MongoJson2.as_view()
 
+
+class MongoJsonMulti(FlotAsJson):
+    def get_context_data(self, *args, **kwargs):
+        accounts_cursor = get_db("accounts").docs.find()
+        field_names = self.request.REQUEST.getlist("fields[]") or ['Year', 'Net Profit']
+        data_source = MongoDBDataSource(accounts_cursor,
+                                      fields=field_names)
+        chart = flot.LineChart(data_source)
+        return {"chart": chart}
+
+    def get(self, *args, **kwargs):
+        chart = self.get_context_data()["chart"]
+        return HttpResponse(json.dumps(chart.get_series_objects()))
+
+mongo_json_multi = MongoJsonMulti.as_view()
+
 def get_time_sereies_json(request):
     get_query('year_ago', None,
                       'employee=/example/employee/500ff1b8e147f74f7000000c/')
@@ -313,6 +330,11 @@ def time_series_demo(request):
                                       fields=['Year', 'Sales', 'Expenses'])
 
     chart_3 = CustomFlot(data_source_3)
+
+    accounts_cursor = get_db("accounts").docs.find()
+    data_source_4 = MongoDBDataSource(accounts_cursor,
+                                      fields=['Year', 'Sales'])
+    chart_4 = CustomFlot2(data_source_4)
     period = 'weekly'
     start = 'year_ago'
     end = None
@@ -334,7 +356,8 @@ def time_series_demo(request):
 
     context = {'datasets': json.dumps(datasets),
                 'chart_2': chart_2,
-                "chart_3": chart_3
+                "chart_3": chart_3,
+                "chart_4": chart_4
                 }
     return render(request, 'demo/mongodb_source.html', context)
 

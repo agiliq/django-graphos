@@ -8,3 +8,7 @@ class CustomGchart(gchart.LineChart):
 class CustomFlot(flot.LineChart):
     def get_template(self):
         return "demo/flot_line.html"
+
+class CustomFlot2(flot.LineChart):
+    def get_template(self):
+        return "demo/flot_line2.html"

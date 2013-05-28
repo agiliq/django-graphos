@@ -136,6 +136,17 @@
 			});
 		return false;
 		});
+		$("#replot").on("click", function(){
+			fields = ["Year"]
+			$('input[name="field_names"]:checked').each(function(){
+			    fields.push($(this).val())
+			});
+			$.getJSON("/mongo-json-multi/", {fields: fields}, function(data){
+			    console.log(data)
+			    $.plot($("#custom_chart2"), data, {});
+			})
+			console.log(fields)
+		});
 
 	});
 	</script>
@@ -171,4 +182,23 @@
 			<a href="#" class="btn" id="get-data-1">Plot Items Sold</a>
 			<a href="#" class="btn" id="get-data-2">Plot Net Profit</a>
 		</div>
+
+		<div id="chart_4">
+
+			{{ chart_4.as_html }}
+			<label class="checkbox">
+				<input type="checkbox" name="field_names" value="Sales" checked="checked">Sales
+		    </label>
+		    <label class="checkbox">
+				<input type="checkbox" name="field_names" value="Expenses">Expenses
+		    </label>
+		    <label class="checkbox">
+				<input type="checkbox" name="field_names" value="Items Sold">Items Sold
+		    </label>
+		    <label class="checkbox">
+				<input type="checkbox" name="field_names" value="Net Profit">Net Profit
+		    </label>
+		    <button type="submit" class="btn" id="replot">Replot</button>
+		</div>
 {% endblock %}
+nam
