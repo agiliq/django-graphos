@@ -10,7 +10,8 @@ YUI().use('charts', function (Y) {
             dataProvider: datasets,
             render: "#{{ chart.get_html_id }}",
             type: "line",
-            categoryKey:"{{ chart.get_category_key }}"
+            categoryKey:"{{ chart.get_category_key }}",
+            styles: {{ chart.get_options|safe }}
         });
     {% endblock %}
 });
