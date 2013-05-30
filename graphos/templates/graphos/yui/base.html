@@ -11,7 +11,7 @@ YUI().use('charts', function (Y) {
             render: "#{{ chart.get_html_id }}",
             type: "line",
             categoryKey:"{{ chart.get_category_key }}",
-            styles: {{ chart.get_options|safe }}
+            styles: {{ chart.get_options_json|safe }}
         });
     {% endblock %}
 });
