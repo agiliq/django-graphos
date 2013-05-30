@@ -1,4 +1,4 @@
-<div id="{{ chart.html_id }}" style="width: {{ chart.width }}px; height: {{ chart.height }}px;"></div>
+<div id="{{ chart.get_html_id }}" style="width: {{ chart.width }}px; height: {{ chart.height }}px;"></div>
 <script>
 // Create a new YUI instance and populate it with the required modules.
 YUI().use('charts', function (Y) {
@@ -8,13 +8,11 @@ YUI().use('charts', function (Y) {
         // Instantiate and render the chart
         var mychart = new Y.Chart({
             dataProvider: datasets,
-            render: "#{{ chart.html_id }}",
+            render: "#{{ chart.get_html_id }}",
             type: "line",
-            categoryKey:"{{ chart.get_category_key }}"
+            categoryKey:"{{ chart.get_category_key }}",
+            styles: {{ chart.get_options_json|safe }}
         });
     {% endblock %}
-
-
 });
-
 </script>
