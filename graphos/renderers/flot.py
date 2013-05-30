@@ -62,3 +62,15 @@ class BarChart(BaseFlotChart):
         options = get_default_options("bars")
         options.update(self.options)
         return options
+
+
+class ColumnChart(BaseFlotChart):
+
+    def get_options(self):
+        options = get_default_options("bars")
+        options.update(self.options)
+        options["horizontal"] = True
+        return options
+
+class PieChart(BaseFlotChart):
+    pass  #TODO

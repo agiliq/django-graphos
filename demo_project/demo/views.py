@@ -108,7 +108,10 @@ class Demo(TemplateView):
                                     options={'title': "Expense Growth"})
         pie_chart = self.renderer.PieChart(data_source)
 
-        return {"line_chart": line_chart,
+        return {
+                "data_source": data_source,
+                "simple_data_source": simple_data_source,
+                "line_chart": line_chart,
                 "column_chart": column_chart,
                 'bar_chart': bar_chart,
                 'pie_chart': pie_chart,
@@ -155,21 +158,42 @@ class YUIDemo(Demo):
 yui_demo = YUIDemo.as_view(renderer=yui)
 
 
-def flot_demo(request):
-    create_demo_accounts()
-    queryset = Account.objects.all()
-    data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales'])
-    line_chart = flot.LineChart(data_source,
-                                options={'title': "Sales Growth"})
-    bar_chart = flot.BarChart(data_source,
-                              options={'title': "Sales Growth"})
-    point_chart = flot.PointChart(data_source,
-                                  options={'title': "Sales Growth"})
-    context = {'line_chart': line_chart,
+class MorrisDemo(TemplateView):
+    template_name = 'demo/morris.html'
+    renderer = None
+
+    def get_context_data(self):
+        create_demo_accounts()
+        queryset = Account.objects.all()
+        data_source = ModelDataSource(queryset,
+                                      fields=['year', 'sales'])
+        simple_data_source = SimpleDataSource(data=data)
+        line_chart = self.renderer.LineChart(data_source,
+                                      options={'title': "Sales Growth"})
+        bar_chart = self.renderer.BarChart(data_source,
+                                    options={'title': "Expense Growth"})
+        donut_chart = self.renderer.DonutChart(data_source)
+        context = {"line_chart": line_chart,
                'bar_chart': bar_chart,
-               'point_chart': point_chart}
-    return render(request, 'demo/flot.html', context)
+               'donut_chart': donut_chart}
+        return context
+
+
+morris_demo = MorrisDemo.as_view(renderer=morris)
+
+
+class FlotDemo(Demo):
+    template_name = 'demo/flot.html'
+
+    def get_context_data(self):
+        context = super(FlotDemo, self).get_context_data()
+        data_source = context["data_source"]
+        point_chart = self.renderer.PointChart(data_source,
+                                  options={'title': "Sales Growth"})
+        context["point_chart"] = point_chart
+        return context
+
+flot_demo = FlotDemo.as_view(renderer=flot)
 
 
 def get_db(db_name):
@@ -312,27 +336,6 @@ def time_series_demo(request):
                "chart_3": chart_3
                }
     return render(request, 'demo/mongodb_source.html', context)
-
-
-def morris_demo(request):
-
-    create_demo_accounts()
-    queryset = Account.objects.all()
-    data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales'])
-    line_chart = morris.LineChart(SimpleDataSource(data=data))
-    data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales'])
-    line_chart = morris.LineChart(data_source,
-                                  options={'title': "Sales Growth"})
-    bar_chart = morris.BarChart(SimpleDataSource(data=data),
-                                options={'title': "Sales vs Expense"})
-    donut_chart = morris.DonutChart(data_source)
-    context = {"line_chart": line_chart,
-               'bar_chart': bar_chart,
-               'donut_chart': donut_chart}
-    return render(request, 'demo/morris.html', context)
-
 
 class GhcartRendererAsJson(RendererAsJson):
 
