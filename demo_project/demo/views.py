@@ -144,8 +144,15 @@ def yui_demo(request):
     line_chart = yui.LineChart(SimpleDataSource(data=data))
     data_source = ModelDataSource(queryset,
                                   fields=['year', 'sales'])
+    yui_chart_options = {'axes': {
+                            'year': {
+                                'label': {
+                                    'color': "#ff0000"
+                                 }
+                             }
+                        }}
     line_chart = yui.LineChart(data_source,
-                                  options={'title': "Sales Growth"})
+                                  options=yui_chart_options)
     column_chart = yui.ColumnChart(SimpleDataSource(data=data),
                                       options={'title': "Sales vs Expense"})
     bar_chart = yui.BarChart(data_source,
@@ -381,6 +388,7 @@ def morris_demo(request):
                'donut_chart': donut_chart}
     return render(request, 'demo/morris.html', context)
 
+
 class GhcartRendererAsJson(RendererAsJson):
     def get_context_data(self):
         create_demo_accounts()
@@ -394,5 +402,3 @@ class GhcartRendererAsJson(RendererAsJson):
         return context
 
 custom_gchart_renderer = GhcartRendererAsJson.as_view()
-
-
