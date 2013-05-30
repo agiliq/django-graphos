@@ -1,0 +1,18 @@
+<div id="{{ chart.get_html_id }}" style="width: {{ chart.width }}px; height: {{ chart.height }}px;"></div>
+<script>
+$(function () {
+    $('#{{ chart.get_html_id }}').highcharts({
+        chart: {
+            type: "{{ chart.get_chart_type }}"
+        },
+        xAxis: {
+            categories: {{ chart.get_categories|safe }}
+        },
+
+        series: {{ chart.get_series|safe }}
+    });
+});
+</script>
+{{ chart.get_categories }}
+{{ chart.get_series }}
+

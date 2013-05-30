@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+{% endblock %}
+
+{% block menu %}
+  <ul class="nav nav-tabs">
+      <li><a href="{% url 'demo_home' %}">Home</a></li>
+      <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
+      <li><a href="{% url 'demo_gchart_demo' %}">Gchart</a></li>
+      <li><a href="{% url 'demo_morris_demo' %}">Morris</a></li>
+      <li><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
+      <li class="active"><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
+      <li><a href="{% url 'demo_time_series_example' %}">Time Series Example</a></li>
+  </ul>
+{%  endblock %}
+
+{% block content %}
+    <div>
+        <p>
+            graphos.renderer.highcharts provides charting via Highcharts chart API.
+        </p>
+    </div>
+
+    <div id="line_chart" class="well">
+
+        {{ line_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            gchart.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+
+    <div id="column_chart">
+        {{ column_chart.as_html }}
+    </div>
+
+    <br />
+
+    <div id="bar_chart">
+        {{ bar_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="candlestick_chart">
+        {{ candlestick_chart.as_html }}
+    </div>
+
+    <div id="pie_chart">
+        {{ pie_chart.as_html }}
+    </div>
+
+{% endblock %}

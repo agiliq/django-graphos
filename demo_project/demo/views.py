@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
-from graphos.renderers import gchart, yui, flot, morris
+from graphos.renderers import gchart, yui, flot, morris, highcharts
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -194,6 +194,11 @@ class FlotDemo(Demo):
         return context
 
 flot_demo = FlotDemo.as_view(renderer=flot)
+
+class HighChartsDemo(Demo):
+    template_name = "demo/highcharts.html"
+
+highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
 
 
 def get_db(db_name):
