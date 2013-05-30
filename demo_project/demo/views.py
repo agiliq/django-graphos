@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
+from django.views.generic.base import TemplateView
 
 from graphos.renderers import gchart, yui, flot, morris
 from graphos.sources.simple import SimpleDataSource
@@ -63,7 +64,7 @@ mongo_data = [{'data': mongo_series_object_1, 'label': 'hours'},
 
 def create_demo_accounts():
     Account.objects.all().delete()
-    #Create some rows
+    # Create some rows
     Account.objects.create(year="2004", sales=1000,
                            expenses=400, ceo="Welch")
     Account.objects.create(year="2005", sales=1170,
@@ -88,6 +89,30 @@ def create_demo_mongo():
     data_only = data[1:]
     for row in data_only:
         docs.insert(dict(zip(header, row)))
+
+
+class Demo(TemplateView):
+    renderer = None
+
+    def get_context_data(self):
+        create_demo_accounts()
+        queryset = Account.objects.all()
+        data_source = ModelDataSource(queryset,
+                                      fields=['year', 'sales'])
+        simple_data_source = SimpleDataSource(data=data)
+        line_chart = gchart.LineChart(data_source,
+                                      options={'title': "Sales Growth"})
+        column_chart = gchart.ColumnChart(SimpleDataSource(data=data),
+                                          options={'title': "Sales/ Expense"})
+        bar_chart = gchart.BarChart(data_source,
+                                    options={'title': "Expense Growth"})
+        pie_chart = gchart.PieChart(data_source)
+
+        return {"line_chart": line_chart,
+                "column_chart": column_chart,
+                'bar_chart': bar_chart,
+                'pie_chart': pie_chart,
+                }
 
 
 def home(request):
@@ -136,6 +161,16 @@ def gchart_demo(request):
     return render(request, 'demo/gchart.html', context)
 
 
+class GChartDemo(Demo):
+    template_name = "demo/gchart.html"
+
+    def get_queryset(self):
+        candlestick_chart = gchart.CandlestickChart(SimpleDataSource
+                                                    (data=candlestick_data))
+
+chart_demo = GChartDemo.as_view(renderer=gchart)
+
+
 def yui_demo(request):
     create_demo_accounts()
     queryset = Account.objects.all()
@@ -143,18 +178,18 @@ def yui_demo(request):
     data_source = ModelDataSource(queryset,
                                   fields=['year', 'sales'])
     yui_chart_options = {'axes': {
-                            'year': {
-                                'label': {
-                                    'color': "#ff0000"
-                                 }
-                             }
-                        }}
+        'year': {
+        'label': {
+        'color': "#ff0000"
+        }
+        }
+    }}
     line_chart = yui.LineChart(data_source,
-                                  options=yui_chart_options)
+                               options=yui_chart_options)
     column_chart = yui.ColumnChart(SimpleDataSource(data=data),
-                                      options={'title': "Sales vs Expense"})
+                                   options={'title': "Sales vs Expense"})
     bar_chart = yui.BarChart(data_source,
-                                options={'title': "Expense Growth"})
+                             options={'title': "Expense Growth"})
     pie_chart = yui.PieChart(data_source)
     context = {"line_chart": line_chart,
                "column_chart": column_chart,
@@ -270,6 +305,7 @@ def get_val_from_id(id_):
 
 
 class DemoMongoDBDataSource(MongoDBDataSource):
+
     def get_data(self):
         data = super(DemoMongoDBDataSource, self).get_data()
         new_data = [data[0]]
@@ -315,9 +351,9 @@ def time_series_demo(request):
                                       end=end)
 
     context = {'datasets': json.dumps(datasets),
-                'chart_2': chart_2,
-                "chart_3": chart_3
-                }
+               'chart_2': chart_2,
+               "chart_3": chart_3
+               }
     return render(request, 'demo/mongodb_source.html', context)
 
 
@@ -333,7 +369,7 @@ def morris_demo(request):
     line_chart = morris.LineChart(data_source,
                                   options={'title': "Sales Growth"})
     bar_chart = morris.BarChart(SimpleDataSource(data=data),
-                                      options={'title': "Sales vs Expense"})
+                                options={'title': "Sales vs Expense"})
     donut_chart = morris.DonutChart(data_source)
     context = {"line_chart": line_chart,
                'bar_chart': bar_chart,
@@ -342,13 +378,14 @@ def morris_demo(request):
 
 
 class GhcartRendererAsJson(RendererAsJson):
+
     def get_context_data(self):
         create_demo_accounts()
         Account.objects.create(year="2010", sales=2130,
-                           expenses=1940, ceo="Cook")
+                               expenses=1940, ceo="Cook")
         queryset = Account.objects.all()
         data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales'])
+                                      fields=['year', 'sales'])
         line_chart = gchart.LineChart(data_source)
         context = {"chart": line_chart}
         return context
