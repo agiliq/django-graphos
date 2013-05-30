@@ -140,27 +140,6 @@ def tutorial(request):
     return render(request, 'demo/tutorial.html', context)
 
 
-def gchart_demo(request):
-    create_demo_accounts()
-    queryset = Account.objects.all()
-    data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales'])
-    line_chart = gchart.LineChart(data_source,
-                                  options={'title': "Sales Growth"})
-    column_chart = gchart.ColumnChart(SimpleDataSource(data=data),
-                                      options={'title': "Sales vs Expense"})
-    bar_chart = gchart.BarChart(data_source,
-                                options={'title': "Expense Growth"})
-    candlestick_chart = gchart.CandlestickChart(SimpleDataSource
-                                                (data=candlestick_data))
-    pie_chart = gchart.PieChart(data_source)
-    custom_chart = CustomGchart(data_source)
-    context = {"line_chart": line_chart, "column_chart": column_chart,
-               'bar_chart': bar_chart, 'candlestick_chart': candlestick_chart,
-               'pie_chart': pie_chart, "custom_chart": custom_chart}
-    return render(request, 'demo/gchart.html', context)
-
-
 class GChartDemo(Demo):
     template_name = "demo/gchart.html"
 
