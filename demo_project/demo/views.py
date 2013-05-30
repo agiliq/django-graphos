@@ -100,13 +100,13 @@ class Demo(TemplateView):
         data_source = ModelDataSource(queryset,
                                       fields=['year', 'sales'])
         simple_data_source = SimpleDataSource(data=data)
-        line_chart = gchart.LineChart(data_source,
+        line_chart = self.renderer.LineChart(data_source,
                                       options={'title': "Sales Growth"})
-        column_chart = gchart.ColumnChart(SimpleDataSource(data=data),
+        column_chart = self.renderer.ColumnChart(SimpleDataSource(data=data),
                                           options={'title': "Sales/ Expense"})
-        bar_chart = gchart.BarChart(data_source,
+        bar_chart = self.renderer.BarChart(data_source,
                                     options={'title': "Expense Growth"})
-        pie_chart = gchart.PieChart(data_source)
+        pie_chart = self.renderer.PieChart(data_source)
 
         return {"line_chart": line_chart,
                 "column_chart": column_chart,
@@ -147,34 +147,12 @@ class GChartDemo(Demo):
         candlestick_chart = gchart.CandlestickChart(SimpleDataSource
                                                     (data=candlestick_data))
 
-chart_demo = GChartDemo.as_view(renderer=gchart)
+gchart_demo = GChartDemo.as_view(renderer=gchart)
 
+class YUIDemo(Demo):
+    template_name = 'demo/yui.html'
 
-def yui_demo(request):
-    create_demo_accounts()
-    queryset = Account.objects.all()
-    line_chart = yui.LineChart(SimpleDataSource(data=data))
-    data_source = ModelDataSource(queryset,
-                                  fields=['year', 'sales'])
-    yui_chart_options = {'axes': {
-        'year': {
-        'label': {
-        'color': "#ff0000"
-        }
-        }
-    }}
-    line_chart = yui.LineChart(data_source,
-                               options=yui_chart_options)
-    column_chart = yui.ColumnChart(SimpleDataSource(data=data),
-                                   options={'title': "Sales vs Expense"})
-    bar_chart = yui.BarChart(data_source,
-                             options={'title': "Expense Growth"})
-    pie_chart = yui.PieChart(data_source)
-    context = {"line_chart": line_chart,
-               "column_chart": column_chart,
-               'bar_chart': bar_chart,
-               'pie_chart': pie_chart}
-    return render(request, 'demo/yui.html', context)
+yui_demo = YUIDemo.as_view(renderer=yui)
 
 
 def flot_demo(request):
