@@ -19,6 +19,7 @@ Graphos is a Django app to plot data into a live graph.
 * [Google Charts API](https://developers.google.com/chart/)
 * [YUI Charts](http://yuilibrary.com/yui/docs/charts/)
 * [Morris.js](http://www.oesmith.co.uk/morris.js/)
+* [Highcharts](http://www.highcharts.com/)
 
 ### Chart types supported
 
@@ -48,6 +49,16 @@ Graphos is a Django app to plot data into a live graph.
 * Line chart
 * Column chart
 * Donut chart
+
+#### Highcharts
+
+(You will need to buy a license if you use highcharts for commerical use)
+
+* Line Chart
+* Bar Chart
+* Column Chart
+* Pie Chart
+
 
 
 ### Demo
