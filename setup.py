@@ -1,4 +1,4 @@
-VERSION = (0, 0, 1, "a", 0)  # following PEP 386
+VERSION = (0, 0, 2, "a", 0)  # following PEP 386
 DEV_N = None
 
 import os
@@ -39,7 +39,7 @@ def find_package_data(
     exclude=standard_exclude,
     exclude_directories=standard_exclude_directories,
     only_in_packages=True,
-    show_ignored=False):
+    show_ignored=True):
     """
     Return a dictionary suitable for use in ``package_data``
     in a distutils ``setup.py`` file.
@@ -122,7 +122,7 @@ setup(
     license="BSD",
     url="http://github.com/agiliq/django-graphos",
     packages=find_packages(),
-    package_data=find_package_data("graphos"),
+    package_data=find_package_data("graphos", only_in_packages=False),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
