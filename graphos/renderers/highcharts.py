@@ -20,6 +20,10 @@ class BaseHighCharts(BaseChart):
     def get_categories(self):
         return json.dumps(column(self.get_data(), 0)[1:])
 
+    def get_x_axis_title(self):
+        return self.get_data()[0][0]
+
+
 
 class LineChart(BaseHighCharts):
     def get_chart_type(self):

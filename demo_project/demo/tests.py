@@ -23,5 +23,12 @@ class SimpleTest(TestCase):
     def test_demo_flot_demo(self):
         self.client.get(reverse('demo_flot_demo'))
 
+    def test_demo_morris_demo(self):
+        self.client.get(reverse('demo_morris_demo'))
+
+    def test_demo_highcharts_demo(self):
+        self.client.get(reverse('demo_highcharts_demo'))
+
+
     def test_demo_time_series_example(self):
         self.client.get(reverse('demo_time_series_example'))
