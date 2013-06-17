@@ -83,8 +83,8 @@ def tutorial(request):
 class GChartDemo(Demo):
     template_name = "demo/gchart.html"
 
-    def get_context_data(self):
-        context = super(GChartDemo, self).get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super(GChartDemo, self).get_context_data(**kwargs)
         candlestick_chart = gchart.CandlestickChart(SimpleDataSource
                                                     (data=candlestick_data))
         context.update({'candlestick_chart': candlestick_chart})
