@@ -28,7 +28,8 @@ from dateutil.parser import parse
 class Demo(TemplateView):
     renderer = None
 
-    def get_context_data(self):
+    def get_context_data(self, **kwargs):
+        super_context = super(Demo, self).get_context_data(**kwargs)
         create_demo_accounts()
         queryset = Account.objects.all()
         data_source = ModelDataSource(queryset,
@@ -42,7 +43,7 @@ class Demo(TemplateView):
                                     options={'title': "Expense Growth"})
         pie_chart = self.renderer.PieChart(data_source)
 
-        return {
+        context = {
                 "data_source": data_source,
                 "simple_data_source": simple_data_source,
                 "line_chart": line_chart,
@@ -50,6 +51,8 @@ class Demo(TemplateView):
                 'bar_chart': bar_chart,
                 'pie_chart': pie_chart,
                 }
+        context.update(super_context)
+        return context
 
 
 def home(request):
