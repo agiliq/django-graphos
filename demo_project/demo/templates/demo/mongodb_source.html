@@ -117,6 +117,38 @@
 		plotAccordingToChoices();
 	});
 
+	$(function(){
+		$("#get-data-1").on("click", function(){
+			$.getJSON("/mongo-json/", function(data){
+
+			data_custom.push(data);
+			console.log(data_custom);
+			$.plot($("#custom_chart"), data_custom, {});
+			});
+		return false;
+		});
+		$("#get-data-2").on("click", function(){
+			$.getJSON("/mongo-json2/", function(data){
+
+			data_custom.push(data);
+			console.log(data_custom);
+			$.plot($("#custom_chart"), data_custom, {});
+			});
+		return false;
+		});
+		$("#replot").on("click", function(){
+			fields = ["Year"]
+			$('input[name="field_names"]:checked').each(function(){
+			    fields.push($(this).val())
+			});
+			$.getJSON("/mongo-json-multi/", {fields: fields}, function(data){
+			    console.log(data)
+			    $.plot($("#custom_chart2"), data, {});
+			})
+			console.log(fields)
+		});
+
+	});
 	</script>
 {% endblock %}
 
@@ -147,5 +179,26 @@
 		<div id="chart_3">
 
 			{{ chart_3.as_html }}
+			<a href="#" class="btn" id="get-data-1">Plot Items Sold</a>
+			<a href="#" class="btn" id="get-data-2">Plot Net Profit</a>
+		</div>
+
+		<div id="chart_4">
+
+			{{ chart_4.as_html }}
+			<label class="checkbox">
+				<input type="checkbox" name="field_names" value="Sales" checked="checked">Sales
+		    </label>
+		    <label class="checkbox">
+				<input type="checkbox" name="field_names" value="Expenses">Expenses
+		    </label>
+		    <label class="checkbox">
+				<input type="checkbox" name="field_names" value="Items Sold">Items Sold
+		    </label>
+		    <label class="checkbox">
+				<input type="checkbox" name="field_names" value="Net Profit">Net Profit
+		    </label>
+		    <button type="submit" class="btn" id="replot">Replot</button>
 		</div>
 {% endblock %}
+nam

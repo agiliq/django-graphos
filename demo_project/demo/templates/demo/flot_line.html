@@ -1,0 +1,11 @@
+<div id="custom_chart" style="width:{{ chart.width }}px;height:{{ chart.height }}px;"></div>
+<script type="text/javascript">
+$(function () {
+    data_custom = {{ chart.get_series_objects_json|safe }}
+    $plot_custom = $.plot(
+        $("#custom_chart"),
+        data_custom,
+        {{ chart.get_options_json|safe }}
+    );
+});
+</script>
