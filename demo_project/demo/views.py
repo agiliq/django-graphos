@@ -2,18 +2,17 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
-from graphos.renderers import gchart, yui, flot, morris, highcharts
+from graphos.renderers import gchart, yui, flot, morris, highcharts, matplotlib_renderer
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
-from graphos.views import RendererAsJson
-
+from graphos.views import FlotAsJson, RendererAsJson
 from .models import Account
 from .utils import get_mongo_cursor
 from .utils import (data, candlestick_data,
                     mongo_series_object_1, mongo_series_object_2,
                     create_demo_accounts, create_demo_mongo, get_db)
-from .custom_charts import CustomGchart
+from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
 import json
 import time
@@ -22,6 +21,47 @@ import markdown
 import datetime
 import pymongo
 from dateutil.parser import parse
+
+class MongoJson(FlotAsJson):
+    def get_context_data(self, *args, **kwargs):
+        accounts_cursor = get_db("accounts").docs.find()
+        data_source = MongoDBDataSource(accounts_cursor,
+                                      fields=['Year', 'Items Sold'])
+        chart = flot.LineChart(data_source)
+        return {"chart": chart}
+
+
+mongo_json = MongoJson.as_view()
+
+class MongoJson2(FlotAsJson):
+    def get_context_data(self, *args, **kwargs):
+        accounts_cursor = get_db("accounts").docs.find()
+        data_source = MongoDBDataSource(accounts_cursor,
+                                      fields=['Year', 'Net Profit'])
+        chart = flot.LineChart(data_source)
+        return {"chart": chart}
+
+mongo_json2 = MongoJson2.as_view()
+
+
+class MongoJsonMulti(FlotAsJson):
+    def get_context_data(self, *args, **kwargs):
+        accounts_cursor = get_db("accounts").docs.find()
+        field_names = self.request.REQUEST.getlist("fields[]") or ['Year', 'Net Profit']
+        data_source = MongoDBDataSource(accounts_cursor,
+                                      fields=field_names)
+        chart = flot.LineChart(data_source)
+        return {"chart": chart}
+
+    def get(self, *args, **kwargs):
+        chart = self.get_context_data()["chart"]
+        return HttpResponse(json.dumps(chart.get_series_objects()))
+
+mongo_json_multi = MongoJsonMulti.as_view()
+
+def get_time_sereies_json(request):
+    get_query('year_ago', None,
+                      'employee=/example/employee/500ff1b8e147f74f7000000c/')
 
 
 
@@ -290,3 +330,8 @@ class GhcartRendererAsJson(RendererAsJson):
         return context
 
 custom_gchart_renderer = GhcartRendererAsJson.as_view()
+
+def matplotlib_demo(request):
+    line_chart = matplotlib_renderer.LineChart(SimpleDataSource(data=data))
+    context = {"line_chart": line_chart}
+    return render(request, 'demo/morris.html', context)

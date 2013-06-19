@@ -9,7 +9,12 @@ urlpatterns = patterns('',
     url(r'^flot/$', 'demo.views.flot_demo', name='demo_flot_demo'),
     url(r'^highcharts/$', 'demo.views.highcharts_demo', name='demo_highcharts_demo'),
     url(r'^morris/$', 'demo.views.morris_demo', name='demo_morris_demo'),
+    url(r'^matplotlib/$', 'demo.views.matplotlib_demo', name='demo_matplotlib_demo'),
     url(r'^time_series/$', 'demo.views.time_series_demo',
                            name='demo_time_series_example'),
-    url(r"^gchart-json/$", "demo.views.custom_gchart_renderer", name="demo_custom_gchart")
+    url(r"^gchart-json/$", "demo.views.custom_gchart_renderer", name="demo_custom_gchart"),
+    url(r"^mongo-json/$", "demo.views.mongo_json", name="demo_mongo_json"),
+    url(r"^mongo-json2/$", "demo.views.mongo_json2", name="demo_mongo_json2"),
+    url(r"^mongo-json-multi/$", "demo.views.mongo_json_multi", name="demo_mongo_json_multi"),
 )
+
