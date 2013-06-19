@@ -125,8 +125,8 @@ morris_demo = MorrisDemo.as_view(renderer=morris)
 class FlotDemo(Demo):
     template_name = 'demo/flot.html'
 
-    def get_context_data(self):
-        context = super(FlotDemo, self).get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super(FlotDemo, self).get_context_data(**kwargs)
         data_source = context["data_source"]
         point_chart = self.renderer.PointChart(data_source,
                                   options={'title': "Sales Growth"})
