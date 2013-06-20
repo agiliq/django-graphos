@@ -143,12 +143,12 @@ class MorrisDemo(TemplateView):
     template_name = 'demo/morris.html'
     renderer = None
 
-    def get_context_data(self):
+    def get_context_data(self, **kwargs):
+        super_context = super(MorrisDemo, self).get_context_data(**kwargs)
         create_demo_accounts()
         queryset = Account.objects.all()
         data_source = ModelDataSource(queryset,
                                       fields=['year', 'sales'])
-        simple_data_source = SimpleDataSource(data=data)
         line_chart = self.renderer.LineChart(data_source,
                                       options={'title': "Sales Growth"})
         bar_chart = self.renderer.BarChart(data_source,
@@ -157,6 +157,7 @@ class MorrisDemo(TemplateView):
         context = {"line_chart": line_chart,
                'bar_chart': bar_chart,
                'donut_chart': donut_chart}
+        context.update(super_context)
         return context
 
 
@@ -166,8 +167,8 @@ morris_demo = MorrisDemo.as_view(renderer=morris)
 class FlotDemo(Demo):
     template_name = 'demo/flot.html'
 
-    def get_context_data(self):
-        context = super(FlotDemo, self).get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super(FlotDemo, self).get_context_data(**kwargs)
         data_source = context["data_source"]
         point_chart = self.renderer.PointChart(data_source,
                                   options={'title': "Sales Growth"})
