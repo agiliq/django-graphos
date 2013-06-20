@@ -110,7 +110,7 @@ def home(request):
     return render(request, 'demo/home.html', context)
 
 
-@cache_page
+@cache_page(60*60*24)
 def tutorial(request):
     chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     url = "https://raw.github.com/agiliq/django-graphos/master/README.md"
