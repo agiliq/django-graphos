@@ -132,7 +132,6 @@ class TestMongoDBSource(TestCase):
 
     def tearDown(self):
         self.db.drop_collection(self.collection.name)
-        print self.db["zips"].find()
 
 
 class TestBaseRenderer(TestCase):
