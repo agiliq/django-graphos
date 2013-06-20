@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
+from django.http import HttpResponse
 
 from graphos.renderers import gchart, yui, flot, morris, highcharts, matplotlib_renderer
 from graphos.sources.simple import SimpleDataSource
