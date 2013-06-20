@@ -292,6 +292,9 @@ def time_series_demo(request):
                                       fields=['Year', 'Sales', 'Expenses'])
 
     chart_3 = gchart.LineChart(data_source_3)
+    data_source_4 = MongoDBDataSource(accounts_cursor,
+                                      fields=['Year', 'Sales'])
+    chart_4 = CustomFlot2(data_source_4)
     period = 'weekly'
     start = 'year_ago'
     end = None
@@ -313,7 +316,8 @@ def time_series_demo(request):
 
     context = {'datasets': json.dumps(datasets),
                'chart_2': chart_2,
-               "chart_3": chart_3
+               "chart_3": chart_3,
+               "chart_4": chart_4,
                }
     return render(request, 'demo/mongodb_source.html', context)
 
