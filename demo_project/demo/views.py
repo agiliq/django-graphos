@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
@@ -80,21 +80,31 @@ class MongoJsonMulti2(MongoJsonMulti):
             start = series["start_date"] or None
             end = series["end_date"] or None
             label = series.get("label") or "label"
+            color = series.get("color") or ""
+            is_bar = series.get("chart_type") == "bar"
+            show_points = bool(series.get("show_points"))
             query = get_query(start, end, series['filter'])
 
             for rec in db[collection].find(query):
                 rec_id = int(rec['_id'].split(':')[0]) / 100000
                 rec_val = rec["value"]
                 new_data_series.append([rec_id, rec_val])
-            row = {"data":new_data_series, "label": label}
+            row = {"data":new_data_series, "label": label, "color": color,
+                  }
+            if is_bar:
+                row["bars"] = {"show": True}
+            else:
+                row["lines"] = {"show": True}
+            if show_points:
+                row["points"] = {"show": True}
             data_series.append(row)
-            return data_series
+        return data_series
 
     def get(self, *args, **kwargs):
         if "delete" in self.request.REQUEST:
             if "series_list" in self.request.session:
                 del self.request.session["series_list"]
-            return HttpResponse("OK")
+            return redirect("demo_time_series_example")
         context = self.get_context_data()
         print len(context)
         print context
