@@ -60,10 +60,40 @@ class MongoJsonMulti(FlotAsJson):
 
 class MongoJsonMulti2(MongoJsonMulti):
     def get_context_data(self, *args, **kwargs):
-        old_series = self.request.session.get("series") or {}
+        series_list = self.request.session.get("series_list") or []
         new_series = self.request.REQUEST
-        series = old_series.update(new_series)
-        self.request.session["new_series"] = series
+        series_list.append(new_series)
+        self.request.session["series_list"] = series_list
+        db = get_db('charts')
+        data_series = []
+        for series in series_list:
+            collection = "mapreduce_%s__%s__%s__%s" % (
+                    series["resolution"],
+                    "sumof",
+                    series["resource"],
+                    "hours"
+                    )
+            new_data_series = []
+            start = series["start_date"] or None
+            end = series["end_date"] or None
+
+            query = get_query(start, end, series['filter'])
+
+            for rec in db[collection].find(query):
+                rec["id"] = int(rec['_id'].split(':')[0]) / 100000
+                del rec["_id"]
+                new_data_series.append(rec)
+            data_series.append(new_data_series)
+        return data_series
+
+    def get(self, *args, **kwargs):
+        if "delete" in self.request.REQUEST:
+            if "series_list" in self.request.session:
+                del self.request.session["series_list"]
+            return HttpResponse("OK")
+        context = self.get_context_data()
+        return HttpResponse(context)
+
 
 mongo_json_multi = MongoJsonMulti.as_view()
 mongo_json_multi2 = MongoJsonMulti2.as_view()

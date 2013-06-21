@@ -236,14 +236,13 @@
 
 		<br/>
 
-		Pick a filter:<br/>
+		Pick a filter:
 
-
-		<input type="checkbox" name="filter" value="employee=/example/employee/500ff1b8e147f74f7000000c/"> Employee 1<br/>
-
-		<input type="checkbox" name="filter" value="employee=/example/employee/500ff1b8e147f74f7000000d/"> Employee 2<br/>
-
-		<input type="checkbox" name="filter" value="client=/example/client/5045cc4ce147f79b4100001f/"> Client A<br/>
+		<select name="filter">
+			<option value="employee=/example/employee/500ff1b8e147f74f7000000c/" />Emp 1</option>
+			<option value="employee=/example/employee/500ff1b8e147f74f7000000d/" />Emp 2</option>
+			<option value="client=/example/client/5045cc4ce147f79b4100001f/" />Client A</option>
+		</select><br/>
 
 
 		Pick Resolution
@@ -296,6 +295,7 @@
 
 		<input type="checkbox" name="show_points" value="true">Show Points?<br/>
 		    <button type="submit" class="btn" id="id_add_series">Add Series</button>
+		    <a class="btn" id="id_del_all_series" href="{% url 'demo_mongo_json_multi2' %}?delete=yes">Remove All Series</a>
 
 		</div>
 	</form>
