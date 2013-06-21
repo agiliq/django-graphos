@@ -147,19 +147,20 @@
 			})
 			console.log(fields)
 		});
+		time_series_options = {xaxis: {mode: "time"}}
 		$("#id_add_series").on("click", function(e){
 			var resolution = $("#id_resolution").val();
 			var color = $("id_color");
 			label = $("#id_label")
 			var post_data = $("#id_chart_5").serialize();
 			$.getJSON("/mongo-json-multi2/", post_data, function(data){
-				$("#chart_5_holder").plot(data);
+				$("#chart_5_holder").plot(data, time_series_options);
 			});
 			e.preventDefault();
 		});
 		update_chart_5 = function(){
 			$.getJSON("/mongo-json-multi2/", function(data){
-			    $("#chart_5_holder").plot(data);
+			    $("#chart_5_holder").plot(data, time_series_options);
 			});
 		}
 		update_chart_5();

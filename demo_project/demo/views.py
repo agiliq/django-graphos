@@ -86,7 +86,7 @@ class MongoJsonMulti2(MongoJsonMulti):
             query = get_query(start, end, series['filter'])
 
             for rec in db[collection].find(query):
-                rec_id = int(rec['_id'].split(':')[0]) / 100000
+                rec_id = int(rec['_id'].split(':')[0])
                 rec_val = rec["value"]
                 new_data_series.append([rec_id, rec_val])
             row = {"data":new_data_series, "label": label, "color": color,
