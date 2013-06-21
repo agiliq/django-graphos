@@ -58,7 +58,15 @@ class MongoJsonMulti(FlotAsJson):
         chart = self.get_context_data()["chart"]
         return HttpResponse(json.dumps(chart.get_series_objects()))
 
+class MongoJsonMulti2(MongoJsonMulti):
+    def get_context_data(self, *args, **kwargs):
+        old_series = self.request.session.get("series") or {}
+        new_series = self.request.REQUEST
+        series = old_series.update(new_series)
+        self.request.session["new_series"] = series
+
 mongo_json_multi = MongoJsonMulti.as_view()
+mongo_json_multi2 = MongoJsonMulti2.as_view()
 
 def get_time_sereies_json(request):
     get_query('year_ago', None,
@@ -185,6 +193,7 @@ highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
 
 def smart_date(value):
 
+
     if type(value) == datetime.datetime:
         return value
 
@@ -234,7 +243,6 @@ def build_timeseries_chart(period,
                            start=None,
                            end=None):
     datasets = {}
-
     db = get_db('charts')
     data_source = []
     for i in range(len(series)):

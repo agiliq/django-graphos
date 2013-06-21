@@ -147,6 +147,14 @@
 			})
 			console.log(fields)
 		});
+		$("#id_add_series").on("click", function(e){
+			var resolution = $("#id_resolution").val();
+			var color = $("id_color");
+			label = $("#id_label")
+			var post_data = $("#id_chart_5").serialize();
+			$.getJSON("/mongo-json-multi2/", post_data);
+			e.preventDefault();
+		});
 
 	});
 	</script>
@@ -200,5 +208,97 @@
 		    </label>
 		    <button type="submit" class="btn" id="replot">Replot</button>
 		</div>
+
+		<div id="chart_5">
+
+		<h2>Chart 5</h2>
+
+		Pick Table
+
+		<form name="chart5_form" id="id_chart_5">
+			<select name="resource">
+
+			<option value="time_record">Time Record</option>
+
+			<option value="other_time_record">Other Time Record</option>
+
+			</select>
+
+			<br/>
+
+		Pick Field:
+
+		<select name="field">
+
+		<option value="hours">Hours</option>
+
+		</select>
+
+		<br/>
+
+		Pick a filter:<br/>
+
+
+		<input type="checkbox" name="filter" value="employee=/example/employee/500ff1b8e147f74f7000000c/"> Employee 1<br/>
+
+		<input type="checkbox" name="filter" value="employee=/example/employee/500ff1b8e147f74f7000000d/"> Employee 2<br/>
+
+		<input type="checkbox" name="filter" value="client=/example/client/5045cc4ce147f79b4100001f/"> Client A<br/>
+
+
+		Pick Resolution
+
+		<select name="resolution" id="id_resolution">
+
+			<option value="daily">Daily</option>
+
+			<option value="weekly">Weekly</option>
+
+			<option value="monthly">Monthly</option>
+
+		</select>
+
+		<br/>
+
+
+		Pick Color:
+
+		<input type="color" name="color" id="id_color"><br/>
+
+
+		Add a label
+
+		<input type="text" name="label" id="id_label"><br/>
+
+
+		Start Date
+
+		<input type="text" name="start_date" id="id_start_date"><br/>
+
+
+		End Date
+
+		<input type="text" name="end_date" id="id_end_date"><br/>
+
+
+		Chart Type
+
+		<select name="chart_type" id="id_chart_type">
+
+			<option value="bar">Bar</option>
+
+			<option value="line">Line</option>
+
+		</select>
+
+
+		<br/>
+
+		<input type="checkbox" name="show_points" value="true">Show Points?<br/>
+		    <button type="submit" class="btn" id="id_add_series">Add Series</button>
+
+		</div>
+	</form>
+
 {% endblock %}
 nam
