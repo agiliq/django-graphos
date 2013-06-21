@@ -61,12 +61,15 @@ class MongoJsonMulti(FlotAsJson):
 class MongoJsonMulti2(MongoJsonMulti):
     def get_context_data(self, *args, **kwargs):
         series_list = self.request.session.get("series_list") or []
-        new_series = self.request.REQUEST
-        series_list.append(new_series)
-        self.request.session["series_list"] = series_list
+        new_series = self.request.GET
+        if new_series:
+            series_list.append(new_series)
+            self.request.session["series_list"] = series_list
         db = get_db('charts')
         data_series = []
         for series in series_list:
+            if not series:
+                continue
             collection = "mapreduce_%s__%s__%s__%s" % (
                     series["resolution"],
                     "sumof",
@@ -76,15 +79,16 @@ class MongoJsonMulti2(MongoJsonMulti):
             new_data_series = []
             start = series["start_date"] or None
             end = series["end_date"] or None
-
+            label = series.get("label") or "label"
             query = get_query(start, end, series['filter'])
 
             for rec in db[collection].find(query):
-                rec["id"] = int(rec['_id'].split(':')[0]) / 100000
-                del rec["_id"]
-                new_data_series.append(rec)
-            data_series.append(new_data_series)
-        return data_series
+                rec_id = int(rec['_id'].split(':')[0]) / 100000
+                rec_val = rec["value"]
+                new_data_series.append([rec_id, rec_val])
+            row = {"data":new_data_series, "label": label}
+            data_series.append(row)
+            return data_series
 
     def get(self, *args, **kwargs):
         if "delete" in self.request.REQUEST:
@@ -92,7 +96,9 @@ class MongoJsonMulti2(MongoJsonMulti):
                 del self.request.session["series_list"]
             return HttpResponse("OK")
         context = self.get_context_data()
-        return HttpResponse(context)
+        print len(context)
+        print context
+        return HttpResponse(json.dumps(context))
 
 
 mongo_json_multi = MongoJsonMulti.as_view()

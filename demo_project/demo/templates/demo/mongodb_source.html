@@ -152,9 +152,18 @@
 			var color = $("id_color");
 			label = $("#id_label")
 			var post_data = $("#id_chart_5").serialize();
-			$.getJSON("/mongo-json-multi2/", post_data);
+			$.getJSON("/mongo-json-multi2/", post_data, function(data){
+				$("#chart_5_holder").plot(data);
+			});
 			e.preventDefault();
 		});
+		update_chart_5 = function(){
+			$.getJSON("/mongo-json-multi2/", function(data){
+			    $("#chart_5_holder").plot(data);
+			});
+		}
+		update_chart_5();
+
 
 	});
 	</script>
@@ -209,7 +218,7 @@
 		    <button type="submit" class="btn" id="replot">Replot</button>
 		</div>
 
-		<div id="chart_5">
+		<div id="chart_5_holder" style="width:800px;height:400px;"></div>
 
 		<h2>Chart 5</h2>
 
@@ -297,7 +306,6 @@
 		    <button type="submit" class="btn" id="id_add_series">Add Series</button>
 		    <a class="btn" id="id_del_all_series" href="{% url 'demo_mongo_json_multi2' %}?delete=yes">Remove All Series</a>
 
-		</div>
 	</form>
 
 {% endblock %}
