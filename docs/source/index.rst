@@ -25,7 +25,7 @@ It provides various renderers.
 * Morris.js
 (And more)
 
-Graphos makes it very easy to switch between deifferent data source and renderers.
+Graphos makes it very easy to switch between different data source and renderers.
 
 Are you building your charts with Flot but would like to later switch to Gchart? In many cases, it might be as easy as switching an import statement. 
 
