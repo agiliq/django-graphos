@@ -1,6 +1,10 @@
 Using flot with Django-graphos
 ==========================================
 
+Include the js in your html::
+
+    <script src="{% sttaic 'js/jquery.flot.js' %}"></script>
+
 Create a data source.::
 
     from graphos.sources.model import ModelDataSource
