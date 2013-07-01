@@ -23,7 +23,7 @@ It provides various renderers.
 * Google charts
 * YUI
 * Morris.js
-(And more)
+* (And more)
 
 Graphos makes it very easy to switch between different data source and renderers.
 
@@ -38,6 +38,8 @@ Are you building your charts with Flot but would like to later switch to Gchart?
    flot
    google-charts
    ajax
+   custom-data-source
+   custom-charts
 
 
 
