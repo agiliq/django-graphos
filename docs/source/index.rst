@@ -8,9 +8,28 @@ Welcome to Django Graphos's documentation!
 
 Contents:
 
-Django-graphos is a tool to create Graphs. (doh).
+Django-graphos is a tool to create Graphs. (doh). 
+There are two things which Graphos gives you over a low level graph manupulation.
 
-It supports various backends.
+It provides various data sources.
+
+* SimpleDataSource - Use a Python list
+* ModelDataSource 
+* MongoDataSource
+
+It provides various renderers.
+
+* Flot
+* Google charts
+* YUI
+* Morris.js
+(And more)
+
+Graphos makes it very easy to switch between deifferent data source and renderers.
+
+Are you building your charts with Flot but would like to later switch to Gchart? In many cases, it might be as easy as switching an import statement. 
+
+
 
 .. toctree::
    :maxdepth: 2
