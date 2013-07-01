@@ -18,7 +18,7 @@ Create a data source.::
 
 Pass the ``data_source`` to a `gchart`::
 
-    from graphos.renderers import flot
+    from graphos.renderers import gchart
     chart = gchart.LineChart(data_source)
 
 You can render this chart in the template by ``{{ point_chart.as_html }}``.
