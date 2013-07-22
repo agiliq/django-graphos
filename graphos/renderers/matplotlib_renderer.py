@@ -18,7 +18,7 @@ class BaseMatplotlibChart(BaseChart):
         return serieses
 
 
-class LineChart(BaseChart):
+class LineChart(BaseMatplotlibChart):
     def get_template(self):
         return "graphos/matplotlib_renderer/line_chart.html"
 
