@@ -375,6 +375,7 @@ def time_series_demo(request):
                }
     return render(request, 'demo/mongodb_source.html', context)
 
+
 class GhcartRendererAsJson(RendererAsJson):
 
     def get_context_data(self):
@@ -390,7 +391,8 @@ class GhcartRendererAsJson(RendererAsJson):
 
 custom_gchart_renderer = GhcartRendererAsJson.as_view()
 
+
 def matplotlib_demo(request):
     line_chart = matplotlib_renderer.LineChart(SimpleDataSource(data=data))
     context = {"line_chart": line_chart}
-    return render(request, 'demo/morris.html', context)
+    return render(request, 'demo/matplotlib.html', context)
