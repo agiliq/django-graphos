@@ -5,6 +5,19 @@ import StringIO
 import base64
 
 
+class BaseMatplotlibChart(BaseChart):
+
+    def get_serieses(self):
+        data_only = self.get_data()[1:]
+        first_column = [el[0] for el in data_only]
+        serieses = []
+        for i in range(1, len(self.header)):
+            current_column = [el[i] for el in data_only]
+            current_series = zip(first_column, current_column)
+            serieses.append(current_series)
+        return serieses
+
+
 class LineChart(BaseChart):
     def get_template(self):
         return "graphos/matplotlib_renderer/line_chart.html"
