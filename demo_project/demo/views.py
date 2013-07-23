@@ -375,6 +375,7 @@ def time_series_demo(request):
                }
     return render(request, 'demo/mongodb_source.html', context)
 
+
 class GhcartRendererAsJson(RendererAsJson):
 
     def get_context_data(self):
@@ -390,7 +391,15 @@ class GhcartRendererAsJson(RendererAsJson):
 
 custom_gchart_renderer = GhcartRendererAsJson.as_view()
 
+
 def matplotlib_demo(request):
+
+    data = [['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+            [2004, 1000, 400, 100, 600],
+            [2005, 1170, 460, 120, 310],
+            [2006, 660, 1120, 50, -460],
+            [2007, 1030, 540, 100, 200]]
+
     line_chart = matplotlib_renderer.LineChart(SimpleDataSource(data=data))
     context = {"line_chart": line_chart}
-    return render(request, 'demo/morris.html', context)
+    return render(request, 'demo/matplotlib.html', context)
