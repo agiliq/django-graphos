@@ -9,12 +9,10 @@ class BaseMatplotlibChart(BaseChart):
 
     def get_serieses(self):
         data_only = self.get_data()[1:]
-        first_column = [el[0] for el in data_only]
         serieses = []
-        for i in range(1, len(self.header)):
+        for i in range(0, len(self.header)):
             current_column = [el[i] for el in data_only]
-            current_series = zip(first_column, current_column)
-            serieses.append(current_series)
+            serieses.append(current_column)
         return serieses
 
 
@@ -23,16 +21,13 @@ class LineChart(BaseMatplotlibChart):
         return "graphos/matplotlib_renderer/line_chart.html"
 
     def get_image(self):
-        import numpy as np
         import matplotlib.pyplot as plt
         out = StringIO.StringIO()
+        serieses = self.get_serieses()
+        for i in range(1, len(serieses)):
+            plt.plot(serieses[0], serieses[i])
 
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-
-        x = np.random.normal(0,1,1000)
-        numBins = 50
-        ax.hist(x,numBins,color='green',alpha=0.8)
+        plt.axis("off")
         plt.savefig(out)
         out.seek(0)
-        return "data:image/png;base64,%s"%base64.encodestring(out.read())
+        return "data:image/png;base64,%s" % base64.encodestring(out.read())
