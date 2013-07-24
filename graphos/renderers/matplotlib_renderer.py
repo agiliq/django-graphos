@@ -7,6 +7,9 @@ import base64
 
 class BaseMatplotlibChart(BaseChart):
 
+    def get_template(self):
+        return "graphos/matplotlib_renderer/line_chart.html"
+
     def get_serieses(self):
         data_only = self.get_data()[1:]
         serieses = []
@@ -17,8 +20,6 @@ class BaseMatplotlibChart(BaseChart):
 
 
 class LineChart(BaseMatplotlibChart):
-    def get_template(self):
-        return "graphos/matplotlib_renderer/line_chart.html"
 
     def get_image(self):
         import matplotlib.pyplot as plt
