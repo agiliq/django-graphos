@@ -23,12 +23,27 @@ class LineChart(BaseMatplotlibChart):
 
     def get_image(self):
         import matplotlib.pyplot as plt
-        out = StringIO.StringIO()
         serieses = self.get_serieses()
         for i in range(1, len(serieses)):
             plt.plot(serieses[0], serieses[i])
-
         plt.axis("off")
+        out = StringIO.StringIO()
+        plt.savefig(out)
+        out.seek(0)
+        return "data:image/png;base64,%s" % base64.encodestring(out.read())
+
+
+class BarChart(BaseMatplotlibChart):
+
+    def get_image(self):
+        import matplotlib.pyplot as plt
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        serieses = self.get_serieses()
+        for i in range(1, len(serieses)):
+            ax.bar(serieses[0], serieses[1], 0.35)
+        plt.axis("off")
+        out = StringIO.StringIO()
         plt.savefig(out)
         out.seek(0)
         return "data:image/png;base64,%s" % base64.encodestring(out.read())
