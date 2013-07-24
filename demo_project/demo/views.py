@@ -401,5 +401,7 @@ def matplotlib_demo(request):
             [2007, 1030, 540, 100, 200]]
 
     line_chart = matplotlib_renderer.LineChart(SimpleDataSource(data=data))
-    context = {"line_chart": line_chart}
+    bar_chart = matplotlib_renderer.BarChart(SimpleDataSource(data=data))
+    context = {"line_chart": line_chart,
+               "bar_chart": bar_chart}
     return render(request, 'demo/matplotlib.html', context)
