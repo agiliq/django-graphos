@@ -106,8 +106,6 @@ class MongoJsonMulti2(MongoJsonMulti):
                 del self.request.session["series_list"]
             return redirect("demo_time_series_example")
         context = self.get_context_data()
-        print len(context)
-        print context
         return HttpResponse(json.dumps(context))
 
 
@@ -393,12 +391,6 @@ custom_gchart_renderer = GhcartRendererAsJson.as_view()
 
 
 def matplotlib_demo(request):
-
-    data = [['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
-            [2004, 1000, 400, 100, 600],
-            [2005, 1170, 460, 120, 310],
-            [2006, 660, 1120, 50, -460],
-            [2007, 1030, 540, 100, 200]]
 
     line_chart = matplotlib_renderer.LineChart(SimpleDataSource(data=data))
     bar_chart = matplotlib_renderer.BarChart(SimpleDataSource(data=data))

@@ -14,7 +14,7 @@ class BaseMatplotlibChart(BaseChart):
         data_only = self.get_data()[1:]
         serieses = []
         for i in range(0, len(self.header)):
-            current_column = [el[i] for el in data_only]
+            current_column = [float(el[i]) for el in data_only]
             serieses.append(current_column)
         return serieses
 
