@@ -106,8 +106,6 @@ class MongoJsonMulti2(MongoJsonMulti):
                 del self.request.session["series_list"]
             return redirect("demo_time_series_example")
         context = self.get_context_data()
-        print len(context)
-        print context
         return HttpResponse(json.dumps(context))
 
 
