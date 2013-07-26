@@ -1,6 +1,6 @@
 #Named such to not clash with matplotlib
 from .base import BaseChart
-
+import matplotlib.pyplot as plt
 import StringIO
 import base64
 
@@ -22,7 +22,6 @@ class BaseMatplotlibChart(BaseChart):
 class LineChart(BaseMatplotlibChart):
 
     def get_image(self):
-        import matplotlib.pyplot as plt
         serieses = self.get_serieses()
         for i in range(1, len(serieses)):
             plt.plot(serieses[0], serieses[i])
@@ -36,7 +35,6 @@ class LineChart(BaseMatplotlibChart):
 class BarChart(BaseMatplotlibChart):
 
     def get_image(self):
-        import matplotlib.pyplot as plt
         fig = plt.figure()
         ax = fig.add_subplot(111)
         serieses = self.get_serieses()
