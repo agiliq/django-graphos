@@ -1,5 +1,8 @@
 #Named such to not clash with matplotlib
 from .base import BaseChart
+
+from matplotlib.ticker import FormatStrFormatter
+
 import matplotlib.pyplot as plt
 import StringIO
 import base64
@@ -22,10 +25,12 @@ class BaseMatplotlibChart(BaseChart):
 class LineChart(BaseMatplotlibChart):
 
     def get_image(self):
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
         serieses = self.get_serieses()
         for i in range(1, len(serieses)):
-            plt.plot(serieses[0], serieses[i])
-        plt.axis("off")
+            ax.plot(serieses[0], serieses[i])
+        ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
         out = StringIO.StringIO()
         plt.savefig(out)
         out.seek(0)
@@ -40,7 +45,7 @@ class BarChart(BaseMatplotlibChart):
         serieses = self.get_serieses()
         for i in range(1, len(serieses)):
             ax.bar(serieses[0], serieses[1], 0.35)
-        plt.axis("off")
+        ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
         out = StringIO.StringIO()
         plt.savefig(out)
         out.seek(0)
