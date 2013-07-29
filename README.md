@@ -59,6 +59,10 @@ Graphos is a Django app to plot data into a live graph. Demo at [http://agiliq.c
 * Column Chart
 * Pie Chart
 
+#### Matplotlib
+
+* LineChart
+* BarChart
 
 
 ### Demo
