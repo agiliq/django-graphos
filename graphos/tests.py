@@ -8,7 +8,7 @@ from .sources.csv_file import CSVDataSource
 from .sources.model import ModelDataSource
 from .sources.mongo import MongoDBDataSource
 
-from .renderers import base, flot, gchart, yui
+from .renderers import base, flot, gchart, yui, matplotlib_renderer
 from .exceptions import GraphosException
 from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_default_options, get_db
 
@@ -332,3 +332,22 @@ class TestYUIRenderer(TestCase):
         chart = yui.LineChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("line" in chart.as_html())
+
+
+class TestMatplotlibRenderer(TestCase):
+    def setUp(self):
+        data = [['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                ['2004', 1000, 400, 100, 600],
+                ['2005', 1170, 460, 120, 310],
+                ['2006', 660, 1120, 50, -460],
+                ['2007', 1030, 540, 100, 200]]
+        self.data_source = SimpleDataSource(data)
+        self.data = data
+
+    def test_line_chart(self):
+        chart = matplotlib_renderer.LineChart(self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_bar_chart(self):
+        chart = matplotlib_renderer.BarChart(self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
