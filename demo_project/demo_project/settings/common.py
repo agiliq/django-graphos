@@ -5,7 +5,7 @@ import sys
 PROJECT_DIR = os.getcwd()
 PYTHON_BIN = os.path.dirname(sys.executable)
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
