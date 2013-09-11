@@ -3,7 +3,7 @@
 {% block extra_head %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-    google.load("visualization", "1", {packages:["corechart"]});
+    google.load("visualization", "1", {packages:["corechart", "treemap"]});
 </script>
 <script>
   $(function(){
@@ -68,6 +68,10 @@
 
     <div id="pie_chart">
         {{ pie_chart.as_html }}
+    </div>
+
+    <div id="treemap_chart">
+        {{ treemap_chart.as_html }}
     </div>
 
     <div>

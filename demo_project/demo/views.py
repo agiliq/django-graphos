@@ -10,7 +10,7 @@ from graphos.sources.model import ModelDataSource
 from graphos.views import FlotAsJson, RendererAsJson
 from .models import Account
 from .utils import get_mongo_cursor
-from .utils import (data, candlestick_data,
+from .utils import (data, candlestick_data, treemap_data,
                     mongo_series_object_1, mongo_series_object_2,
                     create_demo_accounts, create_demo_mongo, get_db)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
@@ -180,7 +180,9 @@ class GChartDemo(Demo):
         context = super(GChartDemo, self).get_context_data(**kwargs)
         candlestick_chart = gchart.CandlestickChart(SimpleDataSource
                                                     (data=candlestick_data))
-        context.update({'candlestick_chart': candlestick_chart})
+        treemap_chart = gchart.TreeMapChart(SimpleDataSource(data=treemap_data))
+        context.update({'candlestick_chart': candlestick_chart,
+                       'treemap_chart': treemap_chart})
         return context
 
 gchart_demo = GChartDemo.as_view(renderer=gchart)
