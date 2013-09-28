@@ -178,9 +178,9 @@ class GChartDemo(Demo):
 
     def get_context_data(self, **kwargs):
         context = super(GChartDemo, self).get_context_data(**kwargs)
-        candlestick_chart = gchart.CandlestickChart(SimpleDataSource
+        candlestick_chart = self.renderer.CandlestickChart(SimpleDataSource
                                                     (data=candlestick_data))
-        treemap_chart = gchart.TreeMapChart(SimpleDataSource(data=treemap_data))
+        treemap_chart = self.renderer.TreeMapChart(SimpleDataSource(data=treemap_data))
         context.update({'candlestick_chart': candlestick_chart,
                        'treemap_chart': treemap_chart})
         return context
