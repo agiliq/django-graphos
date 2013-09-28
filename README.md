@@ -36,6 +36,7 @@ Graphos is a Django app to plot data into a live graph. Demo at [http://agiliq.c
 * Bar chart
 * Candlestick charts
 * Pie chart
+* Treemap chart
 
 #### YUI
 

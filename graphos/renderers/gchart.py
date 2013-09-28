@@ -33,3 +33,8 @@ class CandlestickChart(BaseChart):
 class PieChart(BaseChart):
     def get_template(self):
         return "graphos/gchart/pie_chart.html"
+
+
+class TreeMapChart(BaseChart):
+    def get_template(self):
+        return "graphos/gchart/treemap_chart.html"
