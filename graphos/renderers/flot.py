@@ -35,8 +35,11 @@ class BaseFlotChart(BaseChart):
         options.update(self.options)
         return options
 
-    def get_template(self):
-        return 'graphos/flot.html'
+    def get_html_template(self):
+        return 'graphos/flot/html.html'
+
+    def get_js_template(self):
+        return 'graphos/js/html.html'
 
 
 class PointChart(BaseFlotChart):
@@ -72,5 +75,6 @@ class ColumnChart(BaseFlotChart):
         options["horizontal"] = True
         return options
 
+
 class PieChart(BaseFlotChart):
-    pass  #TODO
+    pass  # TODO

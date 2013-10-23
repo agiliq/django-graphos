@@ -33,11 +33,28 @@ class BaseChart(object):
         return json.dumps(self.get_options())
 
     def get_template(self):
+        return 'graphos/as_html.html'
+
+    def get_html_template(self):
+        raise GraphosException("Not Implemented")
+
+    def get_js_template(self):
         raise GraphosException("Not Implemented")
 
     def get_html_id(self):
         return self.html_id
 
     def as_html(self):
-        context = {"chart": self}
+        context = {
+            'html': self.render_html(),
+            'js': self.render_js(),
+        }
         return render_to_string(self.get_template(), context)
+
+    def render_html(self):
+        context = {"chart": self}
+        return render_to_string(self.get_html_template(), context)
+
+    def render_js(self):
+        context = {"chart": self}
+        return render_to_string(self.get_js_template(), context)

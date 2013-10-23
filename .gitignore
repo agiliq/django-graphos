@@ -4,4 +4,4 @@
 demo_project/demo_project/settings/local.py
 build/
 dist/
-
+.*
