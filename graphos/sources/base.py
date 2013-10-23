@@ -1,5 +1,4 @@
 """Base Plot Data Handler"""
-
 from ..exceptions import GraphosException
 
 
@@ -19,3 +18,9 @@ class BaseDataSource(object):
         "Get the first column. Generally would be the x axis."
         "Subclasses should override this"
         raise GraphosException("Not Implemented")
+
+    def to_json(self, data):
+        "Serialize some data to json."
+        "Subclasses should override this"
+        raise GraphosException("Not Implemented")
+

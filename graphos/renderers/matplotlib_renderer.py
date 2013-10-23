@@ -1,11 +1,11 @@
 #Named such to not clash with matplotlib
-from .base import BaseChart
-
-from matplotlib.ticker import FormatStrFormatter
-
 import matplotlib.pyplot as plt
 import StringIO
 import base64
+
+from matplotlib.ticker import FormatStrFormatter
+
+from .base import BaseChart
 
 
 class BaseMatplotlibChart(BaseChart):

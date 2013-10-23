@@ -1,7 +1,4 @@
 from .base import BaseChart
-from django.template.loader import render_to_string
-
-import json
 
 
 class BaseYuiChart(BaseChart):
@@ -12,7 +9,7 @@ class BaseYuiChart(BaseChart):
         for row in data_only:
             rows.append(dict(zip(header, row)))
 
-        return json.dumps(rows)
+        return self.data_source.to_json(rows)
 
     def get_category_key(self):
         return self.data_source.get_header()[0]
@@ -31,6 +28,7 @@ class BarChart(BaseYuiChart):
 class ColumnChart(BaseYuiChart):
     def get_template(self):
         return "graphos/yui/column_chart.html"
+
 
 class PieChart(BaseYuiChart):
     def get_template(self):

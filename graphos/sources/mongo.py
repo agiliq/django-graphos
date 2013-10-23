@@ -1,6 +1,6 @@
 """ Mongodb Plot Data Source """
 
-from .base import BaseDataSource
+from .simple import SimpleDataSource
 
 
 def get_row(doc, fields):
@@ -14,7 +14,7 @@ def get_row(doc, fields):
     return current_row
 
 
-class MongoDBDataSource(BaseDataSource):
+class MongoDBDataSource(SimpleDataSource):
     """ MongoDBDataSource """
 
     def __init__(self,
@@ -37,9 +37,3 @@ class MongoDBDataSource(BaseDataSource):
             doc_list.append(current_row)
         self._doc_list = doc_list
         return doc_list
-
-    def get_header(self):
-        return self.fields
-
-    def get_first_column(self):
-        return self.fields

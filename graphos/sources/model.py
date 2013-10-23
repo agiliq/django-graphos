@@ -1,4 +1,7 @@
 """ Model Plot Data Handler"""
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+
 from .simple import SimpleDataSource
 
 
@@ -23,3 +26,6 @@ class ModelDataSource(SimpleDataSource):
         for row in self.queryset:
             data.append(get_field_values(row, self.fields))
         return data
+
+    def to_json(self, data):
+        return json.dumps(data, cls=DjangoJSONEncoder)
