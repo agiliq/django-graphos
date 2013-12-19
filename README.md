@@ -123,7 +123,10 @@ Todo
 Todo
 
 ### Installation
-Todo - need to publish the app at Pypi after competion
+
+pip install django-graphos
+
+[available on pypi](https://pypi.python.org/pypi/django-graphos/)
 
 
 ### Creating new DataSource
