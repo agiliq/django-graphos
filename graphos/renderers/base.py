@@ -16,6 +16,7 @@ class BaseChart(object):
         self.width = width or DEFAULT_WIDTH
         self.options = options or {}
         self.header = data_source.get_header()
+        self.context_data = kwargs
 
     def get_data(self):
         return self.data_source.get_data()
@@ -37,6 +38,9 @@ class BaseChart(object):
 
     def get_html_id(self):
         return self.html_id
+
+    def get_context_data(self):
+        return self.context_data
 
     def as_html(self):
         context = {"chart": self}
