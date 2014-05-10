@@ -14,7 +14,7 @@ new Morris.{{ chart.chart_type }}({
   // chart.
   labels: {{ chart.get_y_keys|safe }}
   // post units
-  postUnits: '{{ chart.get_options.postUnits }}',
-  preUnits: '{{ chart.get_options.preUnits }}',
+  postUnits: '{{ chart.get_options.postUnits|safe }}',
+  preUnits: '{{ chart.get_options.preUnits|safe }}',
 });
 </script>
