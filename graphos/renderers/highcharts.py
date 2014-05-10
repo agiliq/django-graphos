@@ -15,10 +15,10 @@ class BaseHighCharts(BaseChart):
         serieses = []
         for i, name in enumerate(series_names):
             serieses.append({"name": name, "data": column(data, i+1)[1:]})
-        return json.dumps(serieses)
+        return json.dumps(serieses, cls=self.encoder)
 
     def get_categories(self):
-        return json.dumps(column(self.get_data(), 0)[1:])
+        return json.dumps(column(self.get_data(), 0)[1:], cls=self.encoder)
 
     def get_x_axis_title(self):
         return self.get_data()[0][0]
