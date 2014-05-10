@@ -13,5 +13,8 @@ new Morris.{{ chart.chart_type }}({
   // Labels for the ykeys -- will be displayed when you hover over the
   // chart.
   labels: {{ chart.get_y_keys|safe }}
+  // post units
+  postUnits: '{{ chart.get_options.postUnits }}',
+  preUnits: '{{ chart.get_options.preUnits }}',
 });
 </script>
