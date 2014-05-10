@@ -17,7 +17,10 @@ class BaseMorrisChart(BaseChart):
         return self.data_source.get_header()[0]
 
     def get_y_keys(self):
-        return json.dumps(self.data_source.get_header()[1:], cls=self.encoder)
+        try:
+            return json.dumps(self.options['ykeys'], cls=self.encoder)
+        except KeyError:
+            return json.dumps(self.data_source.get_header()[1:], cls=self.encoder)
 
 
     def get_template(self):
