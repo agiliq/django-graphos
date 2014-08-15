@@ -39,7 +39,7 @@ class BaseFlotChart(BaseChart):
         return 'graphos/flot/html.html'
 
     def get_js_template(self):
-        return 'graphos/js/html.html'
+        return 'graphos/flot/js.html'
 
 
 class PointChart(BaseFlotChart):

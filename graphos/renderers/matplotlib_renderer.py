@@ -1,9 +1,10 @@
 #Named such to not clash with matplotlib
 from .base import BaseChart
 
-from matplotlib.ticker import FormatStrFormatter
-
+import matplotlib
+matplotlib.use('Agg')  # http://stackoverflow.com/a/4706614/202168
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 import StringIO
 import base64
 
