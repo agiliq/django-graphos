@@ -37,3 +37,7 @@ class MongoDBDataSource(SimpleDataSource):
             doc_list.append(current_row)
         self._doc_list = doc_list
         return doc_list
+
+    @property
+    def data(self):
+        return self.get_data()

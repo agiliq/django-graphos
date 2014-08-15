@@ -128,7 +128,10 @@ class TestMongoDBSource(TestCase):
         self.assertTrue(hasattr(self.data_source, 'get_first_column'))
         self.assertEqual(self.data, self.data_source.get_data())
         self.assertEqual(self.fields, self.data_source.get_header())
-        self.assertEqual(self.fields, self.data_source.get_first_column())
+        self.assertEqual(
+            [el[0] for el in self.data[1:]],
+            self.data_source.get_first_column()
+        )
 
     def tearDown(self):
         self.db.drop_collection(self.collection.name)
