@@ -1,8 +1,4 @@
 from .base import BaseChart
-import json
-
-
-from django.template.loader import render_to_string
 
 
 class BaseHighCharts(BaseChart):
@@ -15,14 +11,13 @@ class BaseHighCharts(BaseChart):
         serieses = []
         for i, name in enumerate(series_names):
             serieses.append({"name": name, "data": column(data, i+1)[1:]})
-        return json.dumps(serieses)
+        return self.data_source.to_json(serieses)
 
     def get_categories(self):
-        return json.dumps(column(self.get_data(), 0)[1:])
+        return self.data_source.to_json(column(self.get_data(), 0)[1:])
 
     def get_x_axis_title(self):
         return self.get_data()[0][0]
-
 
 
 class LineChart(BaseHighCharts):
