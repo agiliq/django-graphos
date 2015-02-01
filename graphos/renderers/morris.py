@@ -1,7 +1,6 @@
 from .base import BaseChart
 import json
 
-from django.template.loader import render_to_string
 
 class BaseMorrisChart(BaseChart):
     def get_data_json(self):
@@ -19,10 +18,16 @@ class BaseMorrisChart(BaseChart):
     def get_y_keys(self):
         return json.dumps(self.data_source.get_header()[1:])
 
-
     def get_template(self):
         return "graphos/morris/chart.html"
 
+    def get_options(self):
+        options = self.options
+        if 'title' not in options:
+            options['title'] = "'Chart'"
+        if 'labels' not in options:
+            options['labels'] = self.get_y_keys()
+        return options
 
 
 class LineChart(BaseMorrisChart):
