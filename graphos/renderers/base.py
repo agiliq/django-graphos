@@ -2,7 +2,7 @@ import json
 
 from django.template.loader import render_to_string
 from ..exceptions import GraphosException
-from ..utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string
+from ..utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string, JSONEncoderForHTML
 
 
 class BaseChart(object):
@@ -22,7 +22,7 @@ class BaseChart(object):
         return self.data_source.get_data()
 
     def get_data_json(self):
-        return json.dumps(self.get_data())
+        return json.dumps(self.get_data(), cls=JSONEncoderForHTML)
 
     def get_options(self):
         options = self.options
@@ -31,7 +31,7 @@ class BaseChart(object):
         return options
 
     def get_options_json(self):
-        return json.dumps(self.get_options())
+        return json.dumps(self.get_options(), cls=JSONEncoderForHTML)
 
     def get_template(self):
         raise GraphosException("Not Implemented")
