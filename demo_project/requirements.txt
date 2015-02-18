@@ -2,7 +2,7 @@ Django==1.5.1
 Markdown==2.3.1
 Sphinx==1.2b1
 docutils==0.11
-numpy==1.7.1
+numpy==1.9.1
 matplotlib==1.4.2
 pymongo==2.5.1
 pyparsing==2.0.1
