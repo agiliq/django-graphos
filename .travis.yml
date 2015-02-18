@@ -3,7 +3,7 @@ python:
   - "2.6"
   - "2.7"
 # command to install dependencies
-install: "pip install -r demo_project/requirements.txt --use-mirrors"
+install: "pip install -r demo_project/requirements.txt"
 # command to run tests
 script: cd demo_project && python manage.py test graphos demo --settings=demo_project.settings.test
 services:
