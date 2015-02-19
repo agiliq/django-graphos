@@ -51,7 +51,11 @@ class JSONEncoderForHTML(json.JSONEncoder):
             return u''.join(chunks)
 
     def iterencode(self, o, _one_shot=False):
-        chunks = super(JSONEncoderForHTML, self).iterencode(o, _one_shot)
+        try:
+            chunks = super(JSONEncoderForHTML, self).iterencode(o, _one_shot)
+        except TypeError:
+            # for python 2.6 compatibility
+            chunks = super(JSONEncoderForHTML, self).iterencode(o)
         for chunk in chunks:
             chunk = chunk.replace('&', '&amp;')
             chunk = chunk.replace('<', '&lt;')
