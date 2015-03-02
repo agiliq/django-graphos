@@ -6,7 +6,6 @@ def get_field_values(row, fields):
     data = []
     for field in fields:
         value = getattr(row, field)
-        print value
         data.append(value if not callable(value) else value())
     return data
 
