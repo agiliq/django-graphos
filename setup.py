@@ -1,4 +1,4 @@
-VERSION = (0, 0, 2, "a", 0)  # following PEP 386
+VERSION = (0, 1, 0, "f", 0)  # following PEP 386
 DEV_N = None
 
 import os
