@@ -112,11 +112,18 @@ def find_package_data(
                 out.setdefault(package, []).append(prefix+name)
     return out
 
+try:
+    import pypandoc
+    description = pypandoc.convert('README.md', 'rst')
+except ImportError:
+    description = ''
+
 setup(
     name="django-graphos",
     version=get_version(),
     description="Django app to provide a JS agnostic way to work with charts.",
-    long_description=read("README.md"),
+    #long_description=read("README.md"),
+    long_description=description,
     author="Agiliq",
     author_email="hello@agiliq.com",
     license="BSD",
