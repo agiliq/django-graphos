@@ -35,7 +35,9 @@
         {{ line_chart.as_html }}
         <pre class="code">
             data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            morris.LineChart(data_source, options={'title': "Sales Growth"})
+            morris.LineChart(data_source, options={'title': "'Sales Growth'",
+                                                   'labels': ['Sales ($)'],
+                                                   'preUnits': "'$'"}))
         </pre>
     </div>
     <br />
@@ -44,7 +46,7 @@
         {{ bar_chart.as_html }}
         <pre class="code">
             data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            morris.LineChart(data_source, options={'title': "Sales Growth"})
+            morris.BarChart(data_source, options={'title': "'Sales Growth'"})
         </pre>
     </div>
     <br />

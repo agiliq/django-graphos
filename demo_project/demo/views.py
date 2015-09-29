@@ -203,10 +203,13 @@ class MorrisDemo(TemplateView):
         queryset = Account.objects.all()
         data_source = ModelDataSource(queryset,
                                       fields=['year', 'sales'])
-        line_chart = self.renderer.LineChart(data_source,
-                                      options={'title': "Sales Growth"})
+        line_chart = \
+            self.renderer.LineChart(data_source,
+                                    options={'title': "'Sales Growth'",
+                                             'labels': ['Sales ($)'],
+                                             'preUnits': "'$'"})
         bar_chart = self.renderer.BarChart(data_source,
-                                    options={'title': "Expense Growth"})
+                                    options={'title': "'Expense Growth'"})
         donut_chart = self.renderer.DonutChart(data_source)
         context = {"line_chart": line_chart,
                'bar_chart': bar_chart,

@@ -2,6 +2,10 @@
 <script type="text/javascript">
 Morris.Donut({
   element: '{{ chart.get_html_id }}',
+  // Bring in additional options from a dictionary
+  {% for key,value in chart.get_options.items %}
+  {{ key }}: {{ value|safe }},
+  {% endfor %}
   data: {{ chart.get_data_json|safe }}
 });
 </script>
