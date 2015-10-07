@@ -1,4 +1,5 @@
 import json
+import sys
 
 from django.template.loader import render_to_string
 from ..exceptions import GraphosException
@@ -45,3 +46,9 @@ class BaseChart(object):
     def as_html(self):
         context = {"chart": self}
         return render_to_string(self.get_template(), context)
+
+    def zip_list(self, *args):
+        rv = zip(*args)
+        if sys.version_info < (3,0):
+            return rv
+        return list(rv)
