@@ -34,10 +34,11 @@ Graphos is a Django app to normalize data to create beautiful charts.
 
 #### Google Charts
 
-* Line chart
-* Column chart
+* Area chart
 * Bar chart
 * Candlestick charts
+* Column chart
+* Line chart
 * Pie chart
 * Treemap chart
 

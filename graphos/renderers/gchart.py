@@ -39,6 +39,7 @@ class TreeMapChart(BaseChart):
     def get_template(self):
         return "graphos/gchart/treemap_chart.html"
 
+
 class AreaChart(BaseChart):
     def get_template(self):
         return "graphos/gchart/area_chart.html"
