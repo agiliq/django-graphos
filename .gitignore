@@ -1,5 +1,6 @@
 *.pyc
 *.db
+*.idea/
 *~
 demo_project/demo_project/settings/local.py
 build/
