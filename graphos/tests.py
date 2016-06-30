@@ -128,7 +128,10 @@ class TestMongoDBSource(TestCase):
         self.assertTrue(hasattr(self.data_source, 'get_first_column'))
         self.assertEqual(self.data, self.data_source.get_data())
         self.assertEqual(self.fields, self.data_source.get_header())
-        self.assertEqual(self.fields, self.data_source.get_first_column())
+        self.assertEqual(
+            [el[0] for el in self.data[1:]],
+            self.data_source.get_first_column()
+        )
 
     def tearDown(self):
         self.db.drop_collection(self.collection.name)
@@ -153,6 +156,7 @@ class TestBaseRenderer(TestCase):
         self.data = data
         self.options = options
         self.html_id = 'base_chart'
+        self.template = 'graphos/as_html.html'
         self.header = data[0]
 
     def test_base_chart(self):
@@ -179,7 +183,11 @@ class TestBaseRenderer(TestCase):
         self.assertEqual(json.dumps(self.options),
                          chart.get_options_json())
         self.assertTrue(hasattr(chart, "get_template"))
-        self.assertRaises(GraphosException, chart.get_template)
+        self.assertEqual(self.template, chart.get_template())
+        self.assertTrue(hasattr(chart, "get_html_template"))
+        self.assertRaises(GraphosException, chart.get_html_template)
+        self.assertTrue(hasattr(chart, "get_js_template"))
+        self.assertRaises(GraphosException, chart.get_js_template)
         self.assertTrue(hasattr(chart, "get_html_id"))
         self.assertTrue(self.html_id, chart.get_html_id())
         self.assertTrue(hasattr(chart, "as_html"))
@@ -202,7 +210,8 @@ class TestFlotRenderer(TestCase):
         self.default_options = get_default_options()
         self.series_1 = [(2004, 1000), (2005, 1170), (2006, 660), (2007, 1030)]
         self.series_2 = [(2004, 400), (2005, 460), (2006, 1120), (2007, 540)]
-        self.template = 'graphos/flot.html'
+        self.html_template = 'graphos/flot/html.html'
+        self.js_template = 'graphos/flot/js.html'
         self.data_source = SimpleDataSource(data)
         self.data = data
         self.html_id = 'base_chart'
@@ -226,7 +235,8 @@ class TestFlotRenderer(TestCase):
                                                  options={})
         json_data = chart.get_serieses()
         self.assertEqual([self.series_1, self.series_2], json_data)
-        self.assertEqual(self.template, chart.get_template())
+        self.assertEqual(self.html_template, chart.get_html_template())
+        self.assertEqual(self.js_template, chart.get_js_template())
         default = get_default_options()
         self.assertEqual(default,
                          empty_options_chart.get_options())
@@ -244,7 +254,6 @@ class TestFlotRenderer(TestCase):
                                              options={})
         json_data = chart.get_serieses()
         self.assertEqual([self.series_1, self.series_2], json_data)
-        self.assertEqual(self.template, chart.get_template())
         default = get_default_options("lines")
         self.assertEqual(default,
                          empty_options_chart.get_options())
@@ -259,7 +268,6 @@ class TestFlotRenderer(TestCase):
                                             options={})
         json_data = chart.get_serieses()
         self.assertEqual([self.series_1, self.series_2], json_data)
-        self.assertEqual(self.template, chart.get_template())
         default = get_default_options("bars")
         self.assertEqual(default,
                          empty_options_chart.get_options())
@@ -274,7 +282,6 @@ class TestFlotRenderer(TestCase):
                                               options={})
         json_data = chart.get_serieses()
         self.assertEqual([self.series_1, self.series_2], json_data)
-        self.assertEqual(self.template, chart.get_template())
         default = get_default_options("points")
         self.assertEqual(default,
                          empty_options_chart.get_options())
