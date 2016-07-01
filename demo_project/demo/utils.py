@@ -19,7 +19,10 @@ def get_mongo_cursor(db_name, collection_name, max_docs=100):
                             port=DB_PORT)[db_name]
     collection = db[collection_name]
     cursor = collection.find()
-    if cursor.count >= max_docs:
+    count = cursor.count
+    if callable(count):
+        count = count()
+    if count >= max_docs:
         cursor = cursor[0:max_docs]
     return cursor
 
