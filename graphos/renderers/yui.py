@@ -12,7 +12,6 @@ class BaseYuiChart(BaseChart):
         rows = []
         for row in data_only:
             rows.append(dict(zip(header, row)))
-
         return json.dumps(rows, cls=JSONEncoderForHTML)
 
     def get_category_key(self):

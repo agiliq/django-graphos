@@ -18,7 +18,10 @@ class BaseMorrisChart(BaseChart):
         return self.data_source.get_header()[0]
 
     def get_y_keys(self):
-        return json.dumps(self.data_source.get_header()[1:], cls=JSONEncoderForHTML)
+        try:
+            return json.dumps(self.options['ykeys'], cls=self.JSONEncoderForHTML)
+        except KeyError:
+            return json.dumps(self.data_source.get_header()[1:], cls=self.JSONEncoderForHTML)
 
 
     def get_template(self):
@@ -38,6 +41,7 @@ class BarChart(BaseMorrisChart):
 class DonutChart(BaseMorrisChart):
     def get_data_json(self):
         data_only = self.get_data()[1:]
+
         return json.dumps([{"label": el[0], "value": el[1]} for el in data_only], cls=JSONEncoderForHTML)
 
     def chart_type(self):
