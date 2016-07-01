@@ -19,9 +19,9 @@ class BaseMorrisChart(BaseChart):
 
     def get_y_keys(self):
         try:
-            return json.dumps(self.options['ykeys'], cls=self.JSONEncoderForHTML)
+            return json.dumps(self.options['ykeys'], cls=JSONEncoderForHTML)
         except KeyError:
-            return json.dumps(self.data_source.get_header()[1:], cls=self.JSONEncoderForHTML)
+            return json.dumps(self.data_source.get_header()[1:], cls=JSONEncoderForHTML)
 
     def get_html_template(self):
         return "graphos/morris/html.html"
