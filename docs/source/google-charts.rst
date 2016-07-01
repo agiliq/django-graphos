@@ -26,8 +26,9 @@ You can render this chart in the template by ``{{ point_chart.as_html }}``.
 Supported chart types
 --------------------------
 
-* Line chart
-* Column chart
+* Area chart
 * Bar chart
 * Candlestick charts
+* Column chart
+* Line chart
 * Pie chart
