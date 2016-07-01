@@ -2,6 +2,7 @@ from .base import BaseChart
 import json
 
 from django.template.loader import render_to_string
+from ..utils import JSONEncoderForHTML
 
 class BaseMorrisChart(BaseChart):
     def get_data_json(self):
@@ -11,16 +12,16 @@ class BaseMorrisChart(BaseChart):
         for row in data_only:
             rows.append(dict(zip(header, row)))
 
-        return json.dumps(rows, cls=self.encoder)
+        return json.dumps(rows, cls=JSONEncoderForHTML)
 
     def get_category_key(self):
         return self.data_source.get_header()[0]
 
     def get_y_keys(self):
         try:
-            return json.dumps(self.options['ykeys'], cls=self.encoder)
+            return json.dumps(self.options['ykeys'], cls=self.JSONEncoderForHTML)
         except KeyError:
-            return json.dumps(self.data_source.get_header()[1:], cls=self.encoder)
+            return json.dumps(self.data_source.get_header()[1:], cls=self.JSONEncoderForHTML)
 
 
     def get_template(self):
@@ -40,7 +41,8 @@ class BarChart(BaseMorrisChart):
 class DonutChart(BaseMorrisChart):
     def get_data_json(self):
         data_only = self.get_data()[1:]
-        return json.dumps([{"label": el[0], "value": el[1]} for el in data_only], cls=self.encoder)
+
+        return json.dumps([{"label": el[0], "value": el[1]} for el in data_only], cls=JSONEncoderForHTML)
 
     def chart_type(self):
         return "Donut"

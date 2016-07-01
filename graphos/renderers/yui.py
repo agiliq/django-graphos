@@ -2,6 +2,7 @@ from .base import BaseChart
 from django.template.loader import render_to_string
 
 import json
+from ..utils import JSONEncoderForHTML
 
 
 class BaseYuiChart(BaseChart):
@@ -11,8 +12,7 @@ class BaseYuiChart(BaseChart):
         rows = []
         for row in data_only:
             rows.append(dict(zip(header, row)))
-
-        return json.dumps(rows, cls=self.encoder)
+        return json.dumps(rows, cls=JSONEncoderForHTML)
 
     def get_category_key(self):
         return self.data_source.get_header()[0]

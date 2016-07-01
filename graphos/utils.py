@@ -1,6 +1,6 @@
 import random
 import string
-
+import json
 
 DEFAULT_HEIGHT = 400
 DEFAULT_WIDTH = 800
@@ -31,3 +31,33 @@ def get_db(db_name=None):
     import pymongo
     return pymongo.Connection(host=DB_HOST,
                               port=DB_PORT)[db_name]
+
+
+class JSONEncoderForHTML(json.JSONEncoder):
+    """An encoder that produces JSON safe to embed in HTML.
+    To embed JSON content in, say, a script tag on a web page, the
+    characters &, < and > should be escaped. They cannot be escaped
+    with the usual entities (e.g. &amp;) because they are not expanded
+    within <script> tags.
+    """
+
+    def encode(self, o):
+        # Override JSONEncoder.encode because it has hacks for
+        # performance that make things more complicated.
+        chunks = self.iterencode(o, True)
+        if self.ensure_ascii:
+            return ''.join(chunks)
+        else:
+            return u''.join(chunks)
+
+    def iterencode(self, o, _one_shot=False):
+        try:
+            chunks = super(JSONEncoderForHTML, self).iterencode(o, _one_shot)
+        except TypeError:
+            # for python 2.6 compatibility
+            chunks = super(JSONEncoderForHTML, self).iterencode(o)
+        for chunk in chunks:
+            chunk = chunk.replace('&', '&amp;')
+            chunk = chunk.replace('<', '&lt;')
+            chunk = chunk.replace('>', '&gt;')
+            yield chunk
