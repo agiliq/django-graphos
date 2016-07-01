@@ -2,12 +2,8 @@ import json
 
 from django.template.loader import render_to_string
 from ..exceptions import GraphosException
-<<<<<<< HEAD
-from ..utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string
-from ..encoders import GraphosEncoder
-=======
 from ..utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string, JSONEncoderForHTML
->>>>>>> 6f0da66cc2c2d8e6ae7097c144c011b8842a4dbb
+from ..encoders import GraphosEncoder
 
 
 class BaseChart(object):
@@ -41,6 +37,12 @@ class BaseChart(object):
         return json.dumps(self.get_options(), cls=JSONEncoderForHTML)
 
     def get_template(self):
+        return 'graphos/as_html.html'
+
+    def get_html_template(self):
+        raise GraphosException("Not Implemented")
+
+    def get_js_template(self):
         raise GraphosException("Not Implemented")
 
     def get_html_id(self):
@@ -50,5 +52,16 @@ class BaseChart(object):
         return self.context_data
 
     def as_html(self):
-        context = {"chart": self}
+        context = {
+            'html': self.render_html(),
+            'js': self.render_js(),
+        }
         return render_to_string(self.get_template(), context)
+
+    def render_html(self):
+        context = {"chart": self}
+        return render_to_string(self.get_html_template(), context)
+
+    def render_js(self):
+        context = {"chart": self}
+        return render_to_string(self.get_js_template(), context)

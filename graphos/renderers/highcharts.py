@@ -6,8 +6,11 @@ from ..utils import JSONEncoderForHTML
 
 
 class BaseHighCharts(BaseChart):
-    def get_template(self):
-        return "graphos/highcharts.html"
+    def get_html_template(self):
+        return "graphos/highcharts/html.html"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js.html"
 
     def get_series(self):
         data = self.get_data()
@@ -22,7 +25,6 @@ class BaseHighCharts(BaseChart):
 
     def get_x_axis_title(self):
         return self.get_data()[0][0]
-
 
 
 class LineChart(BaseHighCharts):

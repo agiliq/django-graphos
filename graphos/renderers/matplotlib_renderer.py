@@ -1,16 +1,17 @@
 #Named such to not clash with matplotlib
 from .base import BaseChart
 
-from matplotlib.ticker import FormatStrFormatter
-
+import matplotlib
+matplotlib.use('Agg')  # http://stackoverflow.com/a/4706614/202168
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 import StringIO
 import base64
 
 
 class BaseMatplotlibChart(BaseChart):
 
-    def get_template(self):
+    def get_html_template(self):
         return "graphos/matplotlib_renderer/line_chart.html"
 
     def get_serieses(self):
@@ -20,6 +21,9 @@ class BaseMatplotlibChart(BaseChart):
             current_column = [float(el[i]) for el in data_only]
             serieses.append(current_column)
         return serieses
+
+    def render_js(self):
+        return ""
 
 
 class LineChart(BaseMatplotlibChart):

@@ -1,20 +1,23 @@
 from .base import BaseChart
 
-from django.template.loader import render_to_string
+
+class BaseGChart(BaseChart):
+    def get_html_template(self):
+        return "graphos/gchart/html.html"
 
 
-class LineChart(BaseChart):
-    def get_template(self):
+class LineChart(BaseGChart):
+    def get_js_template(self):
         return "graphos/gchart/line_chart.html"
 
 
-class ColumnChart(BaseChart):
-    def get_template(self):
+class ColumnChart(BaseGChart):
+    def get_js_template(self):
         return "graphos/gchart/column_chart.html"
 
 
-class BarChart(BaseChart):
-    def get_template(self):
+class BarChart(BaseGChart):
+    def get_js_template(self):
         return "graphos/gchart/bar_chart.html"
 
     def get_options(self):
@@ -25,18 +28,18 @@ class BarChart(BaseChart):
         return options
 
 
-class CandlestickChart(BaseChart):
-    def get_template(self):
+class CandlestickChart(BaseGChart):
+    def get_js_template(self):
         return "graphos/gchart/candlestick_chart.html"
 
 
-class PieChart(BaseChart):
-    def get_template(self):
+class PieChart(BaseGChart):
+    def get_js_template(self):
         return "graphos/gchart/pie_chart.html"
 
 
-class TreeMapChart(BaseChart):
-    def get_template(self):
+class TreeMapChart(BaseGChart):
+    def get_js_template(self):
         return "graphos/gchart/treemap_chart.html"
 
 

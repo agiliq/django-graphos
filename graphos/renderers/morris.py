@@ -1,8 +1,11 @@
 from .base import BaseChart
 import json
 
+<<<<<<< HEAD
+=======
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
+>>>>>>> dc771304593a8aff0720f49c6c1ad5e25587f970
 
 class BaseMorrisChart(BaseChart):
     def get_data_json(self):
@@ -23,10 +26,11 @@ class BaseMorrisChart(BaseChart):
         except KeyError:
             return json.dumps(self.data_source.get_header()[1:], cls=self.JSONEncoderForHTML)
 
+    def get_html_template(self):
+        return "graphos/morris/html.html"
 
-    def get_template(self):
+    def get_js_template(self):
         return "graphos/morris/chart.html"
-
 
 
 class LineChart(BaseMorrisChart):
@@ -38,6 +42,7 @@ class BarChart(BaseMorrisChart):
     def chart_type(self):
         return "Bar"
 
+
 class DonutChart(BaseMorrisChart):
     def get_data_json(self):
         data_only = self.get_data()[1:]
@@ -47,5 +52,9 @@ class DonutChart(BaseMorrisChart):
     def chart_type(self):
         return "Donut"
 
+<<<<<<< HEAD
+    def get_js_template(self):
+=======
     def get_template(self):
+>>>>>>> dc771304593a8aff0720f49c6c1ad5e25587f970
         return "graphos/morris/donut_chart.html"
