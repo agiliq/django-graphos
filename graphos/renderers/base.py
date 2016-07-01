@@ -2,27 +2,30 @@ import json
 
 from django.template.loader import render_to_string
 from ..exceptions import GraphosException
-from ..utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string
+from ..utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string, JSONEncoderForHTML
+from ..encoders import GraphosEncoder
 
 
 class BaseChart(object):
 
     def __init__(self, data_source, html_id=None,
                  width=None, height=None,
-                 options=None, *args, **kwargs):
+                 options=None, encoder=GraphosEncoder,
+                 *args, **kwargs):
         self.data_source = data_source
         self.html_id = html_id or get_random_string()
         self.height = height or DEFAULT_HEIGHT
         self.width = width or DEFAULT_WIDTH
         self.options = options or {}
         self.header = data_source.get_header()
+        self.encoder = encoder
         self.context_data = kwargs
 
     def get_data(self):
         return self.data_source.get_data()
 
     def get_data_json(self):
-        return json.dumps(self.get_data())
+        return json.dumps(self.get_data(), cls=JSONEncoderForHTML)
 
     def get_options(self):
         options = self.options
@@ -31,7 +34,7 @@ class BaseChart(object):
         return options
 
     def get_options_json(self):
-        return json.dumps(self.get_options())
+        return json.dumps(self.get_options(), cls=JSONEncoderForHTML)
 
     def get_template(self):
         return 'graphos/as_html.html'
