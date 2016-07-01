@@ -13,7 +13,7 @@ class BaseFlotChart(BaseChart):
         serieses = []
         for i in range(1, len(self.header)):
             current_column = [el[i] for el in data_only]
-            current_series = zip(first_column, current_column)
+            current_series = self.zip_list(first_column, current_column)
             serieses.append(current_series)
         return serieses
 

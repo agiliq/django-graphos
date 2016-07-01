@@ -130,6 +130,10 @@ Todo
 
 pip install django-graphos
 
+### Compatibility
+
+Graphos is compatible with Python 2.7 and Python 3.3+
+
 [available on pypi](https://pypi.python.org/pypi/django-graphos/)
 
 
