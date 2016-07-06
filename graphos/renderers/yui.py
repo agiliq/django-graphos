@@ -1,6 +1,5 @@
 from .base import BaseChart
 
-import json
 from ..utils import JSONEncoderForHTML
 
 

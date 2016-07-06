@@ -1,5 +1,4 @@
 from .base import BaseChart
-import json
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
