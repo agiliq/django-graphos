@@ -23,6 +23,11 @@ class BaseMorrisChart(BaseChart):
     def get_js_template(self):
         return "graphos/morris/chart.html"
 
+    def get_template(self):
+        return "graphos/morris/chart.html"
+
+    def get_html_template(self):
+        return "graphos/morris/chart.html"
 
 class LineChart(BaseMorrisChart):
     def chart_type(self):
@@ -43,4 +48,7 @@ class DonutChart(BaseMorrisChart):
         return "Donut"
 
     def get_template(self):
+        return "graphos/morris/donut_chart.html"
+
+    def get_html_template(self):
         return "graphos/morris/donut_chart.html"
