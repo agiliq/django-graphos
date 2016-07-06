@@ -43,9 +43,21 @@ class ColumnChart(BaseHighCharts):
 
 
 class PieChart(BaseHighCharts):
+    def get_series(self):
+        data = self.get_data()
+        series_names = data[0][1:]
+        serieses = []
+        for i, name in enumerate(series_names):
+            serieses.append({"name": name, "data": pie_column(data, i+1)[1:]})
+        return json.dumps(serieses)
+
     def get_chart_type(self):
         return "pie"
 
 
 def column(matrix, i):
     return [row[i] for row in matrix]
+
+
+def pie_column(matrix, i):
+    return [{'name':row[0],'y':row[1]} for row in matrix]
