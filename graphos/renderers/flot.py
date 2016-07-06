@@ -26,7 +26,6 @@ class BaseFlotChart(BaseChart):
         return series_objects
 
     def get_series_objects_json(self):
-        return json.dumps(self.get_series_objects(), cls=JSONEncoderForHTML)
         return self.data_source.to_json(self.get_series_objects())
 
     def get_options(self):
