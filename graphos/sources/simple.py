@@ -1,3 +1,5 @@
+import json
+
 from .base import BaseDataSource
 
 
@@ -14,3 +16,6 @@ class SimpleDataSource(BaseDataSource):
     def get_first_column(self):
         data_not_header = self.data[1:]
         return [el[0] for el in data_not_header]
+
+    def to_json(self, data):
+        return json.dumps(data)

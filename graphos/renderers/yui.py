@@ -4,6 +4,7 @@ import json
 from ..utils import JSONEncoderForHTML
 
 
+
 class BaseYuiChart(BaseChart):
     def get_data_json(self):
         header = self.data_source.get_header()
@@ -11,7 +12,8 @@ class BaseYuiChart(BaseChart):
         rows = []
         for row in data_only:
             rows.append(dict(zip(header, row)))
-        return json.dumps(rows, cls=JSONEncoderForHTML)
+
+        return self.data_source.to_json(rows)
 
     def get_category_key(self):
         return self.data_source.get_header()[0]
@@ -36,5 +38,6 @@ class ColumnChart(BaseYuiChart):
 
 
 class PieChart(BaseYuiChart):
-    def get_js_template(self):
+
+    def get_template(self):
         return "graphos/yui/pie_chart.html"
