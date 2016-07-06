@@ -1,4 +1,3 @@
-import StringIO
 import base64
 
 import matplotlib
