@@ -59,9 +59,10 @@ Graphos is a Django app to normalize data to create beautiful charts.
 
 (You will need to buy a license if you use highcharts for commerical use)
 
-* Line Chart
+* Area Chart
 * Bar Chart
 * Column Chart
+* Line Chart
 * Pie Chart
 
 #### Matplotlib
