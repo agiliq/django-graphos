@@ -11,6 +11,3 @@ class CSVDataSource(SimpleDataSource):
         data =[row for row in reader]
         self.data = data
         self.fields = fields
-
-    def get_data(self):
-        return self.data
