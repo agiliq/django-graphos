@@ -11,7 +11,14 @@ def get_field_values(row, fields):
 
 
 class ModelDataSource(SimpleDataSource):
+    """
+    Normalizes data contained in a queryset to format usable by renderers
+    """
     def __init__(self, queryset, fields=None):
+        """
+        : param queryset: :type Django ORM queryset
+        : param fields: :type  list of strings
+        """
         self.queryset = queryset
         if fields:
             self.fields = fields
