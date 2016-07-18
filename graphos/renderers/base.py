@@ -13,6 +13,12 @@ class BaseChart(object):
                  width=None, height=None,
                  options=None, encoder=GraphosEncoder,
                  *args, **kwargs):
+        """
+        : param data_source: :type graphos.sources.base.BaseDataSource subclass instance.
+        : param html_id: :type string: Id of the div where you would like chart to be rendered
+        : param width: :type integer: Width of the chart div
+        : param height: :type integer: Height of the chart div
+        """
         self.data_source = data_source
         self.html_id = html_id or get_random_string()
         self.height = height or DEFAULT_HEIGHT
