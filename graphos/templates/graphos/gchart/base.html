@@ -11,7 +11,6 @@
     {% endif %}
 
     {% block create_chart %}
-    var chart = new google.visualization.ColumnChart(document.getElementById('{{ chart.get_html_id }}'));
     {% endblock %}
     chart.draw(data, options);
     chart{{ chart.get_html_id }} = chart;
