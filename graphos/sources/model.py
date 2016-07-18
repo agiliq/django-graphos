@@ -18,6 +18,15 @@ class ModelDataSource(SimpleDataSource):
         """
         : param queryset: :type Django ORM queryset
         : param fields: :type  list of strings
+        Example usage:
+            queryset = Account.objects.all()
+            mds = ModelDataSource(queryset, fields=['year', 'sales', 'expenses'])
+            # This assumes the following model Account:
+            class Account(models.Model):
+                year = models.IntegerField()
+                sales = models.DecimalField()
+                expenses = models.DecimalField()
+                profit = models.DecimalField()
         """
         self.queryset = queryset
         if fields:
