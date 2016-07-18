@@ -1,17 +1,15 @@
 from .base import BaseChart
 
-import json
-from ..utils import JSONEncoderForHTML
-
 
 class BaseYuiChart(BaseChart):
-    def get_data_json(self):
-        header = self.data_source.get_header()
-        data_only = self.get_data()[1:]
+    def get_data(self):
+        data = super(BaseYuiChart, self).get_data()
+        header = self.header
+        data_only = data[1:]
         rows = []
         for row in data_only:
             rows.append(dict(zip(header, row)))
-        return json.dumps(rows, cls=JSONEncoderForHTML)
+        return rows
 
     def get_category_key(self):
         return self.data_source.get_header()[0]
