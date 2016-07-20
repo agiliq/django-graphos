@@ -2,7 +2,12 @@
 <script type="text/javascript">
   google.setOnLoadCallback(drawChart{{ chart.get_html_id }});
   function drawChart{{ chart.get_html_id }}() {
-    var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
+    {% if chart.get_chart_type == 'candle_stick' %}
+        var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }}, true);
+    {% else %}
+        var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
+
+    {% endif %}
 
     {% if chart.get_options_json %}
       var options = {{ chart.get_options_json|safe }}

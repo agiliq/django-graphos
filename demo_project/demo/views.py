@@ -185,11 +185,16 @@ class GChartDemo(Demo):
 
     def get_context_data(self, **kwargs):
         context = super(GChartDemo, self).get_context_data(**kwargs)
+        data_source = context['data_source']
         candlestick_chart = self.renderer.CandlestickChart(SimpleDataSource
-                                                    (data=candlestick_data))
+                                                    (data=candlestick_data),
+                                                    chart_type='candle_stick')
+
         treemap_chart = self.renderer.TreeMapChart(SimpleDataSource(data=treemap_data))
+        area_chart = self.renderer.AreaChart(data_source, options={'title': 'Area Chart'}) 
         context.update({'candlestick_chart': candlestick_chart,
-                       'treemap_chart': treemap_chart})
+                       'treemap_chart': treemap_chart , 
+                       'area_chart': area_chart}),
         return context
 
 gchart_demo = GChartDemo.as_view(renderer=gchart)
