@@ -75,7 +75,7 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 
 * Clone the project
 
-	git clone git@github.com:agiliq/django-graphos.git
+	git clone https://github.com/agiliq/django-graphos.git
 
 * Cd to demo directory
 
