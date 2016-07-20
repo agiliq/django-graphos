@@ -106,9 +106,12 @@ The installed demo app shows the various suported chart types.
 
 ### Overview of Plot generation
 
-Generating a plot requires two things. A DataSource and a Chart object.
+Generating a plot requires two things. A DataSource object and a Chart object.
 
 In your view, you do something like this:
+
+	from graphos.sources.simple import SimpleDataSource
+	from graphos.renderers.gchart import LineChart
 
     data =  [
             ['Year', 'Sales', 'Expenses'],
@@ -117,12 +120,42 @@ In your view, you do something like this:
             [2006, 660, 1120],
             [2007, 1030, 540]
         ]
-    Chart = LineChart(SimpleDataSource(data=data), html_id="line_chart")
+    data_source = SimpleDataSource(data=data)
+    chart = LineChart(data_source)
+    context = {'chart': chart}
+    return render(request, 'yourtemplate.html', context)
 
 And then in the template:
 
     {{ chart.as_html }}
 
+In this example we are planning to use Google chart, as is evident from the import statement in the view, we import gchart.LineChart. So we must also include the gchart javascript in our template.
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+
+So the template would look like
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+
+    {{ chart.as_html }}
+
+If we want to use yui LineChart instead of gchart LineChart, our view would have:
+
+	from graphos.renderers.yui import LineChart
+    chart = LineChart(data_source)
+
+And our template would inclue yui javascript and it would look like:
+
+	<script src="http://yui.yahooapis.com/3.10.0/build/yui/yui-min.js"></script>
+    {{ chart.as_html }}
+
+See, how easy it was to switch from gchart to yui. You did not have to write or change a single line of javascript to switch from gchart to yui. All that was taken care of by as_html() of the chart object.
 
 ### Examples
 
