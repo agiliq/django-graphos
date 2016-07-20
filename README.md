@@ -3,7 +3,7 @@ Graphos
 
 [![Build Status](https://travis-ci.org/agiliq/django-graphos.png)](https://travis-ci.org/agiliq/django-graphos)
 
-Graphos is a Django app to normalize data to create beautiful charts. 
+Graphos is a Django app to normalize data to create beautiful charts. It provides a JS agnostic way to work with charts.
 
 * Demo: [http://agiliq.com/demo/graphos/](http://agiliq.com/demo/graphos/).  
 * Docs: [http://agiliq.com/docs/django-graphos/](http://agiliq.com/docs/django-graphos/).
@@ -13,7 +13,6 @@ Graphos is a Django app to normalize data to create beautiful charts.
 * Python Nested lists
 * CSV Files
 * MongoDB
-* Redis
 * Django ORM
 
 ### Charting API Supported
@@ -23,6 +22,7 @@ Graphos is a Django app to normalize data to create beautiful charts.
 * [YUI Charts](http://yuilibrary.com/yui/docs/charts/)
 * [Morris.js](http://www.oesmith.co.uk/morris.js/)
 * [Highcharts](http://www.highcharts.com/)
+* [Matplotlib](http://matplotlib.org/api/pyplot_api.html)
 
 ### Chart types supported
 
@@ -73,7 +73,34 @@ Graphos is a Django app to normalize data to create beautiful charts.
 
 ### Demo
 
-Install the requirements, `manage.py runserver`.
+* Clone the project
+
+	git clone git@github.com:agiliq/django-graphos.git
+
+* Cd to demo directory
+
+	cd django-graphos/demo_project/
+
+* Create local settings.
+
+	cp demo_project/settings/local.py-dist demo_project/settings/local.py
+
+* Install requirements
+
+	pip install -r requirements.txt
+
+* Run migrate
+
+	python manage.py migrate
+
+* Make sure mongo server is running(You should have mongodb properly setup for this)
+
+	mongod --dbpath ~/data/db
+
+* Run server
+
+	python manage.py runserver
+
 The installed demo app shows the various suported chart types.
 
 
