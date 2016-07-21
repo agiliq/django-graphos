@@ -168,21 +168,23 @@ See, how easy it was to switch from gchart to yui. You did not have to write or 
             [2006, 660, 1120],
             [2007, 1030, 540]
         ]
-    Chart = LineChart(SimpleDataSource(data=data))
+    from graphos.sources.simple import SimpleDataSource
+    from graphos.renderers.gchart import LineChart
+    chart = LineChart(SimpleDataSource(data=data))
 
 #### Generating a plot from CSV file
 
+    from graphos.sources.csv_file import CSVDataSource
+    from graphos.renderers.yui import LineChart
     csv_file = open("hello.csv")
-    LineChart(CSVDataSource(csv_file))
+    chart = LineChart(CSVDataSource(csv_file))
 
 #### Generating a plot from the ORM
 
+    from graphos.sources.model import ModelDataSource
+    from someapp.models import Accounts
     queryset = Accounts.objects.filter(foo=bar)
-    LineChart(ModelDataSource(queryset, fields=["year", "sales", "expenses"]))
-
-
-#### Generating a plot from Redis
-Todo
+    chart = LineChart(ModelDataSource(queryset, fields=["year", "sales", "expenses"]))
 
 #### Generating a plot from MongoDB
 Todo
@@ -225,7 +227,7 @@ If you create a class extending `SimpleDataSource`, and implement `get_data`. Yo
 
 A renderer is a class which takes a  `DataSource` and can convert it to the html to display.
 
-The only required method on a `Renderer` is `as_html`. This will convert the dat ato a format which can display the chart.
+The only required method on a `Renderer` is `as_html`. This will convert the data to a format which can display the chart.
 
 Generally you will convert the data to json and pass it to the template which you return.
 
@@ -283,4 +285,3 @@ And you would use this class like:
 ### License
 
 BSD
-
