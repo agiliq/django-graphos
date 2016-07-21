@@ -230,23 +230,23 @@ The only required method on a `Renderer` is `as_html`. This will convert the dat
 Generally you will convert the data to json and pass it to the template which you return.
 
 
-### Handling non serialisable fields
+### Handling non serializable fields
 
 You need to override get_data() of existing DataSource and convert datetime field into something which could be serialized.
 
 Assuming you are using a Python list as data, then you need to do:
 
+    from graphos.sources.simple import SimpleDataSource
     class MySimpleDataSource(SimpleDataSource):
-    def get_data(self):
-        data = super(MySimpleDataSource, self).get_data()
-        header = data[0]
-        data_without_header = data[1:]
-        for row in data_without_header:
-            # Assuming first column contains datetime
-            row[0] = row[0].year
-            data_without_header.insert(0, header)
-            return data_without_header
-
+		def get_data(self):
+			data = super(MySimpleDataSource, self).get_data()
+			header = data[0]
+			data_without_header = data[1:]
+			for row in data_without_header:
+				# Assuming first column contains datetime
+				row[0] = row[0].year
+			data_without_header.insert(0, header)
+			return data_without_header
 
 And data has
 
@@ -263,6 +263,7 @@ And data has
 
 If you are planning to use queryset with ModelDataSource, then you would create following class
 
+    from graphos.sources.model import ModelDataSource
     class MyModelDataSource(ModelDataSource):
         def get_data(self):
             data = super(MyModelDataSource, self).get_data()
@@ -271,8 +272,8 @@ If you are planning to use queryset with ModelDataSource, then you would create 
             for row in data_without_header:
                 # Assuming second column contains datetime
                 row[1] = row[1].year
-                data_without_header.insert(0, header)
-                return data_without_header
+			data_without_header.insert(0, header)
+			return data_without_header
 
 And you would use this class like:
 
