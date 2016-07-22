@@ -50,3 +50,8 @@ class DonutChart(BaseMorrisChart):
 
     def get_js_template(self):
         return "graphos/morris/donut_chart.html"
+
+
+class AreaChart(BaseMorrisChart):
+    def chart_type(self):
+        return "Area"

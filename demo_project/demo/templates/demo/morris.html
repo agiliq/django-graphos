@@ -58,4 +58,14 @@
         </pre>
     </div>
     <br />
+
+    <div id="area_chart" class="well">
+
+        {{ area_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            morris.AreaChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
 {% endblock %}
