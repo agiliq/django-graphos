@@ -14,13 +14,13 @@ class BaseMorrisChart(BaseChart):
         return json.dumps(rows, cls=JSONEncoderForHTML)
 
     def get_category_key(self):
-        return self.data_source.get_header()[0]
+        return self.header[0]
 
     def get_y_keys(self):
         try:
             return json.dumps(self.options['ykeys'], cls=JSONEncoderForHTML)
         except KeyError:
-            return json.dumps(self.data_source.get_header()[1:], cls=JSONEncoderForHTML)
+            return json.dumps(self.header[1:], cls=JSONEncoderForHTML)
 
     def get_html_template(self):
         return "graphos/morris/html.html"
