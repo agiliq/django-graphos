@@ -143,6 +143,18 @@ class Demo(TemplateView):
                                     options={'title': "Expense Growth"})
         pie_chart = self.renderer.PieChart(data_source)
 
+        gauge_chart = self.renderer.GaugeChart(
+            data_source,
+            options={
+                'redFrom': 0,
+                'redTo': 800,
+                'yellowFrom': 800,
+                'yellowTo': 1500,
+                'greenFrom': 1500,
+                'greenTo': 3000,
+                'max': 3000,
+            })
+
         context = {
                 "data_source": data_source,
                 "simple_data_source": simple_data_source,
@@ -150,6 +162,7 @@ class Demo(TemplateView):
                 "column_chart": column_chart,
                 'bar_chart': bar_chart,
                 'pie_chart': pie_chart,
+                'gauge_chart': gauge_chart,
                 }
         context.update(super_context)
         return context
