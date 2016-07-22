@@ -1,12 +1,11 @@
 from .base import BaseChart
 import json
 
-from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
 
 class BaseMorrisChart(BaseChart):
     def get_data_json(self):
-        header = self.data_source.get_header()
+        header = self.header
         data_only = self.get_data()[1:]
         rows = []
         for row in data_only:
