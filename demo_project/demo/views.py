@@ -137,7 +137,7 @@ class Demo(TemplateView):
         simple_data_source = SimpleDataSource(data=data)
         line_chart = self.renderer.LineChart(data_source,
                                       options={'title': "Sales Growth"})
-        column_chart = self.renderer.ColumnChart(SimpleDataSource(data=data),
+        column_chart = self.renderer.ColumnChart(simple_data_source,
                                           options={'title': "Sales/ Expense"})
         bar_chart = self.renderer.BarChart(data_source,
                                     options={'title': "Expense Growth"})
@@ -210,10 +210,9 @@ class MorrisDemo(TemplateView):
         queryset = Account.objects.all()
         data_source = ModelDataSource(queryset,
                                       fields=['year', 'sales'])
-        line_chart = self.renderer.LineChart(data_source,
-                                      options={'title': "Sales Growth"})
-        bar_chart = self.renderer.BarChart(data_source,
-                                    options={'title': "Expense Growth"})
+        simple_data_source = SimpleDataSource(data=data)
+        line_chart = self.renderer.LineChart(data_source)
+        bar_chart = self.renderer.BarChart(simple_data_source)
         donut_chart = self.renderer.DonutChart(data_source)
         area_chart = self.renderer.AreaChart(data_source)
         context = {"line_chart": line_chart,
