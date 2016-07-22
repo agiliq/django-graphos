@@ -215,9 +215,11 @@ class MorrisDemo(TemplateView):
         bar_chart = self.renderer.BarChart(data_source,
                                     options={'title': "Expense Growth"})
         donut_chart = self.renderer.DonutChart(data_source)
+        area_chart = self.renderer.AreaChart(data_source)
         context = {"line_chart": line_chart,
                'bar_chart': bar_chart,
-               'donut_chart': donut_chart}
+               'donut_chart': donut_chart,
+               'area_chart': area_chart}
         context.update(super_context)
         return context
 
