@@ -28,6 +28,13 @@ class BaseChart(object):
         self.encoder = encoder
         self.context_data = kwargs
 
+        self.chart_type = None
+        if kwargs:
+            self.chart_type = kwargs.get('chart_type')
+
+    def get_chart_type(self):
+        return self.chart_type
+
     def get_data(self):
         return self.data_source.get_data()
 
