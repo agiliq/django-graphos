@@ -34,8 +34,9 @@
 
         {{ line_chart.as_html }}
         <pre class="code">
+            queryset = Account.objects.all()
             data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            morris.LineChart(data_source, options={'title': "Sales Growth"})
+            chart = morris.LineChart(data_source)
         </pre>
     </div>
     <br />
@@ -43,8 +44,15 @@
 
         {{ bar_chart.as_html }}
         <pre class="code">
-            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            morris.LineChart(data_source, options={'title': "Sales Growth"})
+            data = [
+                   ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                   ['2004', 1000, 400, 100, 600],
+                   ['2005', 1170, 460, 120, 310],
+                   ['2006', 660, 1120, 50, -460],
+                   ['2007', 1030, 540, 100, 200],
+                   ]
+            simple_data_source = SimpleDataSource(data=data)
+            bar_chart = morris.BarChart(simple_data_source)
         </pre>
     </div>
     <br />
@@ -53,8 +61,9 @@
 
         {{ donut_chart.as_html }}
         <pre class="code">
+            queryset = Account.objects.all()
             data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            morris.DonutChart(data_source, options={'title': "Sales Growth"})
+            donut_chart = morris.DonutChart(data_source)
         </pre>
     </div>
     <br />
@@ -63,8 +72,9 @@
 
         {{ area_chart.as_html }}
         <pre class="code">
+            queryset = Account.objects.all()
             data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            morris.AreaChart(data_source, options={'title': "Sales Growth"})
+            area_chart = morris.AreaChart(data_source)
         </pre>
     </div>
     <br />
