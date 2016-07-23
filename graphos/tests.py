@@ -322,6 +322,11 @@ class TestGchartRenderer(TestCase):
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("CandlestickChart" in chart.as_html())
 
+    def test_gauge_chart(self):
+        chart = gchart.GaugeChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("Gauge" in chart.as_html())
+
 
 class TestYUIRenderer(TestCase):
     def setUp(self):

@@ -188,8 +188,22 @@ class GChartDemo(Demo):
         candlestick_chart = self.renderer.CandlestickChart(SimpleDataSource
                                                     (data=candlestick_data))
         treemap_chart = self.renderer.TreeMapChart(SimpleDataSource(data=treemap_data))
+        queryset = Account.objects.all()
+        data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+        gauge_chart = self.renderer.GaugeChart(
+            data_source,
+            options={
+                'redFrom': 0,
+                'redTo': 800,
+                'yellowFrom': 800,
+                'yellowTo': 1500,
+                'greenFrom': 1500,
+                'greenTo': 3000,
+                'max': 3000,
+            })
         context.update({'candlestick_chart': candlestick_chart,
-                       'treemap_chart': treemap_chart})
+                       'treemap_chart': treemap_chart,
+                       'gauge_chart': gauge_chart})
         return context
 
 gchart_demo = GChartDemo.as_view(renderer=gchart)

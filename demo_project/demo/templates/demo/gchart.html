@@ -3,7 +3,7 @@
 {% block extra_head %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-    google.load("visualization", "1", {packages:["corechart", "treemap"]});
+    google.load("visualization", "1", {packages:["corechart", "treemap", "gauge"]});
 </script>
 <script>
   $(function(){
@@ -132,4 +132,23 @@
       <a href="#" id="get-data" class="btn">Get Data</a>
     </div>
     <br />
+
+    <div id="column_chart" class="well">
+      {{ gauge_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+            chart = gchart.GaugeChart(
+                data_source,
+                options={
+                    'redFrom': 0,
+                    'redTo': 800,
+                    'yellowFrom': 800,
+                    'yellowTo': 1500,
+                    'greenFrom': 1500,
+                    'greenTo': 3000,
+                    'max': 3000,
+                }
+            )</pre>
+    </div>
+
 {% endblock %}
