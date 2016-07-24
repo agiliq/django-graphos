@@ -4,14 +4,15 @@ import json
 from ..utils import JSONEncoderForHTML
 
 class BaseMorrisChart(BaseChart):
-    def get_data_json(self):
+
+    def get_data(self):
         header = self.header
-        data_only = self.get_data()[1:]
+        data = super(BaseMorrisChart, self).get_data()
+        data_only = data[1:]
         rows = []
         for row in data_only:
             rows.append(dict(zip(header, row)))
-
-        return json.dumps(rows, cls=JSONEncoderForHTML)
+        return rows
 
     def get_category_key(self):
         return self.header[0]
@@ -40,10 +41,10 @@ class BarChart(BaseMorrisChart):
 
 
 class DonutChart(BaseMorrisChart):
-    def get_data_json(self):
-        data_only = self.get_data()[1:]
-
-        return json.dumps([{"label": el[0], "value": el[1]} for el in data_only], cls=JSONEncoderForHTML)
+    def get_data(self):
+        data = super(BaseMorrisChart, self).get_data()
+        data_only = data[1:]
+        return [{"label": el[0], "value": el[1]} for el in data_only]
 
     def chart_type(self):
         return "Donut"
