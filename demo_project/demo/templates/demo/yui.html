@@ -35,6 +35,17 @@
     </div>
     <br />
 
+    <h2>Spline Chart</h2>
+    <div id="spline_chart" class="well">
+
+        {{ spline_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            gchart.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+
     <h2>Column Chart</h2>
     <div id="column_chart" class="well">
         {{ column_chart.as_html }}
@@ -56,6 +67,16 @@
     <h2>Pie Chart</h2>
     <div id="pie_chart" class="well">
         {{ pie_chart.as_html }}
+    </div>
+
+    <h2>Area Chart</h2>
+    <div id="area_chart" class="well">
+        {{ area_chart.as_html }}
+    </div>
+
+    <h2>Areaspline Chart</h2>
+    <div id="area_spline_chart" class="well">
+        {{ area_spline_chart.as_html }}
     </div>
 
 {% endblock %}

@@ -211,6 +211,19 @@ gchart_demo = GChartDemo.as_view(renderer=gchart)
 class YUIDemo(Demo):
     template_name = 'demo/yui.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(YUIDemo, self).get_context_data(**kwargs)
+        queryset = Account.objects.all()
+        data_source = ModelDataSource(queryset,
+                                      fields=['year', 'sales'])
+        area_chart = self.renderer.AreaChart(data_source)
+        area_spline_chart = self.renderer.AreaSplineChart(data_source)
+        spline_chart = self.renderer.SplineChart(SimpleDataSource(data=data))
+        context.update({'area_chart': area_chart,
+                        'area_spline_chart': area_spline_chart,
+                        'spline_chart': spline_chart})
+        return context
+
 yui_demo = YUIDemo.as_view(renderer=yui)
 
 
