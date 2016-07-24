@@ -41,6 +41,7 @@
         </p>
     </div>
 
+    <h2>Line Chart</h2>
     <div id="line_chart" class="well">
 
         {{ line_chart.as_html }}
@@ -52,6 +53,7 @@
     </div>
     <br />
 
+    <h2>Column Chart</h2>
     <div id="column_chart" class="well">
         {{ column_chart.as_html }}
         <pre class="code">
@@ -68,6 +70,7 @@
     </div>
     <br />
 
+    <h2>Bar Chart</h2>
     <div id="bar_chart" class="well">
         {{ bar_chart.as_html }}
         <pre class="code">
@@ -77,10 +80,13 @@
     </div>
     <br />
 
+    <h2>Candlestick Chart</h2>
     <div id="candlestick_chart">
         {{ candlestick_chart.as_html }}
     </div>
+    <br />
 
+    <h2>Pie Chart</h2>
     <div id="pie_chart" class="well">
         {{ pie_chart.as_html }}
         <pre class="code">
@@ -88,7 +94,9 @@
         chart = gchart.PieChart(data_source)
         </pre>
     </div>
+    <br />
 
+    <h2>Treemap Chart</h2>
     <div id="treemap_chart" class="well">
         {{ treemap_chart.as_html }}
         <pre class="code">
@@ -126,13 +134,9 @@
         chart = gchart.TreeMapChart(data_source)
         </pre>
     </div>
+	<br/>
 
-    <div>
-      {{ custom_chart.as_html }}
-      <a href="#" id="get-data" class="btn">Get Data</a>
-    </div>
-    <br />
-
+    <h2>Gauge Chart</h2>
     <div id="gauge_chart" class="well">
       {{ gauge_chart.as_html }}
         <pre class="code">
@@ -150,5 +154,12 @@
                 }
             )</pre>
     </div>
+	<br/>
+
+    <div>
+      {{ custom_chart.as_html }}
+      <a href="#" id="get-data" class="btn">Get Data</a>
+    </div>
+    <br />
 
 {% endblock %}
