@@ -29,8 +29,27 @@
 
         {{ line_chart.as_html }}
         <pre class="code">
+            queryset = Account.objects.all()
             data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            gchart.LineChart(data_source, options={'title': "Sales Growth"})
+            chart = yui.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+
+    <h2>Spline Chart</h2>
+    <div id="spline_chart" class="well">
+
+        {{ spline_chart.as_html }}
+        <pre class="code">
+            data = [
+                   ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                   ['2004', 1000, 400, 100, 600],
+                   ['2005', 1170, 460, 120, 310],
+                   ['2006', 660, 1120, 50, -460],
+                   ['2007', 1030, 540, 100, 200],
+                   ]
+            data_source = SimpleDataSource(data)
+            chart = yui.SplineChart(data_source, options={'title': "Sales/ Expense"})
         </pre>
     </div>
     <br />
@@ -38,6 +57,16 @@
     <h2>Column Chart</h2>
     <div id="column_chart" class="well">
         {{ column_chart.as_html }}
+        <pre class="code">
+            data = [
+                   ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                   ['2004', 1000, 400, 100, 600],
+                   ['2005', 1170, 460, 120, 310],
+                   ['2006', 660, 1120, 50, -460],
+                   ['2007', 1030, 540, 100, 200],
+                   ]
+            data_source = SimpleDataSource(data)
+            chart = yui.ColumnChart(data_source, options={'title': "Sales/ Expense"})
     </div>
 
     <br />
@@ -45,6 +74,10 @@
     <h2>Bar Chart</h2>
     <div id="bar_chart" class="well">
         {{ bar_chart.as_html }}
+        <pre class="code">
+			data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+			chart = yui.BarChart(data_source, options={'title': "Expense Growth"})
+        </pre>
     </div>
     <br />
 
@@ -56,6 +89,28 @@
     <h2>Pie Chart</h2>
     <div id="pie_chart" class="well">
         {{ pie_chart.as_html }}
+        <pre class="code">
+        data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+        chart = yui.PieChart(data_source)
+        </pre>
+    </div>
+
+    <h2>Area Chart</h2>
+    <div id="area_chart" class="well">
+        {{ area_chart.as_html }}
+        <pre class="code">
+        data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+        chart = yui.AreaChart(data_source)
+        </pre>
+    </div>
+
+    <h2>Areaspline Chart</h2>
+    <div id="area_spline_chart" class="well">
+        {{ area_spline_chart.as_html }}
+        <pre class="code">
+        data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+        chart = yui.AreaSplineChart(data_source)
+        </pre>
     </div>
 
 {% endblock %}
