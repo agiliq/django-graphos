@@ -225,9 +225,15 @@ class YUIDemo(Demo):
         area_chart = self.renderer.AreaChart(data_source)
         area_spline_chart = self.renderer.AreaSplineChart(data_source)
         spline_chart = self.renderer.SplineChart(SimpleDataSource(data=data))
+        combo_chart = self.renderer.ComboChart(SimpleDataSource(data=data))
+        combo_spline_chart = self.renderer.ComboSplineChart(SimpleDataSource(data=data))
+        marker_series_chart = self.renderer.MarkerSeriesChart(SimpleDataSource(data=data))
         context.update({'area_chart': area_chart,
                         'area_spline_chart': area_spline_chart,
-                        'spline_chart': spline_chart})
+                        'spline_chart': spline_chart,
+                        'combo_chart': combo_chart,
+                        'combo_spline_chart': combo_spline_chart,
+                        'marker_series_chart': marker_series_chart})
         return context
 
 yui_demo = YUIDemo.as_view(renderer=yui)
