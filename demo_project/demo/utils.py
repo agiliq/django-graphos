@@ -30,9 +30,9 @@ def get_mongo_cursor(db_name, collection_name, max_docs=100):
 data = [
        ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
        ['2004', 1000, 400, 100, 600],
-       ['2005', 1170, 460, 120, 310],
+       ['2005', 1170, 460, 120, 710],
        ['2006', 660, 1120, 50, -460],
-       ['2007', 1030, 540, 100, 200],
+       ['2007', 1030, 540, 100, 490],
        ]
 
 candlestick_data = [['Mon', 20, 28, 38, 45],
