@@ -69,6 +69,22 @@
             chart = yui.ColumnChart(data_source, options={'title': "Sales/ Expense"})
     </div>
 
+  <br />
+
+    <h2> Stacked Column Chart</h2>
+    <div id="column_chart" class="well">
+        {{ stacked_column_chart.as_html }}
+        <pre class="code">
+            data = [
+                   ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                   ['2004', 1000, 400, 100, 600],
+                   ['2005', 1170, 460, 120, 310],
+                   ['2006', 660, 1120, 50, -460],
+                   ['2007', 1030, 540, 100, 200],
+                   ]
+            data_source = SimpleDataSource(data)
+            chart = yui.StackedColumnChart(data_source, options={'title': "Sales/ Expense"})
+    </div>
     <br />
 
     <h2>Bar Chart</h2>
@@ -79,11 +95,27 @@
 			chart = yui.BarChart(data_source, options={'title': "Expense Growth"})
         </pre>
     </div>
+   <br />
+
+    <h2>Stacked Bar Chart</h2>
+    <div id="stacked_bar_chart" class="well">
+        {{ stacked_bar_chart.as_html }}
+        <pre class="code">
+            data = [
+                   ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                   ['2004', 1000, 400, 100, 600],
+                   ['2005', 1170, 460, 120, 310],
+                   ['2006', 660, 1120, 50, -460],
+                   ['2007', 1030, 540, 100, 200],
+                   ]
+            data_source = SimpleDataSource(data)
+            chart = yui.StackedBarChart(data_source, options={'title': "Sales/ Expense"})
+    </div>
     <br />
 
     <h2>Candlestick Chart</h2>
     <div id="candlestick_chart" class="well">
-        {{ candlestick_chart.as_html }}
+        {{ candlestick_chart.as_html}}
     </div>
 
     <h2>Pie Chart</h2>

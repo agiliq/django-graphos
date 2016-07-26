@@ -41,6 +41,12 @@ class BarChart(BaseYuiChart):
     def get_chart_type(self):
         return "bar"
 
+class StackedBarChart(BaseYuiChart):
+    def get_js_template(self):
+        return "graphos/yui/stacked_bar_chart.html"
+
+    def get_chart_type(self):
+        return "bar"
 
 class ColumnChart(BaseYuiChart):
     def get_js_template(self):
@@ -49,6 +55,12 @@ class ColumnChart(BaseYuiChart):
     def get_chart_type(self):
         return "column"
 
+class StackedColumnChart(BaseYuiChart):
+    def get_js_template(self):
+        return "graphos/yui/stacked_column_chart.html"
+
+    def get_chart_type(self):
+        return "column"
 
 class PieChart(BaseYuiChart):
     def get_js_template(self):

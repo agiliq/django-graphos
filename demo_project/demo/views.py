@@ -221,10 +221,17 @@ class YUIDemo(Demo):
                                       fields=['year', 'sales'])
         area_chart = self.renderer.AreaChart(data_source)
         area_spline_chart = self.renderer.AreaSplineChart(data_source)
+        simple_data_source = SimpleDataSource(data=data)
+        stacked_bar_chart = self.renderer.StackedBarChart(simple_data_source,
+                                           options={'title': "Expense Growth"})
+        stacked_column_chart = self.renderer.StackedColumnChart(simple_data_source,
+                                                          options={'title': "Sales/ Expense"})
         spline_chart = self.renderer.SplineChart(SimpleDataSource(data=data))
         context.update({'area_chart': area_chart,
                         'area_spline_chart': area_spline_chart,
-                        'spline_chart': spline_chart})
+                        'spline_chart': spline_chart,
+                        'stacked_column_chart': stacked_column_chart,
+                        'stacked_bar_chart': stacked_bar_chart})
         return context
 
 yui_demo = YUIDemo.as_view(renderer=yui)
