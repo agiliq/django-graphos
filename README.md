@@ -34,36 +34,41 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 
 #### Google Charts
 
-* Area chart
-* Bar chart
-* Candlestick charts
-* Column chart
 * Line chart
+* Bar chart
+* Column chart
 * Pie chart
+* Area chart
+* Candlestick chart
 * Treemap chart
+* Gauge chart
 
 #### YUI
 
 * Line chart
-* Column chart
+* Spline chart
 * Bar chart
+* Column chart
 * Pie chart
+* Area chart
+* Areaspline chart
 
 #### Morris.js
 
 * Line chart
-* Column chart
+* Bar chart
 * Donut chart
+* Area chart
 
 #### Highcharts
 
 (You will need to buy a license if you use highcharts for commerical use)
 
-* Area Chart
+* Line Chart
 * Bar Chart
 * Column Chart
-* Line Chart
 * Pie Chart
+* Area Chart
 
 #### Matplotlib
 
@@ -102,6 +107,8 @@ The installed demo app shows the various suported chart types.
 In case you want to use mongo data while charting, you must have mongodb properly setup and **pymongo** installed. Make sure mongo server is running.
 
 	mongod --dbpath ~/data/db
+
+Mongo setup is optional and is not needed to get running with demo project.
 
 
 ### Overview of Plot generation
