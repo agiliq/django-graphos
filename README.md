@@ -93,15 +93,15 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 
 	python manage.py migrate
 
-* Make sure mongo server is running(You should have mongodb properly setup for this)
-
-	mongod --dbpath ~/data/db
-
 * Run server
 
 	python manage.py runserver
 
 The installed demo app shows the various suported chart types.
+
+In case you want to use mongo data while charting, you must have mongodb properly setup and **pymongo** installed. Make sure mongo server is running.
+
+	mongod --dbpath ~/data/db
 
 
 ### Overview of Plot generation

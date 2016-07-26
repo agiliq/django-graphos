@@ -1,5 +1,3 @@
-import pymongo
-
 from .models import Account
 
 
@@ -8,6 +6,7 @@ DB_PORT = 27017
 
 
 def get_db(db_name):
+    import pymongo
     DB_HOST = ["localhost"]
     DB_PORT = 27017
     db = pymongo.Connection(DB_HOST, DB_PORT)[db_name]
@@ -15,6 +14,7 @@ def get_db(db_name):
 
 
 def get_mongo_cursor(db_name, collection_name, max_docs=100):
+    import pymongo
     db = pymongo.Connection(host=DB_HOST,
                             port=DB_PORT)[db_name]
     collection = db[collection_name]

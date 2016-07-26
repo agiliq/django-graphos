@@ -27,7 +27,6 @@ except ImportError:
 
 import markdown
 import datetime
-import pymongo
 from dateutil.parser import parse
 
 class MongoJson(FlotAsJson):
@@ -158,16 +157,20 @@ class Demo(TemplateView):
 def home(request):
     chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     g_chart = gchart.LineChart(SimpleDataSource(data=data))
+    context = {'chart': chart,
+               'g_chart': g_chart}
+    return render(request, 'demo/home.html', context)
+
+
+def other(request):
     cursor = get_mongo_cursor("graphos_mongo",
                               "zips",
                               max_docs=100)
     m_data = MongoDBDataSource(cursor=cursor, fields=['_id', 'pop'])
     m_chart = flot.LineChart(m_data)
-
-    context = {'chart': chart,
-               'g_chart': g_chart,
-               'm_chart': m_chart}
-    return render(request, 'demo/home.html', context)
+    context = {}
+    context['m_chart'] = m_chart
+    return render(request, 'demo/other.html', context)
 
 
 @cache_page(60*60*24)
