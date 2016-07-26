@@ -72,3 +72,27 @@ class AreaSplineChart(BaseYuiChart):
 
     def get_chart_type(self):
         return "areaspline"
+
+
+class ComboChart(BaseYuiChart):
+    def get_js_template(self):
+        return "graphos/yui/combo.html"
+
+    def get_chart_type(self):
+        return "combo"
+
+
+class ComboSplineChart(BaseYuiChart):
+    def get_js_template(self):
+        return "graphos/yui/combo_spline.html"
+
+    def get_chart_type(self):
+        return "combospline"
+
+
+class MarkerSeriesChart(BaseYuiChart):
+    def get_js_template(self):
+        return "graphos/yui/marker_series.html"
+
+    def get_chart_type(self):
+        return "markerseries"

@@ -81,11 +81,6 @@
     </div>
     <br />
 
-    <h2>Candlestick Chart</h2>
-    <div id="candlestick_chart" class="well">
-        {{ candlestick_chart.as_html }}
-    </div>
-
     <h2>Pie Chart</h2>
     <div id="pie_chart" class="well">
         {{ pie_chart.as_html }}
@@ -110,6 +105,33 @@
         <pre class="code">
         data_source = ModelDataSource(queryset, fields=['year', 'sales'])
         chart = yui.AreaSplineChart(data_source)
+        </pre>
+    </div>
+
+    <h2>Combo Chart</h2>
+    <div id="area_spline_chart" class="well">
+        {{ combo_chart.as_html }}
+        <pre class="code">
+        data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+        chart = yui.ComboChart(data_source)
+        </pre>
+    </div>
+
+    <h2>Combo Spline Chart</h2>
+    <div id="area_spline_chart" class="well">
+        {{ combo_spline_chart.as_html }}
+        <pre class="code">
+        data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+        chart = yui.ComboSplineChart(data_source)
+        </pre>
+    </div>
+
+    <h2>Marker Series Chart</h2>
+    <div id="area_spline_chart" class="well">
+        {{ marker_series_chart.as_html }}
+        <pre class="code">
+        data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+        chart = yui.MarkerSeriesChart(data_source)
         </pre>
     </div>
 
