@@ -83,6 +83,15 @@
     <h2>Candlestick Chart</h2>
     <div id="candlestick_chart">
         {{ candlestick_chart.as_html }}
+        <pre class="code">
+            data = [['Mon', 20, 28, 38, 45],
+                    ['Tue', 31, 38, 55, 66],
+                    ['Wed', 50, 55, 77, 80],
+                    ['Thu', 77, 77, 66, 50],
+                    ['Fri', 68, 66, 22, 15]]
+            data_source = SimpleDataSource(data)
+            chart = gchart.CandlestickChart(data_source)
+        </pre>
     </div>
     <br />
 
@@ -155,6 +164,16 @@
             )</pre>
     </div>
 	<br/>
+
+    <h2>Area Chart</h2>
+    <div id="area_chart" class="well">
+        {{ area_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+            chart = gchart.AreaChart(data_source)
+        </pre>
+    </div>
+    <br />
 
     <div>
       {{ custom_chart.as_html }}
