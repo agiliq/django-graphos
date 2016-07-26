@@ -109,7 +109,7 @@
     </div>
 
     <h2>Combo Chart</h2>
-    <div id="area_spline_chart" class="well">
+    <div id="combo_chart" class="well">
         {{ combo_chart.as_html }}
         <pre class="code">
         data_source = ModelDataSource(queryset, fields=['year', 'sales'])
@@ -118,7 +118,7 @@
     </div>
 
     <h2>Combo Spline Chart</h2>
-    <div id="area_spline_chart" class="well">
+    <div id="combo_spline_chart" class="well">
         {{ combo_spline_chart.as_html }}
         <pre class="code">
         data_source = ModelDataSource(queryset, fields=['year', 'sales'])
@@ -127,7 +127,7 @@
     </div>
 
     <h2>Marker Series Chart</h2>
-    <div id="area_spline_chart" class="well">
+    <div id="marker_series_chart" class="well">
         {{ marker_series_chart.as_html }}
         <pre class="code">
         data_source = ModelDataSource(queryset, fields=['year', 'sales'])
