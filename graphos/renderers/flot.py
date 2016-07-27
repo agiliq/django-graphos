@@ -80,6 +80,15 @@ class ColumnChart(BaseFlotChart):
         options["horizontal"] = True
         return options
 
+class AreaChart(BaseFlotChart):
+
+    def get_options(self):
+        options = get_default_options("lines")
+        options.update({"series": {"lines": {"fill": "true"}}})
+        options.update(self.options)
+        options["horizontal"] = True
+        return options
+
 
 class PieChart(BaseFlotChart):
     pass  # TODO
