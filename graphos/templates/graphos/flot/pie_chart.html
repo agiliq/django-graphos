@@ -1,0 +1,10 @@
+<script type="text/javascript">
+$(function () {
+    data{{ chart.html_id }} = {{ chart.get_series_pie_objects|safe }}
+		$plot{{ chart.html_id }} = $.plot(
+   		$("#{{ chart.html_id }}"),
+   		data{{ chart.html_id }},
+   		{{ chart.get_options_json|safe }}
+   	);
+});
+</script>

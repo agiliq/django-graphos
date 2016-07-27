@@ -264,7 +264,11 @@ class FlotDemo(Demo):
         data_source = context["data_source"]
         point_chart = self.renderer.PointChart(data_source,
                                   options={'title': "Sales Growth"})
-        context["point_chart"] = point_chart
+        data_source = SimpleDataSource(data)
+        pie_chart = flot.PieChart(data_source,
+                                  options = {'title': "Sales Growth"})
+        context.update({'point_chart': point_chart,
+                        "pie_chart": pie_chart})
         return context
 
 flot_demo = FlotDemo.as_view(renderer=flot)
