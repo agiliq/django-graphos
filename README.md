@@ -20,7 +20,7 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 * [Flot](http://flotcharts.org)
 * [Google Charts API](https://developers.google.com/chart/)
 * [YUI Charts](http://yuilibrary.com/yui/docs/charts/)
-* [Morris.js](http://www.oesmith.co.uk/morris.js/)
+* [Morris.js](http://morrisjs.github.io/morris.js/)
 * [Highcharts](http://www.highcharts.com/)
 * [Matplotlib](http://matplotlib.org/api/pyplot_api.html)
 
