@@ -42,7 +42,7 @@ class BaseFlotChart(BaseChart):
                 series_object['data'] = i[1]
                 series_objects.append(series_object)
         except IndexError:
-            print "Input Data Format is [['Year', 'Sales'], [2004, 100], [2005, 300]]"
+            print("Input Data Format is [['Year', 'Sales'], [2004, 100], [2005, 300]]")
         # series_objects = [{'label': '2004', 'data': 100}, {'label': '2005': 'data': 300}]
         return json.dumps(series_objects, cls=JSONEncoderForHTML)
 
