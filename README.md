@@ -3,7 +3,7 @@ Graphos
 
 [![Build Status](https://travis-ci.org/agiliq/django-graphos.png)](https://travis-ci.org/agiliq/django-graphos)
 
-Graphos is a Django app to normalize data to create beautiful charts. It provides a JS agnostic way to work with charts.
+Graphos is a Django app to normalize data to create beautiful charts. It provides a JS agnostic way to work with charts. Graphos enables seamless and quick switching between different chart providers.
 
 * Demo: [http://agiliq.com/demo/graphos/](http://agiliq.com/demo/graphos/).  
 * Docs: [http://agiliq.com/docs/django-graphos/](http://agiliq.com/docs/django-graphos/).
@@ -30,6 +30,8 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 
 * Line chart
 * Bar Chart
+* Column chart
+* Pie chart
 * Point Chart
 
 #### Google Charts
@@ -46,11 +48,11 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 #### YUI
 
 * Line chart
-* Spline chart
 * Bar chart
 * Column chart
 * Pie chart
 * Area chart
+* Spline chart
 * Areaspline chart
 
 #### Morris.js
@@ -75,8 +77,9 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 * LineChart
 * BarChart
 
+With Graphos, switching from gchart LineChart to yui LineChart can be done within minutes. So would be the case in switching from yui AreaChart to morris AreaChart.
 
-### Demo
+### Running demo project locally
 
 * Clone the project
 
@@ -170,6 +173,7 @@ See, how easy it was to switch from gchart to yui. You did not have to write or 
 
 This should be used if you want to generate a chart from Python list.
 
+    from graphos.sources.simple import SimpleDataSource
     data = SimpleDataSource(data=data)
 
 Data could be:
@@ -210,6 +214,7 @@ This data essentially tells that in year 2004, sales was 1000 units and expense 
 
 This should be used if you want to generate a chart from a Django queryset.
 
+	from graphos.sources.models import ModelDataSource
 	queryset = Account.objects.all()
 	data_source = ModelDataSource(queryset,
 								  fields=['year', 'sales'])
@@ -225,6 +230,14 @@ This would plot the yearly sale and yearly expense
 
 #### CSVDataSource
 
+This should be used if you want to generate a chart from a CSV file.
+
+    from graphos.sources.csv_file import CSVDataSource
+    csv_file = open("hello.csv")
+    data_source = CSVDataSource(csv_file)
+
+#### MongoDataSource
+
 TODO
 
 ### Renderers
@@ -234,8 +247,8 @@ We have following renderers
 * Gchart
 
     * gchart.LineChart
-    * gchart.ColumnChart
     * gchart.BarChart
+    * gchart.ColumnChart
     * gchart.PieChart
     * gchart.AreaChart
     * gchart.TreeMapChart
@@ -245,12 +258,43 @@ We have following renderers
 * Yui
 
     * yui.LineChart
+    * yui.BarChart
+    * yui.ColumnChart
+    * yui.PieChart
+    * yui.AreaChart
+    * yui.SplineChart
+    * yui.AreaSplineChart
 
-TODO
+* Flot
 
-### Examples
+    * flot.LineChart
+    * flot.BarChart
+    * flot.ColumnChart
+    * flot.PieChart
+    * flot.PointChart
 
-#### Generating a plot from python list
+* Morris
+
+    * morris.LineChart
+    * morris.BarChart
+    * morris.AreaChart
+    * morris.DonutChart
+
+* Highcharts
+
+    * highcharts.LineChart
+    * highcharts.BarChart
+    * highcharts.ColumnChart
+    * highcharts.PieChart
+    * highcharts.AreaChart
+
+Most of the renderers support LineChart, BarChart, ColumnChart and PieChart, and it is very easy to switch from specific chart type of one renderer to other. eg: It is super quick to switch from gchart LineChart to flot LineChart.
+
+### More Examples
+
+#### Using SimpleDataSource with gchart LineChart
+
+##### View
 
     data =  [
             ['Year', 'Sales', 'Expenses'],
@@ -263,22 +307,77 @@ TODO
     from graphos.renderers.gchart import LineChart
     chart = LineChart(SimpleDataSource(data=data))
 
-#### Generating a plot from CSV file
+##### Template
 
-    from graphos.sources.csv_file import CSVDataSource
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+
+    {{ chart.as_html }}
+
+#### Using SimpleDataSource with yui LineChart
+
+##### View
+
+    data =  [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+    from graphos.sources.simple import SimpleDataSource
     from graphos.renderers.yui import LineChart
-    csv_file = open("hello.csv")
-    chart = LineChart(CSVDataSource(csv_file))
+    chart = LineChart(SimpleDataSource(data=data))
 
-#### Generating a plot from the ORM
+##### Template
 
-    from graphos.sources.model import ModelDataSource
-    from someapp.models import Accounts
-    queryset = Accounts.objects.filter(foo=bar)
-    chart = LineChart(ModelDataSource(queryset, fields=["year", "sales", "expenses"]))
+	<script src="http://yui.yahooapis.com/3.10.0/build/yui/yui-min.js"></script>
+    {{ chart.as_html }}
 
-#### Generating a plot from MongoDB
-Todo
+#### Using SimpleDataSource with yui BarChart
+
+##### View
+
+    data =  [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+    from graphos.sources.simple import SimpleDataSource
+    from graphos.renderers.yui import BarChart
+    chart = BarChart(SimpleDataSource(data=data))
+
+##### Template
+
+	<script src="http://yui.yahooapis.com/3.10.0/build/yui/yui-min.js"></script>
+    {{ chart.as_html }}
+
+#### Using SimpleDataSource with gchart BarChart
+
+##### View
+
+    data =  [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+    from graphos.sources.simple import SimpleDataSource
+    from graphos.renderers.gchart import BarChart
+    chart = BarChart(SimpleDataSource(data=data))
+
+##### Template
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+    {{ chart.as_html }}
 
 ### Installation
 
@@ -289,38 +388,6 @@ pip install django-graphos
 Graphos is compatible with Python 2.7 and Python 3.3+
 
 [available on pypi](https://pypi.python.org/pypi/django-graphos/)
-
-
-### Creating new DataSource
-
-A DataSource is a class which has these three methods.
-
-    get_data
-    get_header
-    get_first_column
-
-`get_header` is used by a `Renderer` to create the labels.
-`get_first_column` is used to set the x axis labels
-`get_data` is used to get the data for display. It should always return a nested list. Eg:
-
-    [
-        ['Year', 'Sales', 'Expenses'],
-        [2004, 1000, 400],
-        [2005, 1170, 460],
-        [2006, 660, 1120],
-        [2007, 1030, 540]
-    ]
-
-If you create a class extending `SimpleDataSource`, and implement `get_data`. You get
-`get_header` and `get_first_column` for free.
-
-### Creating new Renderer
-
-A renderer is a class which takes a  `DataSource` and can convert it to the html to display.
-
-The only required method on a `Renderer` is `as_html`. This will convert the data to a format which can display the chart.
-
-Generally you will convert the data to json and pass it to the template which you return.
 
 
 ### Handling non serializable fields
@@ -372,6 +439,38 @@ And you would use this class like:
 
     queryset = Account.objects.all()
     chart = flot.LineChart(MyModelDataSource(queryset=queryset, fields=['sales', 'datetime_field','expenses']))
+
+### Creating new DataSource
+
+A DataSource is a class which has these three methods.
+
+    get_data
+    get_header
+    get_first_column
+
+`get_header` is used by a `Renderer` to create the labels.
+`get_first_column` is used to set the x axis labels
+`get_data` is used to get the data for display. It should always return a nested list. Eg:
+
+    [
+        ['Year', 'Sales', 'Expenses'],
+        [2004, 1000, 400],
+        [2005, 1170, 460],
+        [2006, 660, 1120],
+        [2007, 1030, 540]
+    ]
+
+If you create a class extending `SimpleDataSource`, and implement `get_data`. You get
+`get_header` and `get_first_column` for free.
+
+### Creating new Renderer
+
+A renderer is a class which takes a  `DataSource` and can convert it to the html to display.
+
+The only required method on a `Renderer` is `as_html`. This will convert the data to a format which can display the chart.
+
+Generally you will convert the data to json and pass it to the template which you return.
+
 
 ### License
 
