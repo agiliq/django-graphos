@@ -77,7 +77,7 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 * LineChart
 * BarChart
 
-With Graphos, switching from gchart LineChart to yui LineChart can be done within minutes. So would be the case in switching from yui AreaChart to morris AreaChart.
+With Graphos, switching from google's LineChart to yui LineChart can be done within minutes. So would be the case in switching from yui AreaChart to morris AreaChart.
 
 ### Running demo project locally
 
@@ -130,7 +130,9 @@ In your view, you do something like this:
             [2006, 660, 1120],
             [2007, 1030, 540]
         ]
+    # DataSource object
     data_source = SimpleDataSource(data=data)
+    # Chart object
     chart = LineChart(data_source)
     context = {'chart': chart}
     return render(request, 'yourtemplate.html', context)
@@ -139,7 +141,7 @@ And then in the template:
 
     {{ chart.as_html }}
 
-In this example we are planning to use Google chart, as is evident from the import statement in the view, we import gchart.LineChart. So we must also include the gchart javascript in our template.
+In this example we are planning to use Google chart, as is evident from the import statement in the view, we import gchart.LineChart. So we must also include the google chart javascript in our template.
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -155,7 +157,7 @@ So the template would look like
 
     {{ chart.as_html }}
 
-If we want to use yui LineChart instead of gchart LineChart, our view would have:
+If we want to use yui LineChart instead of google LineChart, our view would have:
 
 	from graphos.renderers.yui import LineChart
     chart = LineChart(data_source)
@@ -167,7 +169,7 @@ And our template would inclue yui javascript and it would look like:
 
 See, how easy it was to switch from gchart to yui. You did not have to write or change a single line of javascript to switch from gchart to yui. All that was taken care of by as_html() of the chart object.
 
-### Data Sources
+### DataSources
 
 #### SimpleDataSource
 
@@ -240,9 +242,9 @@ This should be used if you want to generate a chart from a CSV file.
 
 TODO
 
-### Renderers
+### Charts
 
-We have following renderers
+We have following charts
 
 * Gchart
 
@@ -288,7 +290,7 @@ We have following renderers
     * highcharts.PieChart
     * highcharts.AreaChart
 
-Most of the renderers support LineChart, BarChart, ColumnChart and PieChart, and it is very easy to switch from specific chart type of one renderer to other. eg: It is super quick to switch from gchart LineChart to flot LineChart.
+Most of the chart providers support LineChart, BarChart, ColumnChart and PieChart, and it is very easy to switch from specific chart type of one provider to other. eg: It is super quick to switch from gchart LineChart to flot LineChart.
 
 ### More Examples
 
