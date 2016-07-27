@@ -1,13 +1,1 @@
-{% extends "graphos/yui/base.html" %}
-
-    {% block yui_chart_type %}
-        // Instantiate and render the chart
-        var mychart = new Y.Chart({
-            dataProvider: datasets,
-            render: "#{{ chart.get_html_id }}",
-            type: "{{chart.get_chart_type}}",
-            categoryKey:"{{ chart.get_category_key }}",
-            styles: {{ chart.get_options_json|safe }},
-            stacked:true
-        });
-    {% endblock %}
+{% extends "graphos/yui/base_stacked.html" %}
