@@ -11,9 +11,9 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 ### Supported Backends:
 
 * Python Nested lists
+* Django ORM
 * CSV Files
 * MongoDB
-* Django ORM
 
 ### Charting API Supported
 
@@ -163,6 +163,90 @@ And our template would inclue yui javascript and it would look like:
     {{ chart.as_html }}
 
 See, how easy it was to switch from gchart to yui. You did not have to write or change a single line of javascript to switch from gchart to yui. All that was taken care of by as_html() of the chart object.
+
+### Data Sources
+
+#### SimpleDataSource
+
+This should be used if you want to generate a chart from Python list.
+
+    data = SimpleDataSource(data=data)
+
+Data could be:
+
+    data = [
+           ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+           ['2004', 1000, 400, 100, 600],
+           ['2005', 1170, 460, 120, 710],
+           ['2006', 660, 1120, 50, -460],
+           ['2007', 1030, 540, 100, 490],
+           ]
+
+or it could be
+
+    data = [
+           ['Year', 'Sales', 'Expenses'],
+           ['2004', 1000, 400],
+           ['2005', 1170, 460],
+           ['2006', 660, 1120],
+           ['2007', 1030, 540],
+           ]
+
+or it could be
+
+    data = [
+           ['Year', 'Sales', 'Expenses'],
+           ['2004', 1000, 400],
+           ['2005', 1170, 460],
+           ]
+
+You got the idea.
+
+data has to be a list of lists. First row of data tells the headers. First element of each list elementis the x axis.
+
+This data essentially tells that in year 2004, sales was 1000 units and expense was 400 units. And in year 2005, sales was 1170 units and expense was 460 units.
+
+#### ModelDataSource
+
+This should be used if you want to generate a chart from a Django queryset.
+
+	queryset = Account.objects.all()
+	data_source = ModelDataSource(queryset,
+								  fields=['year', 'sales'])
+
+This assumes that there is a Django model called Account which has fields `year` and `sales`. And you plan to plot year on x axis and sales on y axis.
+
+Or you could say
+
+	data_source = ModelDataSource(queryset,
+								  fields=['year', 'sales', 'expenses'])
+
+This would plot the yearly sale and yearly expense
+
+#### CSVDataSource
+
+TODO
+
+### Renderers
+
+We have following renderers
+
+* Gchart
+
+    * gchart.LineChart
+    * gchart.ColumnChart
+    * gchart.BarChart
+    * gchart.PieChart
+    * gchart.AreaChart
+    * gchart.TreeMapChart
+    * gchart.CandlestickChart
+    * gchart.GaugeChart
+
+* Yui
+
+    * yui.LineChart
+
+TODO
 
 ### Examples
 
