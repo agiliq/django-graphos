@@ -3,7 +3,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 
-from graphos.renderers import gchart, yui, flot, morris, highcharts, matplotlib_renderer
+from graphos.renderers import gchart, yui, flot, morris, highcharts, matplotlib_renderer, chart_js
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -12,7 +12,7 @@ from .models import Account
 from .utils import get_mongo_cursor
 from .utils import (data, candlestick_data, treemap_data,
                     mongo_series_object_1, mongo_series_object_2,
-                    create_demo_accounts, create_demo_mongo, get_db)
+                    create_demo_accounts, create_demo_mongo, get_db, chartjs_data)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
 import json
@@ -437,3 +437,9 @@ def matplotlib_demo(request):
     context = {"line_chart": line_chart,
                "bar_chart": bar_chart}
     return render(request, 'demo/matplotlib.html', context)
+
+
+def chartjs_demo(request):
+    line_chart = chart_js.LineChart(SimpleDataSource(data=chartjs_data))
+    context = {"line_chart": line_chart}
+    return render(request, 'demo/chart_js.html', context)
