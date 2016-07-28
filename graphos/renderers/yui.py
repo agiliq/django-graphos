@@ -56,6 +56,18 @@ class PieChart(BaseYuiChart):
 
     def get_chart_type(self):
         return "pie"
+    
+    def get_data(self):
+        # FIXME
+        data = self.data_source.get_data()
+        header = self.header
+        header_first_two_columns = header[:2]
+        data_only = data[1:]
+        data_only_with_first_two_columns = [each[:2] for each in data_only]
+        rows = []
+        for row in data_only_with_first_two_columns:
+            rows.append(dict(zip(header_first_two_columns, row)))
+        return rows
 
 
 class AreaChart(BaseYuiChart):
