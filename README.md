@@ -381,6 +381,23 @@ Most of the chart providers support LineChart, BarChart, ColumnChart and PieChar
     </script>
     {{ chart.as_html }}
 
+### Options
+
+#### Setting width and height of chart containing div
+
+Your rendered chart is contained in the div. You can control the width and height of this div while instantiating the chart element.
+
+    chart = gchart.LineChart(simple_data_source, height=100, width=100)
+
+#### Chart specific options
+
+Different chart providers give different options to customise the chart.
+
+Google chart api allows setting title for the rendered chart, see [Gchart documentation](https://developers.google.com/chart/interactive/docs/quick_start), using `title` attribute. You can accomplish this by adding a keyword argument called `options` while instantiating the chart element.
+
+    chart = gchart.LineChart(simple_data_source, height=100, width=100, options={'title': 'Sales growth'})
+
+
 ### Installation
 
 pip install django-graphos
