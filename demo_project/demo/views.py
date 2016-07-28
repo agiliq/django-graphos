@@ -273,7 +273,10 @@ class FlotDemo(Demo):
         data_source = context["data_source"]
         point_chart = self.renderer.PointChart(data_source,
                                   options={'title': "Sales Growth"})
-        context["point_chart"] = point_chart
+        area_chart = flot.AreaChart(SimpleDataSource(data=data),
+                                    options={'title': "Sales Growth"})
+        context.update({'point_chart': point_chart,
+                        'area_chart': area_chart})
         return context
 
 flot_demo = FlotDemo.as_view(renderer=flot)
