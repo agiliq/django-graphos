@@ -383,9 +383,17 @@ Most of the chart providers support LineChart, BarChart, ColumnChart and PieChar
 
 ### Options
 
+Your rendered chart is contained in a div.
+
+#### Setting id of chart containing div
+
+You might want to do additional jquery or javascript operations with your chart containing div. In such case you might want to set an id on the div. You can do this while instantiating the chart element.
+
+    chart = gchart.LineChart(html_id='gchart_div')
+
 #### Setting width and height of chart containing div
 
-Your rendered chart is contained in the div. You can control the width and height of this div while instantiating the chart element.
+You can control the width and height of chart containing div while instantiating the chart element.
 
     chart = gchart.LineChart(simple_data_source, height=100, width=100)
 
