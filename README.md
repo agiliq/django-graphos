@@ -405,6 +405,10 @@ Google chart api allows setting title for the rendered chart, see [Gchart docume
 
     chart = gchart.LineChart(simple_data_source, height=100, width=100, options={'title': 'Sales growth'})
 
+Google pie chart allows making the chart as 3 dimensional. You can accomplish this by using keyword argument `options`.
+
+    pie_chart = gchart.PieChart(simple_data_source, options={'is3D': True})
+
 
 ### Installation
 
