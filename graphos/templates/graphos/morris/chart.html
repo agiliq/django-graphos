@@ -1,5 +1,6 @@
 <script type="text/javascript">
-new Morris.{{ chart.chart_type }}({
+var options = {{chart.get_options_json|safe}};
+var morris_dict = {
   // ID of the element in which to draw the chart.
   element: '{{ chart.get_html_id }}',
   // Chart data records -- each entry in this array corresponds to a point on
@@ -15,5 +16,10 @@ new Morris.{{ chart.chart_type }}({
   // post units
   postUnits: '{{ chart.get_options.postUnits|safe }}',
   preUnits: '{{ chart.get_options.preUnits|safe }}',
-});
+};
+
+for(option in options) {
+  morris_dict[option] = options[option];
+}
+new Morris.{{ chart.chart_type }}(morris_dict);
 </script>

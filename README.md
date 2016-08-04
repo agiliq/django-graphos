@@ -409,6 +409,9 @@ Google pie chart allows making the chart as 3 dimensional. You can accomplish th
 
     pie_chart = gchart.PieChart(simple_data_source, options={'is3D': True})
 
+Morris.js allows options like lineWidth, smooth etc. You can find more [here](http://morrisjs.github.io/morris.js/lines.html#lines). You can accomplish this by using `options`.
+
+	chart = morris.LineChart(simple_data_source, options={'lineWidth': 50, 'smooth': False})
 
 ### Installation
 
