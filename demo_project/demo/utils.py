@@ -100,6 +100,14 @@ mongo_series_object_2 = [[400, 4],
 mongo_data = [{'data': mongo_series_object_1, 'label': 'hours'},
               {'data': mongo_series_object_2, 'label': 'hours'}]
 
+chartjs_data = [
+               ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+               ['First dataset', '2004', 1000, 400, 100, 600],
+               ['Second dataset', '2005', 1170, 460, 120, 310],
+               ['Third dataset', '2006', 660, 1120, 50, -460],
+               ['Fourth dataset', '2007', 1030, 540, 100, 200],
+               ]
+
 
 def create_demo_accounts():
     Account.objects.all().delete()

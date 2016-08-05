@@ -1,0 +1,15 @@
+
+<canvas id="canvas"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("canvas").getContext("2d");
+    var data = {
+        labels: {{chart.header|safe}},
+        datasets: {{chart.get_data|safe}},
+    };
+
+    var myNewChart = new Chart(ctx , {
+      type: "{{chart.get_chart_type}}",
+      data: data, 
+    }); 
+</script>
