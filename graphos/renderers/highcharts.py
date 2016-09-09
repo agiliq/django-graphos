@@ -6,6 +6,14 @@ from ..utils import JSONEncoderForHTML
 
 
 class BaseHighCharts(BaseChart):
+
+    def get_data(self):
+        data = self.data_source.get_data()
+        headers = list(data.pop(0))
+        _data = map(list, zip(*data))
+        _data.insert(0, headers)
+        return _data
+
     def get_html_template(self):
         return "graphos/highcharts/html.html"
 
