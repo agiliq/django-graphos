@@ -47,5 +47,17 @@ class PieChart(BaseC3JS):
 
 
 class ColumnChart(BaseC3JS):
+    """
+    C3 doesn't have column type chart, so we have to render the column chart by
+    rotating the axis in the js
+    axis: {
+        rotated: true
+    }
+    """
     def get_chart_type(self):
-        return "bar"
+        return "column"
+
+
+class DonutChart(BaseC3JS):
+    def get_chart_type(self):
+        return "donut"
