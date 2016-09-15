@@ -3,7 +3,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 
-from graphos.renderers import gchart, yui, flot, morris, highcharts, matplotlib_renderer
+from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matplotlib_renderer
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -285,6 +285,22 @@ class HighChartsDemo(Demo):
     template_name = "demo/highcharts.html"
 
 highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
+
+
+class C3jsDemo(Demo):
+    template_name = "demo/c3js.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(C3jsDemo, self).get_context_data(**kwargs)
+        data_source = context["data_source"]
+        spline_chart = self.renderer.SplineChart(
+            data_source,
+            options={'title': "Sales Growth"}
+        )
+        context.update({'spline_chart': spline_chart})
+        return context
+
+c3js_demo = C3jsDemo.as_view(renderer=c3js)
 
 
 def smart_date(value):
