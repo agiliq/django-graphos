@@ -1,16 +1,13 @@
 <script>
 $(function () {
-    {% if chart.get_chart_type == 'pie' %}
-        var chart = c3.generate({
-            bindto: '#{{ chart.get_html_id }}',
+    var chart = c3.generate({
+        bindto: '#{{ chart.get_html_id }}',
+        {% if chart.get_chart_type == 'pie' %}
             data: {
                 columns: {{ chart.get_pie_data|safe }},
                 type: "{{ chart.get_chart_type }}"
             }
-        });
-    {% elif chart.get_chart_type == 'column' %}
-        var chart = c3.generate({
-            bindto: '#{{ chart.get_html_id }}',
+        {% elif chart.get_chart_type == 'column' %}
             data: {
                 x: "{{ chart.get_x_axis_title }}",
                 columns: {{ chart.get_columns_data|safe }},
@@ -19,28 +16,21 @@ $(function () {
             axis: {
                 rotated: true
             }
-        });
-    {% elif chart.get_chart_type == 'donut' %}
-        var chart = c3.generate({
-            bindto: '#{{ chart.get_html_id }}',
+        {% elif chart.get_chart_type == 'donut' %}
             data: {
-                x: "{{ chart.get_x_axis_title }}",
                 columns: {{ chart.get_columns_data|safe }},
                 type: "{{ chart.get_chart_type }}"
             },
             donut: {
                 title: "{{ chart.get_options.title }}"
             }
-        });
-    {% else %}
-        var chart = c3.generate({
-            bindto: '#{{ chart.get_html_id }}',
+        {% else %}
             data: {
                 x: "{{ chart.get_x_axis_title }}",
                 columns: {{ chart.get_columns_data|safe }},
                 type: "{{ chart.get_chart_type }}"
             }
-        });
-    {% endif %}
+        {% endif %}
+    });
 });
 </script>
