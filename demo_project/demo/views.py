@@ -292,12 +292,21 @@ class C3jsDemo(Demo):
 
     def get_context_data(self, **kwargs):
         context = super(C3jsDemo, self).get_context_data(**kwargs)
-        data_source = context["data_source"]
+        simple_data_source = context.get("simple_data_source")
         spline_chart = self.renderer.SplineChart(
-            data_source,
+            simple_data_source,
             options={'title': "Sales Growth"}
         )
-        context.update({'spline_chart': spline_chart})
+        bar_chart = self.renderer.BarChart(simple_data_source)
+        donut_chart = self.renderer.DonutChart(
+            simple_data_source,
+            options={'title': 'Complete picture'}
+        )
+        context.update({
+            'spline_chart': spline_chart,
+            'bar_chart': bar_chart,
+            'donut_chart': donut_chart,
+        })
         return context
 
 c3js_demo = C3jsDemo.as_view(renderer=c3js)
