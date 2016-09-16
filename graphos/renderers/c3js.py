@@ -13,7 +13,7 @@ class BaseC3JS(BaseChart):
     def get_js_template(self):
         return "graphos/c3js/js.html"
 
-    def get_keys(self):
+    def get_categories(self):
         return [x[0] for x in self.get_data()]
 
     def get_x_axis_title(self):

@@ -29,6 +29,7 @@ import markdown
 import datetime
 from dateutil.parser import parse
 
+
 class MongoJson(FlotAsJson):
     def get_context_data(self, *args, **kwargs):
         accounts_cursor = get_db("accounts").docs.find()
@@ -39,6 +40,7 @@ class MongoJson(FlotAsJson):
 
 
 mongo_json = MongoJson.as_view()
+
 
 class MongoJson2(FlotAsJson):
     def get_context_data(self, *args, **kwargs):
@@ -63,6 +65,7 @@ class MongoJsonMulti(FlotAsJson):
     def get(self, *args, **kwargs):
         chart = self.get_context_data()["chart"]
         return HttpResponse(json.dumps(chart.get_series_objects()))
+
 
 class MongoJsonMulti2(MongoJsonMulti):
     def get_context_data(self, *args, **kwargs):
@@ -121,7 +124,6 @@ mongo_json_multi2 = MongoJsonMulti2.as_view()
 def get_time_sereies_json(request):
     get_query('year_ago', None,
                       'employee=/example/employee/500ff1b8e147f74f7000000c/')
-
 
 
 class Demo(TemplateView):
@@ -214,6 +216,7 @@ class GChartDemo(Demo):
 
 gchart_demo = GChartDemo.as_view(renderer=gchart)
 
+
 class YUIDemo(Demo):
     template_name = 'demo/yui.html'
 
@@ -281,6 +284,7 @@ class FlotDemo(Demo):
 
 flot_demo = FlotDemo.as_view(renderer=flot)
 
+
 class HighChartsDemo(Demo):
     template_name = "demo/highcharts.html"
 
@@ -313,7 +317,6 @@ c3js_demo = C3jsDemo.as_view(renderer=c3js)
 
 
 def smart_date(value):
-
 
     if type(value) == datetime.datetime:
         return value
