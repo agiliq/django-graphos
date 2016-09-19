@@ -54,9 +54,20 @@ class PieChart(BaseHighCharts):
     def get_chart_type(self):
         return "pie"
 
+
 class AreaChart(BaseHighCharts):
     def get_chart_type(self):
         return "area"
+
+
+class DonutChart(BaseHighCharts):
+    def get_chart_type(self):
+        return "donut"
+
+
+class ScatterChart(BaseHighCharts):
+    def get_chart_type(self):
+        return "scatter"
 
 
 def column(matrix, i):

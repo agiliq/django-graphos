@@ -288,6 +288,17 @@ flot_demo = FlotDemo.as_view(renderer=flot)
 class HighChartsDemo(Demo):
     template_name = "demo/highcharts.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(HighChartsDemo, self).get_context_data(**kwargs)
+        data_source = context.get("data_source")
+        simple_data_source = context.get("simple_data_source")
+        context.update({
+            'area_chart': self.renderer.AreaChart(data_source),
+            'donut_chart': self.renderer.DonutChart(data_source),
+            'scatter_chart': self.renderer.ScatterChart(simple_data_source),
+        })
+        return context
+
 highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
 
 
