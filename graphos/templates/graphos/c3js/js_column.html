@@ -1,0 +1,18 @@
+<script>
+$(function () {
+    var chart = c3.generate({
+        bindto: '#{{ chart.get_html_id }}',
+        data: {
+            x: "{{ chart.get_x_axis_title }}",
+            columns: {{ chart.get_data|safe }},
+            type: "bar"
+        },
+        axis: {
+            rotated: true,
+            x: {
+                type: 'categorized'
+            }
+        }
+    });
+});
+</script>

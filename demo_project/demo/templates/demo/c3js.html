@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block extra_head %}
-  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <link rel="stylesheet" type="text/css" href="/{{STATIC_URL}}css/c3.min.css">
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="/{{STATIC_URL}}js/c3.min.js"></script>
 {% endblock %}
 
 {% block menu %}
@@ -13,8 +16,8 @@
       <li><a href="{% url 'demo_matplotlib_demo' %}">Matplotlib</a></li>
       <li><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
       <li><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
-      <li class="active"><a href="{% url 'demo_highcharts_demo' %}" >Highcharts</a></li>
-      <li><a href="{% url 'demo_c3js_demo' %}">C3JS</a></li>
+      <li><a href="{% url 'demo_highcharts_demo' %}">Highcharts</a></li>
+      <li class="active"><a href="{% url 'demo_c3js_demo' %}" >C3JS</a></li>
       <li><a href="{% url 'demo_time_series_example' %}">Time Series Example</a></li>
   </ul>
 {%  endblock %}
@@ -22,7 +25,7 @@
 {% block content %}
     <div>
         <p>
-            graphos.renderer.highcharts provides charting via Highcharts chart API.
+            graphos.renderer.c3js provides charting via C3JS chart API.
         </p>
     </div>
 
@@ -31,13 +34,13 @@
         {{ line_chart.as_html }}
         <pre class="code">
             data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
-            gchart.LineChart(data_source, options={'title': "Sales Growth"})
+            c3js.LineChart(data_source, options={'title': "Sales Growth"})
         </pre>
     </div>
     <br />
 
-    <div id="column_chart">
-        {{ column_chart.as_html }}
+    <div id="spline_chart">
+        {{ spline_chart.as_html }}
     </div>
 
     <br />
@@ -47,12 +50,17 @@
     </div>
     <br />
 
-    <div id="candlestick_chart">
-        {{ candlestick_chart.as_html }}
+    <div id="column_chart">
+        {{ column_chart.as_html }}
     </div>
+    <br />
 
     <div id="pie_chart">
         {{ pie_chart.as_html }}
     </div>
+    <br />
 
+    <div id="donut_chart">
+        {{ donut_chart.as_html }}
+    </div>
 {% endblock %}

@@ -1,0 +1,14 @@
+<script>
+$(function () {
+    var chart = c3.generate({
+        bindto: '#{{ chart.get_html_id }}',
+        data: {
+            columns: {{ chart.get_columns_data|safe }},
+            type: "{{ chart.get_chart_type }}"
+        },
+        donut: {
+            title: "{{ chart.get_options.title }}"
+        }
+    });
+});
+</script>

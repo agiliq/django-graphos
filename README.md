@@ -5,7 +5,7 @@ Graphos
 
 Graphos is a Django app to normalize data to create beautiful charts. It provides a JS agnostic way to work with charts and allows seamless and quick switching between different chart providers.
 
-* Demo: [http://agiliq.com/demo/graphos/](http://agiliq.com/demo/graphos/).  
+* Demo: [http://agiliq.com/demo/graphos/](http://agiliq.com/demo/graphos/).
 * Docs: [http://agiliq.com/docs/django-graphos/](http://agiliq.com/docs/django-graphos/).
 
 ### Supported Backends:
@@ -71,6 +71,15 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 * Column Chart
 * Pie Chart
 * Area Chart
+
+#### C3.js
+
+* Line chart
+* Column chart (You need to rotate the axis of bar chart to render column chart)
+* Bar chart
+* Donut chart
+* Pie chart
+* Spline chart
 
 #### Matplotlib
 

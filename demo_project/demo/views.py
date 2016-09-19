@@ -3,7 +3,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 
-from graphos.renderers import gchart, yui, flot, morris, highcharts, matplotlib_renderer
+from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matplotlib_renderer
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -29,6 +29,7 @@ import markdown
 import datetime
 from dateutil.parser import parse
 
+
 class MongoJson(FlotAsJson):
     def get_context_data(self, *args, **kwargs):
         accounts_cursor = get_db("accounts").docs.find()
@@ -39,6 +40,7 @@ class MongoJson(FlotAsJson):
 
 
 mongo_json = MongoJson.as_view()
+
 
 class MongoJson2(FlotAsJson):
     def get_context_data(self, *args, **kwargs):
@@ -63,6 +65,7 @@ class MongoJsonMulti(FlotAsJson):
     def get(self, *args, **kwargs):
         chart = self.get_context_data()["chart"]
         return HttpResponse(json.dumps(chart.get_series_objects()))
+
 
 class MongoJsonMulti2(MongoJsonMulti):
     def get_context_data(self, *args, **kwargs):
@@ -121,7 +124,6 @@ mongo_json_multi2 = MongoJsonMulti2.as_view()
 def get_time_sereies_json(request):
     get_query('year_ago', None,
                       'employee=/example/employee/500ff1b8e147f74f7000000c/')
-
 
 
 class Demo(TemplateView):
@@ -214,6 +216,7 @@ class GChartDemo(Demo):
 
 gchart_demo = GChartDemo.as_view(renderer=gchart)
 
+
 class YUIDemo(Demo):
     template_name = 'demo/yui.html'
 
@@ -281,14 +284,39 @@ class FlotDemo(Demo):
 
 flot_demo = FlotDemo.as_view(renderer=flot)
 
+
 class HighChartsDemo(Demo):
     template_name = "demo/highcharts.html"
 
 highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
 
 
-def smart_date(value):
+class C3jsDemo(Demo):
+    template_name = "demo/c3js.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(C3jsDemo, self).get_context_data(**kwargs)
+        simple_data_source = context.get("simple_data_source")
+        spline_chart = self.renderer.SplineChart(
+            simple_data_source,
+            options={'title': "Sales Growth"}
+        )
+        bar_chart = self.renderer.BarChart(simple_data_source)
+        donut_chart = self.renderer.DonutChart(
+            simple_data_source,
+            options={'title': 'Complete picture'}
+        )
+        context.update({
+            'spline_chart': spline_chart,
+            'bar_chart': bar_chart,
+            'donut_chart': donut_chart,
+        })
+        return context
+
+c3js_demo = C3jsDemo.as_view(renderer=c3js)
+
+
+def smart_date(value):
 
     if type(value) == datetime.datetime:
         return value
