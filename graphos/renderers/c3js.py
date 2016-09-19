@@ -4,14 +4,11 @@ from .base import BaseChart
 
 class BaseC3JS(BaseChart):
     """docstring for BaseC3JS"""
-    def get_data(self):
-        return super(BaseC3JS, self).get_data()
-
     def get_html_template(self):
         return "graphos/c3js/html.html"
 
     def get_js_template(self):
-        return "graphos/c3js/js.html"
+        return "graphos/c3js/js_base.html"
 
     def get_categories(self):
         return [x[0] for x in self.get_data()]
@@ -22,8 +19,6 @@ class BaseC3JS(BaseChart):
     def get_columns_data(self):
         return json.dumps(map(list, zip(*self.get_data())))
 
-    def get_pie_data(self):
-        return json.dumps(self.get_data()[1:])
 
 
 class LineChart(BaseC3JS):
@@ -42,11 +37,21 @@ class SplineChart(BaseC3JS):
 
 
 class PieChart(BaseC3JS):
+    def get_js_template(self):
+        return "graphos/c3js/js_pie.html"
+
+    def get_data(self):
+        _data = super(PieChart, self).get_data()
+        return json.dumps(_data[1:])
+
     def get_chart_type(self):
         return "pie"
 
 
 class ColumnChart(BaseC3JS):
+    def get_js_template(self):
+        return "graphos/c3js/js_column.html"
+
     """
     C3 doesn't have column type chart, so we have to render the column chart by
     rotating the axis in the js
@@ -59,5 +64,8 @@ class ColumnChart(BaseC3JS):
 
 
 class DonutChart(BaseC3JS):
+    def get_js_template(self):
+        return "graphos/c3js/js_donut.html"
+
     def get_chart_type(self):
         return "donut"

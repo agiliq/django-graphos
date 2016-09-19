@@ -1,0 +1,17 @@
+<script>
+$(function () {
+    var chart = c3.generate({
+        bindto: '#{{ chart.get_html_id }}',
+        data: {
+            x: "{{ chart.get_x_axis_title }}",
+            columns: {{ chart.get_columns_data|safe }},
+            type: "{{ chart.get_chart_type }}"
+        },
+        axis: {
+            x: {
+                type: 'categorized',
+            }
+        }
+    });
+});
+</script>
