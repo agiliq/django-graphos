@@ -61,8 +61,15 @@ class AreaChart(BaseHighCharts):
 
 
 class DonutChart(BaseHighCharts):
+    def get_series(self):
+        _data = super(DonutChart, self).get_data()
+        return json.dumps(_data[1:])
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_donut.html"
+
     def get_chart_type(self):
-        return "donut"
+        return "pie"
 
 
 class ScatterChart(BaseHighCharts):
