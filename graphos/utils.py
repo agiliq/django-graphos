@@ -1,6 +1,14 @@
+import datetime
+import decimal
+import json
+import uuid
 import random
 import string
-import json
+
+from django.utils import six, timezone
+from django.utils.encoding import force_text
+from django.utils.functional import Promise
+from django.db.models.query import QuerySet
 
 DEFAULT_HEIGHT = 400
 DEFAULT_WIDTH = 800
@@ -40,6 +48,48 @@ class JSONEncoderForHTML(json.JSONEncoder):
     with the usual entities (e.g. &amp;) because they are not expanded
     within <script> tags.
     """
+    def default(self, obj):
+        # Taken from https://github.com/tomchristie/django-rest-framework/blob/master/rest_framework/utils/encoders.py
+        # For Date Time string spec, see ECMA 262
+        # http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
+        if isinstance(obj, Promise):
+            return force_text(obj)
+        elif isinstance(obj, datetime.datetime):
+            representation = obj.isoformat()
+            if representation.endswith('+00:00'):
+                representation = representation[:-6] + 'Z'
+            return representation
+        elif isinstance(obj, datetime.date):
+            return obj.isoformat()
+        elif isinstance(obj, datetime.time):
+            if timezone and timezone.is_aware(obj):
+                raise ValueError("JSON can't represent timezone-aware times.")
+            representation = obj.isoformat()
+            if obj.microsecond:
+                representation = representation[:12]
+            return representation
+        elif isinstance(obj, decimal.Decimal):
+            # Serializers will coerce decimals to strings by default.
+            return float(obj)
+        elif isinstance(obj, uuid.UUID):
+            return six.text_type(obj)
+        elif isinstance(obj, QuerySet):
+            return tuple(obj)
+        elif isinstance(obj, six.binary_type):
+            # Best-effort for binary blobs. See #4187.
+            return obj.decode('utf-8')
+        elif hasattr(obj, 'tolist'):
+            # Numpy arrays and array scalars.
+            return obj.tolist()
+        elif hasattr(obj, '__getitem__'):
+            try:
+                return dict(obj)
+            except:
+                pass
+        elif hasattr(obj, '__iter__'):
+            return tuple(item for item in obj)
+        return super(JSONEncoderForHTML, self).default(obj)
+
 
     def encode(self, o):
         # Override JSONEncoder.encode because it has hacks for
