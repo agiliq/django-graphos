@@ -54,9 +54,27 @@ class PieChart(BaseHighCharts):
     def get_chart_type(self):
         return "pie"
 
+
 class AreaChart(BaseHighCharts):
     def get_chart_type(self):
         return "area"
+
+
+class DonutChart(BaseHighCharts):
+    def get_series(self):
+        _data = super(DonutChart, self).get_data()
+        return json.dumps(_data[1:])
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_donut.html"
+
+    def get_chart_type(self):
+        return "pie"
+
+
+class ScatterChart(BaseHighCharts):
+    def get_chart_type(self):
+        return "scatter"
 
 
 def column(matrix, i):
