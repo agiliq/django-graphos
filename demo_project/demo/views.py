@@ -296,6 +296,7 @@ class HighChartsDemo(Demo):
             'area_chart': self.renderer.AreaChart(data_source),
             'donut_chart': self.renderer.DonutChart(data_source),
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
+            'log_chart': self.renderer.LogarithmicChart(data_source),
         })
         return context
 

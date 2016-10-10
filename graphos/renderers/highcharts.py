@@ -77,6 +77,19 @@ class ScatterChart(BaseHighCharts):
         return "scatter"
 
 
+class LogarithmicChart(BaseHighCharts):
+    def get_series(self):
+        data = super(LogarithmicChart, self).get_series()
+        data = json.loads(data)[0].get('data')
+        return json.dumps(data)
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_log.html"
+
+    def get_chart_type(self):
+        return "log_chart"
+
+
 def column(matrix, i):
     return [row[i] for row in matrix]
 
