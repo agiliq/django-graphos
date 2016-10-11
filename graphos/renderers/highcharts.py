@@ -90,6 +90,22 @@ class LogarithmicChart(BaseHighCharts):
         return "log_chart"
 
 
+class MultiAxisChart(BaseHighCharts):
+    def get_series(self):
+        data = super(MultiAxisChart, self).get_series()
+        return [x.get('data') for x in json.loads(data)]
+
+    def get_y_axis_titles(self):
+        data = super(MultiAxisChart, self).get_series()
+        return [x.get('name') for x in json.loads(data)]
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_multi_axis.html"
+
+    def get_chart_type(self):
+        return "multi_axis"
+
+
 def column(matrix, i):
     return [row[i] for row in matrix]
 

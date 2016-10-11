@@ -297,6 +297,7 @@ class HighChartsDemo(Demo):
             'donut_chart': self.renderer.DonutChart(data_source),
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
             'log_chart': self.renderer.LogarithmicChart(data_source),
+            'multi_axis_chart': self.renderer.MultiAxisChart(simple_data_source),
         })
         return context
 
