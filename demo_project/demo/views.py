@@ -292,12 +292,18 @@ class HighChartsDemo(Demo):
         context = super(HighChartsDemo, self).get_context_data(**kwargs)
         data_source = context.get("data_source")
         simple_data_source = context.get("simple_data_source")
+        secondary_data = [
+            ['year', 'revenue', 'sales'],
+            [2004, 100, 50000],
+            [2005, 240, 65000],
+            [2006, 300, 55000]
+        ]
         context.update({
             'area_chart': self.renderer.AreaChart(data_source),
             'donut_chart': self.renderer.DonutChart(data_source),
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
             'log_chart': self.renderer.LogarithmicChart(data_source),
-            'multi_axis_chart': self.renderer.MultiAxisChart(simple_data_source),
+            'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
         })
         return context
 

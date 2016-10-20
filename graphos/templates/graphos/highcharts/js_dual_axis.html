@@ -1,0 +1,45 @@
+{% load graph_tags %}
+
+<script type="text/javascript">
+    $(function () {
+        $('#{{ chart.get_html_id }}').highcharts({
+            chart: {
+                zoomType: 'xy'
+            },
+            title: {
+                text: "{{ chart.get_options.title }}"
+            },
+            xAxis: [{
+                categories: {{ chart.get_categories|safe }},
+                crosshair: true
+            }],
+            yAxis: [
+                { // Primary yAxis
+                    title: {
+                        text: '{{ chart.get_y_axis_titles.0 }}'
+                    }
+                },
+                { // Secondary Axis
+                    title: {
+                        text: '{{ chart.get_y_axis_titles.1 }}'
+                    },
+                    opposite: true
+                }
+            ],
+            tooltip: {
+                shared: true
+            },
+            series: [
+                {
+                    type: "column",
+                    yAxis: 1,
+                    data: {{ chart.get_series.0|safe }}
+                },
+                {
+                    type: "spline",
+                    data: {{ chart.get_series.1|safe }}
+                }
+            ]
+        });
+    });
+</script>

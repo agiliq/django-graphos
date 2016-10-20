@@ -100,7 +100,7 @@ class MultiAxisChart(BaseHighCharts):
         return [x.get('name') for x in json.loads(data)]
 
     def get_js_template(self):
-        return "graphos/highcharts/js_multi_axis.html"
+        return "graphos/highcharts/js_dual_axis.html"
 
     def get_chart_type(self):
         return "multi_axis"
