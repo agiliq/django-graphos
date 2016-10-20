@@ -7,7 +7,7 @@
             },
 
             xAxis: {
-                tickInterval: 1
+                categories: {{ chart.get_categories|safe }}
             },
 
             yAxis: {
@@ -21,8 +21,7 @@
             },
 
             series: [{
-                data: {{ chart.get_series|safe }},
-                pointStart: 1
+                data: {{ chart.get_series|safe }}
             }]
         });
     });
