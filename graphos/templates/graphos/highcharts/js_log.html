@@ -1,0 +1,28 @@
+<script>
+    $(function () {
+        $('#{{ chart.get_html_id }}').highcharts({
+
+            title: {
+                text: 'Logarithmic axis demo'
+            },
+
+            xAxis: {
+                categories: {{ chart.get_categories|safe }}
+            },
+
+            yAxis: {
+                type: 'logarithmic',
+                minorTickInterval: 0.1
+            },
+
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br />',
+                pointFormat: 'x = {point.x}, y = {point.y}'
+            },
+
+            series: [{
+                data: {{ chart.get_series|safe }}
+            }]
+        });
+    });
+</script>
