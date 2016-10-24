@@ -108,6 +108,10 @@ class MultiAxisChart(BaseHighCharts):
 
 class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
+    def get_series(self):
+        data = self.get_data()
+        return json.dumps(data)
+
     def get_chart_type(self):
         return "map_chart"
 

@@ -879,7 +879,7 @@
         },
 
         series: [{
-            data: data,
+            data: {{ chart.get_series|safe }},
             mapData: Highcharts.maps['custom/world'],
             joinBy: 'hc-key',
             name: 'Random data',
