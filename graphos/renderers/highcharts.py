@@ -93,7 +93,7 @@ class LogarithmicChart(BaseHighCharts):
 class MultiAxisChart(BaseHighCharts):
     def get_series(self):
         data = super(MultiAxisChart, self).get_series()
-        return [x.get('data') for x in json.loads(data)]
+        return json.dumps([x.get('data') for x in json.loads(data)])
 
     def get_y_axis_titles(self):
         data = super(MultiAxisChart, self).get_series()
