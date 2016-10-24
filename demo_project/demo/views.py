@@ -304,6 +304,7 @@ class HighChartsDemo(Demo):
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
             'log_chart': self.renderer.LogarithmicChart(data_source),
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
+            'highmap_chart': self.renderer.HighMap(simple_data_source),
         })
         return context
 
