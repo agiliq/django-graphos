@@ -106,6 +106,15 @@ class MultiAxisChart(BaseHighCharts):
         return "multi_axis"
 
 
+class HighMap(BaseHighCharts):
+    """docstring for HighMaps"""
+    def get_chart_type(self):
+        return "map_chart"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_highmaps.html"
+
+
 def column(matrix, i):
     return [row[i] for row in matrix]
 
