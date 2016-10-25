@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block extra_head %}
-  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+  <script src="http://code.highcharts.com/maps/highmaps.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <link href="/{{STATIC_URL}}css/highmaps.css" rel="stylesheet">
 {% endblock %}
 
 {% block menu %}
@@ -36,48 +44,52 @@
     </div>
     <br />
 
-    <div id="column_chart">
+    <div id="column_chart" class="well">
         {{ column_chart.as_html }}
     </div>
 
     <br />
 
-    <div id="bar_chart">
+    <div id="bar_chart" class="well">
         {{ bar_chart.as_html }}
     </div>
     <br />
 
-    <div id="candlestick_chart">
+    <div id="candlestick_chart" class="well">
         {{ candlestick_chart.as_html }}
     </div>
     <br />
 
-    <div id="pie_chart">
+    <div id="pie_chart" class="well">
         {{ pie_chart.as_html }}
     </div>
 
-    <div id="area_chart">
+    <div id="area_chart" class="well">
         {{ area_chart.as_html }}
     </div>
     <br />
 
-    <div id="scatter_chart">
+    <div id="scatter_chart" class="well">
         {{ scatter_chart.as_html }}
     </div>
     <br />
 
-    <div id="donut_chart">
+    <div id="donut_chart" class="well">
         {{ donut_chart.as_html }}
     </div>
     <br />
 
-    <div id="log_chart">
+    <div id="log_chart" class="well">
         {{ log_chart.as_html }}
     </div>
     <br />
 
-    <div id="multi_axis_chart">
+    <div id="multi_axis_chart" class="well">
         {{ multi_axis_chart.as_html }}
+    </div>
+
+    <div id="highmap_chart">
+      {{ highmap_chart.as_html }}
     </div>
     <br />
 

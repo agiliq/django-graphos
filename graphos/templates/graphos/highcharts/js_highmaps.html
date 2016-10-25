@@ -1,0 +1,43 @@
+<script>
+    $(function () {
+    // Initiate the chart
+    $('#highmap_chart').highcharts('Map', {
+
+        title: {
+            text: 'Highmaps basic demo'
+        },
+
+        subtitle: {
+            text: 'Source map: <a href="https://code.highcharts.com/mapdata/custom/world.js">World, Miller projection, medium resolution</a>'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        colorAxis: {
+            min: 0
+        },
+
+        series: [{
+            data: {{ chart.get_series|safe }},
+            mapData: Highcharts.maps['custom/world'],
+            joinBy: 'hc-key',
+            name: 'Random data',
+            states: {
+                hover: {
+                    color: '#BADA55'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }]
+    });
+});
+
+</script>
