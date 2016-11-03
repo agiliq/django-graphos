@@ -1,5 +1,6 @@
 import json
 from .base import BaseChart
+from ..utils import JSONEncoderForHTML
 
 
 class BaseC3JS(BaseChart):
@@ -17,7 +18,7 @@ class BaseC3JS(BaseChart):
         return self.get_data()[0][0]
 
     def get_columns_data(self):
-        return json.dumps(map(list, zip(*self.get_data())))
+        return json.dumps(map(list, zip(*self.get_data())), cls=JSONEncoderForHTML)
 
 
 
@@ -42,7 +43,7 @@ class PieChart(BaseC3JS):
 
     def get_data(self):
         _data = super(PieChart, self).get_data()
-        return json.dumps(_data[1:])
+        return json.dumps(_data[1:], cls=JSONEncoderForHTML)
 
     def get_chart_type(self):
         return "pie"

@@ -2,6 +2,7 @@
 
 <script type="text/javascript">
     $(function () {
+        var data_series = {{ chart.get_series }};
         $('#{{ chart.get_html_id }}').highcharts({
             chart: {
                 zoomType: 'xy'
@@ -33,11 +34,11 @@
                 {
                     type: "column",
                     yAxis: 1,
-                    data: {{ chart.get_series.0|safe }}
+                    data: data_series[0]
                 },
                 {
                     type: "spline",
-                    data: {{ chart.get_series.1|safe }}
+                    data: data_series[1]
                 }
             ]
         });
