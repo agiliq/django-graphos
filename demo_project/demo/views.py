@@ -304,7 +304,7 @@ class HighChartsDemo(Demo):
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
             'log_chart': self.renderer.LogarithmicChart(data_source),
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
-            'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data), map_area='custom/world', series_name='population density'),
+            'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'map_area': 'countries/us/custom/us-all-territories'}),
         })
         return context
 

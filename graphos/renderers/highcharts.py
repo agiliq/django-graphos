@@ -109,9 +109,8 @@ class MultiAxisChart(BaseHighCharts):
 class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
     def __init__(self, *args, **kwargs):
-        self.map_area = kwargs.get('map_area', 'custom/world')
-        self.series_name = kwargs.get('series_name', 'value')
         super(HighMap, self).__init__(*args, **kwargs)
+        self.options['series_name'] = self.get_data()[0][1]
 
     def get_series(self):
         data = self.get_data()[1:]
@@ -129,10 +128,10 @@ class HighMap(BaseHighCharts):
     def get_map(self):
         # return "custom/world"
         # return "countries/us/custom/us-all-territories"
-        return self.map_area
+        return self.get_options().get('map_area', 'custom/world')
 
     def get_series_name(self):
-        return self.series_name
+        return self.get_options().get('series_name', 'Value')
 
 
 def column(matrix, i):
