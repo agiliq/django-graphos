@@ -24,9 +24,9 @@
 
         series: [{
             data: {{ chart.get_series|safe }},
-            mapData: Highcharts.maps['custom/world'],
-            joinBy: 'hc-key',
-            name: 'Random data',
+            mapData: Highcharts.maps['{{ chart.get_map }}'],
+            joinBy: ['hc-key', 'code'],
+            name: '{{ chart.get_series_name }}',
             states: {
                 hover: {
                     color: '#BADA55'

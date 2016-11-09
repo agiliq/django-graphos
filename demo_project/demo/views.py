@@ -10,7 +10,7 @@ from graphos.sources.model import ModelDataSource
 from graphos.views import FlotAsJson, RendererAsJson
 from .models import Account
 from .utils import get_mongo_cursor
-from .utils import (data, candlestick_data, treemap_data, map_data,
+from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us,
                     mongo_series_object_1, mongo_series_object_2,
                     create_demo_accounts, create_demo_mongo, get_db)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
@@ -304,7 +304,7 @@ class HighChartsDemo(Demo):
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
             'log_chart': self.renderer.LogarithmicChart(data_source),
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
-            'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data)),
+            'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'map_area': 'countries/us/custom/us-all-territories'}),
         })
         return context
 

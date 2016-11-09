@@ -108,15 +108,30 @@ class MultiAxisChart(BaseHighCharts):
 
 class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
+    def __init__(self, *args, **kwargs):
+        super(HighMap, self).__init__(*args, **kwargs)
+        self.options['series_name'] = self.get_data()[0][1]
+
     def get_series(self):
-        data = self.get_data()
-        return json.dumps(data, cls=JSONEncoderForHTML)
+        data = self.get_data()[1:]
+        final_data = []
+        for kv in data:
+            final_data.append({'code': kv[0], 'value': kv[1]})
+        return json.dumps(final_data, cls=JSONEncoderForHTML)
 
     def get_chart_type(self):
         return "map_chart"
 
     def get_js_template(self):
         return "graphos/highcharts/js_highmaps.html"
+
+    def get_map(self):
+        # return "custom/world"
+        # return "countries/us/custom/us-all-territories"
+        return self.get_options().get('map_area', 'custom/world')
+
+    def get_series_name(self):
+        return self.get_options().get('series_name', 'Value')
 
 
 def column(matrix, i):
