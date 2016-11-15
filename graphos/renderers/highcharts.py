@@ -13,6 +13,19 @@ class BaseHighCharts(BaseChart):
         return "graphos/highcharts/js.html"
 
     def get_series(self):
+        """
+        Example usage:
+            data = [
+               ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+               ['2004', 1000, 400, 100, 600],
+               ['2005', 1170, 460, 120, 310],
+               ['2006', 660, 1120, 50, -460],
+               ['2007', 1030, 540, 100, 200],
+            ]
+            sd = SimpleDataSource(data)
+            hc = BaseHighCharts(sd)
+            hc.get_series() would be [{"name": "Sales", "data": [1000, 1170, 660, 1030]}, {"name": "Expenses", "data": [400, 460, 1120, 540]} ....]
+        """
         data = self.get_data()
         series_names = data[0][1:]
         serieses = []
@@ -21,6 +34,9 @@ class BaseHighCharts(BaseChart):
         return json.dumps(serieses, cls=JSONEncoderForHTML)
 
     def get_categories(self):
+        """
+        This would return [2004, 2005, 2006, 2007]
+        """
         return json.dumps(column(self.get_data(), 0)[1:], cls=JSONEncoderForHTML)
 
     def get_x_axis_title(self):
