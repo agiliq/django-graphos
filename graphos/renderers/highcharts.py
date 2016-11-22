@@ -81,6 +81,9 @@ class DonutChart(BaseHighCharts):
         _data = super(DonutChart, self).get_data()
         return json.dumps(_data[1:], cls=JSONEncoderForHTML)
 
+    def get_series_name(self):
+        return self.get_data()[0][1]
+
     def get_js_template(self):
         return "graphos/highcharts/js_donut.html"
 
