@@ -7,7 +7,7 @@
             },
 
             xAxis: {
-                categories: {{ chart.get_categories|safe }}
+                categories: {{ chart.get_categories_json|safe }}
             },
 
             yAxis: {
@@ -21,7 +21,7 @@
             },
 
             series: [{
-                data: {{ chart.get_series|safe }}
+                data: {{ chart.get_series_json|safe }}
             }]
         });
     });

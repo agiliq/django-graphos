@@ -23,6 +23,9 @@ class BaseChart(object):
         self.html_id = html_id or get_random_string()
         self.height = height or DEFAULT_HEIGHT
         self.width = width or DEFAULT_WIDTH
+        # options could be an object, a list, a dictionary or a nested object or probably anything.
+        # Different renderers have different structure for options.
+        # Its responsibility of the renderer to read self.options in correct way and to use it in get_js_template.
         self.options = options or {}
         self.header = data_source.get_header()
         self.encoder = encoder

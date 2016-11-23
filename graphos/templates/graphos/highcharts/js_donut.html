@@ -19,7 +19,7 @@ $(function () {
         },
         series: [{
             name: "{{ chart.get_series_name }}",
-            data: {{ chart.get_series|safe }}
+            data: {{ chart.get_series_json|safe }}
         }]
     });
 });

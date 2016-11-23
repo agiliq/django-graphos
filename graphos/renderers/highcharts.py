@@ -31,13 +31,21 @@ class BaseHighCharts(BaseChart):
         serieses = []
         for i, name in enumerate(series_names):
             serieses.append({"name": name, "data": column(data, i+1)[1:]})
+        return serieses
+
+    def get_series_json(self):
+        serieses = self.get_series()
         return json.dumps(serieses, cls=JSONEncoderForHTML)
 
     def get_categories(self):
         """
         This would return [2004, 2005, 2006, 2007]
         """
-        return json.dumps(column(self.get_data(), 0)[1:], cls=JSONEncoderForHTML)
+        return column(self.get_data(), 0)[1:]
+
+    def get_categories_json(self):
+        categories = self.get_categories()
+        return json.dumps(categories, cls=JSONEncoderForHTML)
 
     def get_x_axis_title(self):
         return self.get_data()[0][0]
@@ -65,7 +73,7 @@ class PieChart(BaseHighCharts):
         serieses = []
         for i, name in enumerate(series_names):
             serieses.append({"name": name, "data": pie_column(data, i+1)[1:]})
-        return json.dumps(serieses, cls=JSONEncoderForHTML)
+        return serieses
 
     def get_chart_type(self):
         return "pie"
@@ -79,7 +87,7 @@ class AreaChart(BaseHighCharts):
 class DonutChart(BaseHighCharts):
     def get_series(self):
         _data = super(DonutChart, self).get_data()
-        return json.dumps(_data[1:], cls=JSONEncoderForHTML)
+        return _data[1:]
 
     def get_series_name(self):
         return self.get_data()[0][1]
@@ -99,8 +107,8 @@ class ScatterChart(BaseHighCharts):
 class LogarithmicChart(BaseHighCharts):
     def get_series(self):
         data = super(LogarithmicChart, self).get_series()
-        data = json.loads(data)[0].get('data')
-        return json.dumps(data, cls=JSONEncoderForHTML)
+        data = data[0].get('data')
+        return data
 
     def get_js_template(self):
         return "graphos/highcharts/js_log.html"
@@ -112,11 +120,11 @@ class LogarithmicChart(BaseHighCharts):
 class MultiAxisChart(BaseHighCharts):
     def get_series(self):
         data = super(MultiAxisChart, self).get_series()
-        return json.dumps([x.get('data') for x in json.loads(data)], cls=JSONEncoderForHTML)
+        return [x.get('data') for x in data]
 
     def get_y_axis_titles(self):
         data = super(MultiAxisChart, self).get_series()
-        return [x.get('name') for x in json.loads(data)]
+        return [x.get('name') for x in data]
 
     def get_js_template(self):
         return "graphos/highcharts/js_dual_axis.html"
@@ -136,7 +144,7 @@ class HighMap(BaseHighCharts):
         final_data = []
         for kv in data:
             final_data.append({'code': kv[0], 'value': kv[1]})
-        return json.dumps(final_data, cls=JSONEncoderForHTML)
+        return final_data
 
     def get_chart_type(self):
         return "map_chart"

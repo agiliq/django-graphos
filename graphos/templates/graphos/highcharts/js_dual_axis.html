@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     $(function () {
-        var data_series = {{ chart.get_series }};
+        var data_series = {{ chart.get_series_json }};
         $('#{{ chart.get_html_id }}').highcharts({
             chart: {
                 zoomType: 'xy'
@@ -11,7 +11,7 @@
                 text: "{{ chart.get_options.title }}"
             },
             xAxis: [{
-                categories: {{ chart.get_categories|safe }},
+                categories: {{ chart.get_categories_json|safe }},
                 crosshair: true
             }],
             yAxis: [
