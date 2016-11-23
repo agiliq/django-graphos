@@ -15,7 +15,8 @@ $(function () {
             }
         },
 
-        series: {{ chart.get_series|safe }}
+        series: {{ chart.get_series|safe }},
+        plotOptions: {{chart.get_options_json | safe}}
     });
 });
 </script>
