@@ -34,11 +34,13 @@
                 {
                     type: "column",
                     yAxis: 1,
-                    data: data_series[0]
+                    data: data_series[0],
+                    name: '{{ chart.get_y_axis_titles.0 }}'
                 },
                 {
                     type: "spline",
-                    data: data_series[1]
+                    data: data_series[1],
+                    name: '{{ chart.get_y_axis_titles.1 }}'
                 }
             ]
         });
