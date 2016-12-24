@@ -66,6 +66,38 @@ class ColumnChart(BaseHighCharts):
         return "column"
 
 
+class ColumnLineChart(BaseHighCharts):
+    """
+    First series will be plotted as column
+    Every subsequent series will be plotted as line
+    """
+
+    def get_series(self):
+        data = self.get_data()
+        serieses = []
+        serieses.append({"name": data[0][1], "data": column(data, 1)[1:], "type": "column"})
+        series_names = data[0][2:]
+        for i, name in enumerate(series_names):
+            serieses.append({"name": name, "data": column(data, i+2)[1:], "type": "line"})
+        return serieses
+
+
+class LineColumnChart(BaseHighCharts):
+    """
+    First series will be plotted as line
+    Every subsequent series will be plotted as column
+    """
+
+    def get_series(self):
+        data = self.get_data()
+        serieses = []
+        serieses.append({"name": data[0][1], "data": column(data, 1)[1:], "type": "line"})
+        series_names = data[0][2:]
+        for i, name in enumerate(series_names):
+            serieses.append({"name": name, "data": column(data, i+2)[1:], "type": "column"})
+        return serieses
+
+
 class PieChart(BaseHighCharts):
     def get_series(self):
         data = self.get_data()
