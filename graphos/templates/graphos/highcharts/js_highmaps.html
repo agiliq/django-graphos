@@ -1,14 +1,14 @@
 <script>
     $(function () {
     // Initiate the chart
-    $('#highmap_chart').highcharts('Map', {
+    $('#{{ chart.get_html_id }}').highcharts('Map', {
 
         title: {
-            text: 'Highmaps basic demo'
+            text: '{{chart.get_options.title}}'
         },
 
         subtitle: {
-            text: 'Source map: <a href="https://code.highcharts.com/mapdata/custom/world.js">World, Miller projection, medium resolution</a>'
+            text: 'Source data: <a href="https://code.highcharts.com/mapdata/countries/us/custom/us-all-territories.js">Natural Earth data</a>'
         },
 
         mapNavigation: {
