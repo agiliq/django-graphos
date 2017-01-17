@@ -293,7 +293,7 @@ class HighChartsDemo(Demo):
         data_source = context.get("data_source")
         simple_data_source = context.get("simple_data_source")
         line_chart = self.renderer.LineChart(data_source,
-                options={'series': {'dataLabels': {'enabled': True}, 'lineWidth': 10}})
+                options={'colors': ['red', ], 'series': {'dataLabels': {'enabled': True}, 'lineWidth': 10}})
         secondary_data = [
             ['year', 'revenue', 'sales'],
             [2004, 100, 50000],

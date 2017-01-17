@@ -30,7 +30,19 @@ class BaseHighCharts(BaseChart):
         series_names = data[0][1:]
         serieses = []
         for i, name in enumerate(series_names):
-            serieses.append({"name": name, "data": column(data, i+1)[1:]})
+            series = {"name": name, "data": column(data, i+1)[1:]}
+            # If colors was passed then add color for the serieses
+            if 'colors' in self.options and len(self.options['colors']) > i:
+                series['color'] = self.options['colors'][i]
+            serieses.append(series)
+        serieses = self.add_series_options(serieses)
+        return serieses
+
+    def add_series_options(self, serieses):
+        # hookpoint. You can subclass BaseHighCharts or its subclasses
+        # and override this method to modify serieses.
+        # eg: If you want to add dashStyle for a particular series of serieses
+        # See http://api.highcharts.com/highcharts/ for options that can be added for series
         return serieses
 
     def get_series_json(self):
