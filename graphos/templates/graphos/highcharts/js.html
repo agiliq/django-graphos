@@ -4,10 +4,8 @@ $(function () {
         chart: {
             type: "{{ chart.get_chart_type }}"
         },
-        title: {
-            text: "{{ chart.get_options.title }}"
-        },
-
+        title: {{chart.get_title_json | safe}},
+        subtitle: {{chart.get_subtitle_json | safe}},
         xAxis: {
             categories: {{ chart.get_categories_json|safe }},
             title: {

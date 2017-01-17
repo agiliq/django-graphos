@@ -59,6 +59,26 @@ class BaseHighCharts(BaseChart):
         categories = self.get_categories()
         return json.dumps(categories, cls=JSONEncoderForHTML)
 
+    def get_title(self):
+        title = self.options.get('title')
+        return title
+
+    def get_title_json(self):
+        title = self.get_title()
+        if type(title) == str:
+            title = {'text': title}
+        return json.dumps(title, cls=JSONEncoderForHTML)
+
+    def get_subtitle(self):
+        subtitle = self.options.get('subtitle')
+        if type(subtitle) == str:
+            subtitle = {'text': subtitle}
+        return subtitle
+
+    def get_subtitle_json(self):
+        subtitle = self.get_subtitle()
+        return json.dumps(subtitle, cls=JSONEncoderForHTML)
+
     def get_x_axis_title(self):
         return self.get_data()[0][0]
 
