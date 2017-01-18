@@ -29,11 +29,12 @@ class BaseHighCharts(BaseChart):
         data = self.get_data()
         series_names = data[0][1:]
         serieses = []
+        options = self.get_options()
         for i, name in enumerate(series_names):
             series = {"name": name, "data": column(data, i+1)[1:]}
             # If colors was passed then add color for the serieses
-            if 'colors' in self.options and len(self.options['colors']) > i:
-                series['color'] = self.options['colors'][i]
+            if 'colors' in options and len(options['colors']) > i:
+                series['color'] = options['colors'][i]
             serieses.append(series)
         serieses = self.add_series_options(serieses)
         return serieses
@@ -60,17 +61,17 @@ class BaseHighCharts(BaseChart):
         return json.dumps(categories, cls=JSONEncoderForHTML)
 
     def get_title(self):
-        title = self.options.get('title')
+        title = self.get_options().get('title', {})
+        if type(title) == str:
+            title = {'text': title}
         return title
 
     def get_title_json(self):
         title = self.get_title()
-        if type(title) == str:
-            title = {'text': title}
         return json.dumps(title, cls=JSONEncoderForHTML)
 
     def get_subtitle(self):
-        subtitle = self.options.get('subtitle')
+        subtitle = self.get_options().get('subtitle', {})
         if type(subtitle) == str:
             subtitle = {'text': subtitle}
         return subtitle
@@ -78,6 +79,45 @@ class BaseHighCharts(BaseChart):
     def get_subtitle_json(self):
         subtitle = self.get_subtitle()
         return json.dumps(subtitle, cls=JSONEncoderForHTML)
+
+    def get_chart(self):
+        chart = self.get_options().get('chart', {})
+        chart['type'] = self.get_chart_type()
+        return chart
+
+    def get_chart_json(self):
+        chart = self.get_chart()
+        return json.dumps(chart, cls=JSONEncoderForHTML)
+
+    def get_x_axis(self):
+        x_axis = self.get_options().get('xAxis', {})
+        if not 'categories' in x_axis:
+            x_axis['categories'] = self.get_categories()
+        if not 'title' in x_axis:
+            x_axis['title'] = {}
+        if not 'text' in x_axis['title']:
+            x_axis['title']['text'] = self.get_x_axis_title()
+        return x_axis
+
+    def get_x_axis_json(self):
+        x_axis = self.get_x_axis()
+        return json.dumps(x_axis, cls=JSONEncoderForHTML)
+
+    def get_y_axis(self):
+        y_axis = self.get_options().get('yAxis', {})
+        return y_axis
+
+    def get_y_axis_json(self):
+        y_axis = self.get_y_axis()
+        return json.dumps(y_axis, cls=JSONEncoderForHTML)
+
+    def get_tooltip(self):
+        tooltip = self.get_options().get('tooltip', {})
+        return tooltip
+
+    def get_tooltip_json(self):
+        tooltip = self.get_tooltip()
+        return json.dumps(tooltip, cls=JSONEncoderForHTML)
 
     def get_x_axis_title(self):
         return self.get_data()[0][0]

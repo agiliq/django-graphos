@@ -1,19 +1,13 @@
 <script>
 $(function () {
     $('#{{ chart.get_html_id }}').highcharts({
-        chart: {
-            type: "{{ chart.get_chart_type }}"
-        },
+        chart: {{chart.get_chart_json | safe}},
         title: {{chart.get_title_json | safe}},
         subtitle: {{chart.get_subtitle_json | safe}},
-        xAxis: {
-            categories: {{ chart.get_categories_json|safe }},
-            title: {
-                text: '{{ chart.get_x_axis_title }}'
-            }
-        },
-
+        xAxis: {{chart.get_x_axis_json | safe}},
+        yAxis: {{chart.get_y_axis_json | safe}},
         series: {{ chart.get_series_json|safe }},
+        tooltip: {{chart.get_tooltip_json|safe}},
         plotOptions: {{chart.get_options_json | safe}}
     });
 });
