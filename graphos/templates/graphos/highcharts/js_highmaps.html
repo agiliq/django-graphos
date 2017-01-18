@@ -1,42 +1,17 @@
 <script>
     $(function () {
+    var plotOp = {{chart.get_plot_options_json | safe}};
+    // Highcharts is a javascript function, so this part could not have been done in Django
+    // as this is not JSON serializable
+    plotOp['map'].mapData = Highcharts.maps['{{chart.get_map}}']
     // Initiate the chart
     $('#{{ chart.get_html_id }}').highcharts('Map', {
 
-        title: {
-            text: '{{chart.get_options.title}}'
-        },
-
-        subtitle: {
-            text: 'Source data: <a href="https://code.highcharts.com/mapdata/countries/us/custom/us-all-territories.js">Natural Earth data</a>'
-        },
-
-        mapNavigation: {
-            enabled: true,
-            buttonOptions: {
-                verticalAlign: 'bottom'
-            }
-        },
-
-        colorAxis: {
-            min: 0
-        },
-
-        series: [{
-            data: {{ chart.get_series|safe }},
-            mapData: Highcharts.maps['{{ chart.get_map }}'],
-            joinBy: ['hc-key', 'code'],
-            name: '{{ chart.get_series_name }}',
-            states: {
-                hover: {
-                    color: '#BADA55'
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                format: '{point.name}'
-            }
-        }]
+        title: {{chart.get_title_json | safe}},
+        subtitle: {{chart.get_subtitle_json | safe}},
+        colorAxis: {{chart.get_color_axis_json | safe}},
+        plotOptions: plotOp,
+        series: {{ chart.get_series_json|safe }},
     });
 });
 

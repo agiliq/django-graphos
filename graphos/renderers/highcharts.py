@@ -241,17 +241,23 @@ class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
     def __init__(self, *args, **kwargs):
         super(HighMap, self).__init__(*args, **kwargs)
-        self.options['series_name'] = self.get_data()[0][1]
 
     def get_series(self):
+        # Currently graphos highmap only work with two columns, essentially that means only one series
+        # That's why you see kv[1] and nothing beyond kv[1]
+        # Can highcharts maps make sense for multiple serieses?
         data = self.get_data()[1:]
-        final_data = []
-        for kv in data:
-            final_data.append({'code': kv[0], 'value': kv[1]})
-        return final_data
-
-    def get_chart_type(self):
-        return "map_chart"
+        first_series = {}
+        options = self.get_options()
+        first_series['data'] = []
+        for i, kv in enumerate(data):
+            region_detail = {'code': kv[0], 'value': kv[1]}
+            first_series['data'].append(region_detail)
+        first_series['joinBy'] = ['hc-key', 'code']
+        first_series['name'] = self.get_series_name()
+        serieses = []
+        serieses.append(first_series)
+        return serieses
 
     def get_js_template(self):
         return "graphos/highcharts/js_highmaps.html"
@@ -262,7 +268,25 @@ class HighMap(BaseHighCharts):
         return self.get_options().get('map_area', 'custom/world')
 
     def get_series_name(self):
-        return self.get_options().get('series_name', 'Value')
+        return self.get_data()[0][1]
+
+    def get_color_axis(self):
+        color_axis = self.get_options().get('colorAxis', {})
+        return color_axis
+
+    def get_color_axis_json(self):
+        color_axis = self.get_color_axis()
+        return json.dumps(color_axis, cls=JSONEncoderForHTML)
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'map' in plot_options:
+            plot_options['map'] = {}
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
 
 def column(matrix, i):
