@@ -176,7 +176,9 @@ class PieChart(BaseHighCharts):
         series_names = data[0][1:]
         serieses = []
         for i, name in enumerate(series_names):
-            serieses.append({"name": name, "data": pie_column(data, i+1)[1:]})
+            # TODO: Add color ability
+            series = {"name": name, "data": pie_column(data, i+1)[1:]}
+            serieses.append(series)
         return serieses
 
     def get_chart_type(self):
@@ -295,4 +297,4 @@ def column(matrix, i):
 
 
 def pie_column(matrix, i):
-    return [{'name':row[0],'y':row[1]} for row in matrix]
+    return [{'name':row[0],'y':row[i]} for row in matrix]
