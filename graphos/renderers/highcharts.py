@@ -221,16 +221,25 @@ class LogarithmicChart(BaseHighCharts):
 
 
 class MultiAxisChart(BaseHighCharts):
+    # TODO: This should be renamed dual axis, its not multi axis
+    # It will break with more than two serieses
     def get_series(self):
-        data = super(MultiAxisChart, self).get_series()
-        return [x.get('data') for x in data]
+        serieses = super(MultiAxisChart, self).get_series()
+        chart_types = ['column', 'spline']
+        # Make series 0 as column and series 1 as line
+        for i, series in enumerate(serieses):
+            if i == 0:
+                series['yAxis'] = 1
+            series['type'] = chart_types[i]
+        return serieses
 
-    def get_y_axis_titles(self):
-        data = super(MultiAxisChart, self).get_series()
-        return [x.get('name') for x in data]
-
-    def get_js_template(self):
-        return "graphos/highcharts/js_dual_axis.html"
+    def get_y_axis(self):
+        y_axis = super(MultiAxisChart, self).get_y_axis()
+        # This is overriding any thing set in yAxis. Fix
+        y_axis = []
+        y_axis.append({'title': {'text': self.get_series()[1]['name']}})
+        y_axis.append({'title': {'text': self.get_series()[0]['name']}, 'opposite': True})
+        return y_axis
 
     def get_chart_type(self):
         return "multi_axis"

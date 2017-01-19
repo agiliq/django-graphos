@@ -3,6 +3,7 @@ $(function () {
     $('#{{ chart.get_html_id }}').highcharts({
         chart: {{chart.get_chart_json | safe}},
         title: {{chart.get_title_json | safe}},
+        // Fix
         plotOptions: {
             pie: {
                 innerSize: 100,

@@ -2,47 +2,15 @@
 
 <script type="text/javascript">
     $(function () {
-        var data_series = {{ chart.get_series_json }};
         $('#{{ chart.get_html_id }}').highcharts({
-            chart: {
-                zoomType: 'xy'
-            },
-            title: {
-                text: "{{ chart.get_options.title }}"
-            },
-            xAxis: [{
-                categories: {{ chart.get_categories_json|safe }},
-                crosshair: true
-            }],
-            yAxis: [
-                { // Primary yAxis
-                    title: {
-                        text: '{{ chart.get_y_axis_titles.0 }}'
-                    }
-                },
-                { // Secondary Axis
-                    title: {
-                        text: '{{ chart.get_y_axis_titles.1 }}'
-                    },
-                    opposite: true
-                }
-            ],
-            tooltip: {
-                shared: true
-            },
-            series: [
-                {
-                    type: "column",
-                    yAxis: 1,
-                    data: data_series[0],
-                    name: '{{ chart.get_y_axis_titles.0 }}'
-                },
-                {
-                    type: "spline",
-                    data: data_series[1],
-                    name: '{{ chart.get_y_axis_titles.1 }}'
-                }
-            ]
+            chart: {{chart.get_chart_json | safe}},
+            title: {{chart.get_title_json | safe}},
+            subtitle: {{chart.get_subtitle_json | safe}},
+            xAxis: {{chart.get_x_axis_json | safe}},
+            yAxis: {{chart.get_y_axis_json | safe}},
+            series: {{ chart.get_series_json|safe }},
+            tooltip: {{chart.get_tooltip_json|safe}},
+            plotOptions: {{chart.get_options_json | safe}}
         });
     });
 </script>
