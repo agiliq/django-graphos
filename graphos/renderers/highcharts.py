@@ -201,6 +201,15 @@ class DonutChart(PieChart):
         chart['options3d'] = {'enabled': True, 'alpha': 45}
         return chart
 
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        plot_options['pie'] = {'innerSize': 100, 'depth': 45}
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
 
 class ScatterChart(BaseHighCharts):
     def get_chart_type(self):
