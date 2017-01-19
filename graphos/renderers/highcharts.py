@@ -147,6 +147,7 @@ class ColumnLineChart(BaseHighCharts):
     def get_series(self):
         data = self.get_data()
         serieses = []
+        # TODO: Add color ability
         serieses.append({"name": data[0][1], "data": column(data, 1)[1:], "type": "column"})
         series_names = data[0][2:]
         for i, name in enumerate(series_names):
@@ -163,6 +164,7 @@ class LineColumnChart(BaseHighCharts):
     def get_series(self):
         data = self.get_data()
         serieses = []
+        # TODO: Add color ability
         serieses.append({"name": data[0][1], "data": column(data, 1)[1:], "type": "line"})
         series_names = data[0][2:]
         for i, name in enumerate(series_names):
@@ -190,19 +192,14 @@ class AreaChart(BaseHighCharts):
         return "area"
 
 
-class DonutChart(BaseHighCharts):
-    def get_series(self):
-        _data = super(DonutChart, self).get_data()
-        return _data[1:]
-
-    def get_series_name(self):
-        return self.get_data()[0][1]
-
+class DonutChart(PieChart):
     def get_js_template(self):
         return "graphos/highcharts/js_donut.html"
 
-    def get_chart_type(self):
-        return "pie"
+    def get_chart(self):
+        chart = super(DonutChart, self).get_chart()
+        chart['options3d'] = {'enabled': True, 'alpha': 45}
+        return chart
 
 
 class ScatterChart(BaseHighCharts):
