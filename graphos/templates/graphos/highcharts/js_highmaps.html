@@ -6,7 +6,7 @@
     plotOp['map'].mapData = Highcharts.maps['{{chart.get_map}}']
     // Initiate the chart
     $('#{{ chart.get_html_id }}').highcharts('Map', {
-
+        chart: {{chart.get_chart_json | safe}},
         title: {{chart.get_title_json | safe}},
         subtitle: {{chart.get_subtitle_json | safe}},
         colorAxis: {{chart.get_color_axis_json | safe}},

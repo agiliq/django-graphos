@@ -306,6 +306,9 @@ class HighMap(BaseHighCharts):
         plot_options = self.get_plot_options()
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
+    def get_chart_type(self):
+        return "map"
+
 
 def column(matrix, i):
     return [row[i] for row in matrix]
