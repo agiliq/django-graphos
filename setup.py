@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-VERSION = (0, 3, 12, "f", 0)  # following PEP 386
+VERSION = (0, 3, 13, "f", 0)  # following PEP 386
 DEV_N = None
 
 import os
