@@ -154,6 +154,10 @@ class ColumnLineChart(BaseHighCharts):
             serieses.append({"name": name, "data": column(data, i+2)[1:], "type": "line"})
         return serieses
 
+    def get_chart_type(self):
+        # TODO: This is a placeholder so that get_chart() doesn't fail. Think how we can fix this.
+        return "column_line"
+
 
 class LineColumnChart(BaseHighCharts):
     """
@@ -170,6 +174,9 @@ class LineColumnChart(BaseHighCharts):
         for i, name in enumerate(series_names):
             serieses.append({"name": name, "data": column(data, i+2)[1:], "type": "column"})
         return serieses
+
+    def get_chart_type(self):
+        return "line_column"
 
 
 class PieChart(BaseHighCharts):
