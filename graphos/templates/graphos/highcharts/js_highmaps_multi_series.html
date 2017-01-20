@@ -1,0 +1,17 @@
+<script>
+    $(function () {
+    var plotOp = {{chart.get_plot_options_json | safe}};
+    // Highcharts is a javascript function, so this part could not have been done in Django
+    // as this is not JSON serializable
+    plotOp['map'].mapData = Highcharts.maps['{{chart.get_map}}']
+    // Initiate the chart
+    $('#{{ chart.get_html_id }}').highcharts('Map', {
+        chart: {{chart.get_chart_json | safe}},
+        title: {{chart.get_title_json | safe}},
+        subtitle: {{chart.get_subtitle_json | safe}},
+        plotOptions: plotOp,
+        series: {{ chart.get_series_json|safe }},
+    });
+});
+
+</script>

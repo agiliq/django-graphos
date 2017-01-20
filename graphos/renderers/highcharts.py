@@ -266,6 +266,10 @@ class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
     def __init__(self, *args, **kwargs):
         super(HighMap, self).__init__(*args, **kwargs)
+        if type(self.get_data()[1][1]) == int: # TODO: It could be any numeric, not just int
+            self.map_type = 'single_series'
+        else:
+            self.map_type = 'multi_series'
 
     def get_series(self):
         # Currently graphos highmap only work with two columns, essentially that means only one series
@@ -293,11 +297,9 @@ class HighMap(BaseHighCharts):
                 But colorAxis doesn't make sense here. It's not a choropleth map.
                 Graphos internally finds out all the distinct entries of second column of tabular data and created different serieses for different states.
         """
-        if type(self.get_data()[1][1]) == int: # TODO: It could be any numeric, not just int
-            map_type = 'single_series'
+        if self.map_type == 'single_series':
             serieses = self.calculate_single_series()
         else:
-            map_type = 'multi_series'
             serieses = self.calculate_multi_series()
         return serieses
 
@@ -336,7 +338,10 @@ class HighMap(BaseHighCharts):
         return serieses
 
     def get_js_template(self):
-        return "graphos/highcharts/js_highmaps.html"
+        if self.map_type == 'single_series':
+            return "graphos/highcharts/js_highmaps.html"
+        else:
+            return "graphos/highcharts/js_highmaps_multi_series.html"
 
     def get_map(self):
         # return "custom/world"
