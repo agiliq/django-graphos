@@ -1,6 +1,6 @@
 
 <script type="text/javascript">
-  google.setOnLoadCallback(drawChart{{ chart.get_html_id }});
+  google.charts.setOnLoadCallback(drawChart{{ chart.get_html_id }});
   function drawChart{{ chart.get_html_id }}() {
     {% block chart_specific_arraytodatatable %}
       var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});

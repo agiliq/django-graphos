@@ -73,6 +73,19 @@ treemap_data = [
           ['Zaire',     'Africa',             8,                               10]]
 
 
+gchart_geo_data = [
+    ['City', 'Population', 'Area'],
+    ['Rome', 2761477, 100],
+    ['Milan', 1324110, 150]
+]
+gchart_geo_data = [
+    ['Latitude', 'Longitude', 'Population', 'Area'],
+    [25.4851484, 83.2104426, 1, 100],
+    [25.4358011, 81.846311, 1, 150],
+    [28.7780401, 79.4956974, 2, 200]
+]
+
+
 # map_data = [
 #     ['Country', 'Value'],
 #     ['fo', 0],

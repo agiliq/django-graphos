@@ -12,7 +12,7 @@ from .models import Account
 from .utils import get_mongo_cursor
 from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us,
                     mongo_series_object_1, mongo_series_object_2,
-                    create_demo_accounts, create_demo_mongo, get_db)
+                    create_demo_accounts, create_demo_mongo, get_db, gchart_geo_data)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
 import json
@@ -194,6 +194,7 @@ class GChartDemo(Demo):
         candlestick_chart = self.renderer.CandlestickChart(SimpleDataSource
                                                     (data=candlestick_data))
         treemap_chart = self.renderer.TreeMapChart(SimpleDataSource(data=treemap_data))
+        geo_chart = self.renderer.GeoChart(SimpleDataSource(data=gchart_geo_data), options={'region': 'IN', 'displayMode': 'markers'})
         area_chart = self.renderer.AreaChart(data_source)
         queryset = Account.objects.all()
         data_source = ModelDataSource(queryset, fields=['year', 'sales'])
@@ -211,7 +212,8 @@ class GChartDemo(Demo):
         context.update({'candlestick_chart': candlestick_chart,
                        'treemap_chart': treemap_chart,
                        'gauge_chart': gauge_chart,
-                       'area_chart': area_chart})
+                       'area_chart': area_chart,
+                       'geo_chart': geo_chart})
         return context
 
 gchart_demo = GChartDemo.as_view(renderer=gchart)

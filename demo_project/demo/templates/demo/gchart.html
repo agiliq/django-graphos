@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {% block extra_head %}
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<!--<script type="text/javascript" src="https://www.google.com/jsapi"></script>-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD6jRuxzVyBSRcfgAfH-35ajVXKIyQTVY"
+ type="text/javascript"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    google.load("visualization", "1", {packages:["corechart", "treemap", "gauge"]});
+    <!--google.load("visualization", "1", {packages:["corechart", "treemap", "gauge", "geochart"]});-->
+    google.charts.load('current', {'packages':['corechart', 'treemap', 'gauge', 'geochart']});
 </script>
 <script>
   $(function(){
@@ -172,6 +176,16 @@
         <pre class="code">
             data_source = ModelDataSource(queryset, fields=['year', 'sales'])
             chart = gchart.AreaChart(data_source)
+        </pre>
+    </div>
+    <br />
+
+    <h2>Geo Chart</h2>
+    <div id="geo_chart" class="well">
+        {{ geo_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales'])
+            chart = gchart.GeoChart(data_source)
         </pre>
     </div>
     <br />
