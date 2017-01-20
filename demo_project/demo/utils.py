@@ -395,6 +395,41 @@ map_data = [
     ['ng', 99]
 ]
 
+
+map_data_us_multi_series = [
+    ['State', 'Winner'],
+    ['us-nj', 'Trump'],
+    ['us-ri', 'Trump'],
+    ['us-ma', 'Trump'],
+    ['us-ct', 'Clinton'],
+    ['us-md', 'Clinton'],
+    ['us-ny', 'Clinton'],
+    ['us-de', 'Trump'],
+    ['us-fl', 'Trump'],
+    ['us-oh', 'Trump'],
+    ['us-pa', 'Trump'],
+    ['us-li', 'Trump'],
+    ['us-ca', 'Trump'],
+    ['us-hi', 'Trump'],
+    ['us-va', 'Trump'],
+    ['us-mi', 'Trump'],
+    ['us-in', 'Trump'],
+    ['us-nc', 'Trump'],
+    ['us-ga', 'Trump'],
+    ['us-tn', 'Trump'],
+    ['us-nh', 'Trump'],
+    ['us-sc', 'Trump'],
+    ['us-la', 'Trump'],
+    ['us-ky', 'Trump'],
+    ['us-wi', 'Trump'],
+    ['us-wa', 'Trump'],
+    ['us-al', 'Clinton'],
+    ['us-mo', 'Clinton'],
+    ['us-tx', 'Clinton'],
+    ['us-wv', 'Clinton'],
+]
+
+
 map_data_us = [
     ['State', 'Value'],
     ['us-nj', 438],

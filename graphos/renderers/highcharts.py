@@ -1,5 +1,6 @@
 from .base import BaseChart
 import json
+from collections import defaultdict
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
@@ -270,6 +271,56 @@ class HighMap(BaseHighCharts):
         # Currently graphos highmap only work with two columns, essentially that means only one series
         # That's why you see kv[1] and nothing beyond kv[1]
         # Can highcharts maps make sense for multiple serieses?
+        """
+        Different serieses should come up based on different data formats passed.
+            1. Single series
+                This would be a choropleth map where the color intensity of different regions/polygons
+                differ based on the integer values in series. Two things are important here
+                    a: It works with a colorAxis
+                    b: First series i.e second column of tabular data must be integer.
+            2. Multiple series
+                Example
+                State     Winner
+                Orissa    BJP
+                Bihar     RJD
+                Assam     BJP
+                Meghalaya AAP
+                Manipur   AAP
+                Punjab    AAP
+
+                In this case all states won by AAP make up one series and will be colored in a particular color.
+                Then all states won by BJP will be colored in a particular color. This color will be different from AAP color.
+                But colorAxis doesn't make sense here. It's not a choropleth map.
+                Graphos internally finds out all the distinct entries of second column of tabular data and created different serieses for different states.
+        """
+        if type(self.get_data()[1][1]) == int: # TODO: It could be any numeric, not just int
+            map_type = 'single_series'
+            serieses = self.calculate_single_series()
+        else:
+            map_type = 'multi_series'
+            serieses = self.calculate_multi_series()
+        return serieses
+
+    def calculate_multi_series(self):
+        data = self.get_data()[1:]
+        name_to_regions_dict = defaultdict(list)
+        for row in data:
+            series_name = row[1]
+            # Create a dictionary of format {'code': 'IE'}
+            d = {'code': row[0]}
+            # TODO: Also append row[1] onwards things to dictionary d
+            name_to_regions_dict[series_name].append(d)
+        serieses = []
+        join_by = self.get_options().get('joinBy', 'hc-key')
+        for series_name, regions in name_to_regions_dict.items():
+            series = {}
+            series['name'] = series_name
+            series['data'] = regions
+            series['joinBy'] = [join_by, 'code']
+            serieses.append(series)
+        return serieses
+
+    def calculate_single_series(self):
         data = self.get_data()[1:]
         first_series = {}
         options = self.get_options()
@@ -277,7 +328,6 @@ class HighMap(BaseHighCharts):
         for i, kv in enumerate(data):
             region_detail = {'code': kv[0], 'value': kv[1]}
             first_series['data'].append(region_detail)
-        # TODO: Make joinBy configurable. It could be something different from hc-key
         join_by = self.get_options().get('joinBy', 'hc-key')
         first_series['joinBy'] = [join_by, 'code']
         first_series['name'] = self.get_series_name()
