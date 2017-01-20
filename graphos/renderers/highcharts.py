@@ -278,7 +278,8 @@ class HighMap(BaseHighCharts):
             region_detail = {'code': kv[0], 'value': kv[1]}
             first_series['data'].append(region_detail)
         # TODO: Make joinBy configurable. It could be something different from hc-key
-        first_series['joinBy'] = ['hc-key', 'code']
+        join_by = self.get_options().get('joinBy', 'hc-key')
+        first_series['joinBy'] = [join_by, 'code']
         first_series['name'] = self.get_series_name()
         serieses = []
         serieses.append(first_series)
