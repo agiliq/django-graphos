@@ -1,6 +1,7 @@
 from .base import BaseChart
 import json
 from collections import defaultdict
+from decimal import Decimal
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
@@ -266,7 +267,7 @@ class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
     def __init__(self, *args, **kwargs):
         super(HighMap, self).__init__(*args, **kwargs)
-        if type(self.get_data()[1][1]) == int: # TODO: It could be any numeric, not just int
+        if type(self.get_data()[1][1]) in [int, float, long, Decimal]: # TODO: It could be any numeric, not just int
             self.map_type = 'single_series'
         else:
             self.map_type = 'multi_series'
