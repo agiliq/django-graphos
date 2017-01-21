@@ -431,7 +431,7 @@ map_data_us_multi_series = [
 
 
 map_data_us = [
-    ['State', 'Value'],
+    ['State', 'Population'],
     ['us-nj', 438],
     ['us-ri', 387],
     ['us-ma', 313],
