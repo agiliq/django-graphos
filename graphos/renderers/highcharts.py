@@ -284,13 +284,13 @@ class HighMap(BaseHighCharts):
                     b: First series i.e second column of tabular data must be integer.
             2. Multiple series
                 Example
-                State     Winner
-                Orissa    BJP
-                Bihar     RJD
-                Assam     BJP
-                Meghalaya AAP
-                Manipur   AAP
-                Punjab    AAP
+                State     Winner    Seats
+                Orissa    BJP       5
+                Bihar     RJD       10
+                Assam     BJP       7
+                Meghalaya AAP       12
+                Manipur   AAP       4
+                Punjab    AAP       4
 
                 In this case all states won by AAP make up one series and will be colored in a particular color.
                 Then all states won by BJP will be colored in a particular color. This color will be different from AAP color.
@@ -306,10 +306,14 @@ class HighMap(BaseHighCharts):
     def calculate_multi_series(self):
         data = self.get_data()[1:]
         name_to_regions_dict = defaultdict(list)
+        second_column_onwards_names = self.get_data()[0][2:]
         for row in data:
             series_name = row[1]
-            # Create a dictionary of format {'code': 'IE'}
+            # Create a dictionary of format {'code': 'Orissa', 'Seats': 5}
             d = {'code': row[0]}
+            second_column_onwards = row[2:]
+            second_column_onwards_dict = dict(zip(second_column_onwards_names, second_column_onwards))
+            d.update(second_column_onwards_dict)
             # TODO: Also append row[1] onwards things to dictionary d
             name_to_regions_dict[series_name].append(d)
         serieses = []

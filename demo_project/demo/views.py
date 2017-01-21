@@ -308,7 +308,7 @@ class HighChartsDemo(Demo):
             'log_chart': self.renderer.LogarithmicChart(data_source),
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
             'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
-            'highmap_chart_multi': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'allAreas': False, 'tooltip': {'pointFormat': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
+            'highmap_chart_multi': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'allAreas': False, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
         })
         return context
 
