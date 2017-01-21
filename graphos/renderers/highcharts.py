@@ -318,12 +318,17 @@ class HighMap(BaseHighCharts):
             name_to_regions_dict[series_name].append(d)
         serieses = []
         join_by = self.get_options().get('joinBy', 'hc-key')
+        i = 0
+        colors = self.get_options().get('colors', None)
         for series_name, regions in name_to_regions_dict.items():
             series = {}
             series['name'] = series_name
             series['data'] = regions
             series['joinBy'] = [join_by, 'code']
             serieses.append(series)
+            if colors and len(colors) > i:
+                series['color'] = colors[i]
+            i += 1
         return serieses
 
     def calculate_single_series(self):
