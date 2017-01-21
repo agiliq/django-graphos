@@ -268,9 +268,9 @@ class HighMap(BaseHighCharts):
     def __init__(self, *args, **kwargs):
         super(HighMap, self).__init__(*args, **kwargs)
         if type(self.get_data()[1][1]) in [int, float, long, Decimal]: # TODO: It could be any numeric, not just int
-            self.map_type = 'single_series'
+            self.series_type = 'single_series'
         else:
-            self.map_type = 'multi_series'
+            self.series_type = 'multi_series'
 
     def get_series(self):
         # Currently graphos highmap only work with two columns, essentially that means only one series
@@ -298,7 +298,7 @@ class HighMap(BaseHighCharts):
                 But colorAxis doesn't make sense here. It's not a choropleth map.
                 Graphos internally finds out all the distinct entries of second column of tabular data and created different serieses for different states.
         """
-        if self.map_type == 'single_series':
+        if self.series_type == 'single_series':
             serieses = self.calculate_single_series()
         else:
             serieses = self.calculate_multi_series()
@@ -337,18 +337,27 @@ class HighMap(BaseHighCharts):
         first_series = {}
         options = self.get_options()
         first_series['data'] = []
+        chart_type = self.get_chart_type()
         for i, kv in enumerate(data):
-            region_detail = {'code': kv[0], 'value': kv[1]}
+            if chart_type == 'mapbubble':
+                region_detail = {'code': kv[0], 'z': kv[1]}
+            elif chart_type == 'map':
+                region_detail = {'code': kv[0], 'value': kv[1]}
             first_series['data'].append(region_detail)
         join_by = self.get_options().get('joinBy', 'hc-key')
         first_series['joinBy'] = [join_by, 'code']
         first_series['name'] = self.get_series_name()
+        first_series['type'] = self.get_chart_type()
         serieses = []
         serieses.append(first_series)
+        just_for_sake_series = {}
+        just_for_sake_series['name'] = 'Regions'
+        just_for_sake_series['type'] = 'map'
+        serieses.insert(0, just_for_sake_series)
         return serieses
 
     def get_js_template(self):
-        if self.map_type == 'single_series':
+        if self.series_type == 'single_series':
             return "graphos/highcharts/js_highmaps.html"
         else:
             return "graphos/highcharts/js_highmaps_multi_series.html"
@@ -373,6 +382,8 @@ class HighMap(BaseHighCharts):
         plot_options = self.get_options().get('plotOptions', {})
         if not 'map' in plot_options:
             plot_options['map'] = {}
+        if not 'mapbubble' in plot_options:
+            plot_options['mapbubble'] = {}
         return plot_options
 
     def get_plot_options_json(self):
@@ -380,7 +391,7 @@ class HighMap(BaseHighCharts):
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
     def get_chart_type(self):
-        return "map"
+        return self.get_options().get("map_type", "map")
 
 
 def column(matrix, i):
