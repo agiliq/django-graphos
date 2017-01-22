@@ -361,10 +361,11 @@ class HighMap(BaseHighCharts):
         first_series['type'] = self.get_chart_type()
         serieses = []
         serieses.append(first_series)
-        just_for_sake_series = {}
-        just_for_sake_series['name'] = 'Regions'
-        just_for_sake_series['type'] = 'map'
-        serieses.insert(0, just_for_sake_series)
+        if chart_type == 'mapbubble':
+            just_for_sake_series = {}
+            just_for_sake_series['name'] = 'Regions'
+            just_for_sake_series['type'] = 'map'
+            serieses.insert(0, just_for_sake_series)
         return serieses
 
     def get_js_template(self):
