@@ -4,6 +4,7 @@
     // Highcharts is a javascript function, so this part could not have been done in Django
     // as this is not JSON serializable
     plotOp['map'].mapData = Highcharts.maps['{{chart.get_map}}']
+    plotOp['mapbubble'].mapData = Highcharts.maps['{{chart.get_map}}']
     // Initiate the chart
     $('#{{ chart.get_html_id }}').highcharts('Map', {
         chart: {{chart.get_chart_json | safe}},

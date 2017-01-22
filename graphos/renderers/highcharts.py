@@ -308,14 +308,19 @@ class HighMap(BaseHighCharts):
         data = self.get_data()[1:]
         name_to_regions_dict = defaultdict(list)
         second_column_onwards_names = self.get_data()[0][2:]
+        chart_type = self.get_chart_type()
         for row in data:
             series_name = row[1]
             # Create a dictionary of format {'code': 'Orissa', 'Seats': 5}
             d = {'code': row[0]}
             second_column_onwards = row[2:]
             second_column_onwards_dict = dict(zip(second_column_onwards_names, second_column_onwards))
+            # If it is a mapbubble, add 'z' based on some key
+            if chart_type == 'mapbubble':
+                zKey = self.get_options().get('zKey')
+                if zKey:
+                    d['z'] = second_column_onwards_dict[zKey]
             d.update(second_column_onwards_dict)
-            # TODO: Also append row[1] onwards things to dictionary d
             name_to_regions_dict[series_name].append(d)
         serieses = []
         join_by = self.get_options().get('joinBy', 'hc-key')
@@ -326,10 +331,16 @@ class HighMap(BaseHighCharts):
             series['name'] = series_name
             series['data'] = regions
             series['joinBy'] = [join_by, 'code']
+            #series['type'] = chart_type
             serieses.append(series)
             if colors and len(colors) > i:
                 series['color'] = colors[i]
             i += 1
+        if chart_type == 'mapbubble':
+            just_for_sake_series = {}
+            just_for_sake_series['name'] = 'Regions'
+            just_for_sake_series['type'] = 'map'
+            serieses.insert(0, just_for_sake_series)
         return serieses
 
     def calculate_single_series(self):
@@ -391,6 +402,8 @@ class HighMap(BaseHighCharts):
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
     def get_chart_type(self):
+        # If you are using mapbubble, ensure you don't set allAreas to False.
+        # Also if you are setting mapbubble for a multi series chart, then probably you should set zKey too to get different bubble sizes.
         return self.get_options().get("map_type", "map")
 
 
