@@ -5,14 +5,15 @@
     // as this is not JSON serializable
     plotOp['map'].mapData = Highcharts.maps['{{chart.get_map}}']
     plotOp['mapbubble'].mapData = Highcharts.maps['{{chart.get_map}}']
-    // Initiate the chart
-    $('#{{ chart.get_html_id }}').highcharts('Map', {
+    var highchartsObj = {
         chart: {{chart.get_chart_json | safe}},
         title: {{chart.get_title_json | safe}},
         subtitle: {{chart.get_subtitle_json | safe}},
         plotOptions: plotOp,
         series: {{ chart.get_series_json|safe }},
-    });
+    }
+    // Initiate the chart
+    $('#{{ chart.get_html_id }}').highcharts('Map', highchartsObj);
 });
 
 </script>

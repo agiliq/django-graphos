@@ -331,7 +331,6 @@ class HighMap(BaseHighCharts):
             series['name'] = series_name
             series['data'] = regions
             series['joinBy'] = [join_by, 'code']
-            #series['type'] = chart_type
             serieses.append(series)
             if colors and len(colors) > i:
                 series['color'] = colors[i]
@@ -358,7 +357,6 @@ class HighMap(BaseHighCharts):
         join_by = self.get_options().get('joinBy', 'hc-key')
         first_series['joinBy'] = [join_by, 'code']
         first_series['name'] = self.get_series_name()
-        first_series['type'] = self.get_chart_type()
         serieses = []
         serieses.append(first_series)
         if chart_type == 'mapbubble':
@@ -369,10 +367,7 @@ class HighMap(BaseHighCharts):
         return serieses
 
     def get_js_template(self):
-        if self.series_type == 'single_series':
-            return "graphos/highcharts/js_highmaps.html"
-        else:
-            return "graphos/highcharts/js_highmaps_multi_series.html"
+        return "graphos/highcharts/js_highmaps.html"
 
     def get_map(self):
         # return "custom/world"
