@@ -339,6 +339,7 @@ class HighMap(BaseHighCharts):
             just_for_sake_series = {}
             just_for_sake_series['name'] = 'Regions'
             just_for_sake_series['type'] = 'map'
+            just_for_sake_series['color'] = 'black'
             serieses.insert(0, just_for_sake_series)
         return serieses
 
