@@ -8,6 +8,7 @@
   <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
   <script src="https://code.highcharts.com/mapdata/countries/us/custom/us-all-territories.js"></script>
   <script src="https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
 
   <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <link href="/{{STATIC_URL}}css/highmaps.css" rel="stylesheet">
@@ -93,8 +94,24 @@
       {{ highmap_chart.as_html }}
     </div>
 
+    <div id="highmap_chart_bubble" class="well">
+      {{ highmap_chart_bubble.as_html }}
+    </div>
+
+    <div id="highmap_chart_lat_lon" class="well">
+      {{ highmap_chart_lat_lon.as_html }}
+    </div>
+
     <div id="highmap_chart_multi_series" class="well">
       {{ highmap_chart_multi.as_html }}
+    </div>
+
+    <div id="highmap_chart_multi_series_bubble" class="well">
+      {{ highmap_chart_multi_bubble.as_html }}
+    </div>
+
+    <div id="highmap_chart_multi_series_lat_lon" class="well">
+      {{ highmap_chart_multi_lat_lon.as_html }}
     </div>
     <br />
 

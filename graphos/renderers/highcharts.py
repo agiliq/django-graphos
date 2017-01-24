@@ -267,7 +267,16 @@ class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
     def __init__(self, *args, **kwargs):
         super(HighMap, self).__init__(*args, **kwargs)
-        if type(self.get_data()[1][1]) in [int, float, long, Decimal]: # TODO: It could be any numeric, not just int
+        self.is_lat_long = False
+        first_column = self.get_data()[1][0]
+        second_column = self.get_data()[1][1]
+        if type(first_column) in [int, float, long, Decimal] and type(second_column) in [int, float, long, Decimal]:
+            self.is_lat_long = True
+        if not self.is_lat_long:
+            value_to_check_for_series_type = self.get_data()[1][1]
+        else:
+            value_to_check_for_series_type = self.get_data()[1][2]
+        if type(value_to_check_for_series_type) in [int, float, long, Decimal]: # TODO: It could be any numeric, not just int
             self.series_type = 'single_series'
         else:
             self.series_type = 'multi_series'
@@ -307,13 +316,25 @@ class HighMap(BaseHighCharts):
     def calculate_multi_series(self):
         data = self.get_data()[1:]
         name_to_regions_dict = defaultdict(list)
-        second_column_onwards_names = self.get_data()[0][2:]
+        if not self.is_lat_long:
+            second_column_onwards_names = self.get_data()[0][2:]
+        else:
+            second_column_onwards_names = self.get_data()[0][3:]
         chart_type = self.get_chart_type()
         for row in data:
-            series_name = row[1]
+            if not self.is_lat_long:
+                series_name = row[1]
+            else:
+                series_name = row[2]
             # Create a dictionary of format {'code': 'Orissa', 'Seats': 5}
-            d = {'code': row[0]}
-            second_column_onwards = row[2:]
+            if not self.is_lat_long:
+                d = {'code': row[0]}
+            else:
+                d = {'lat': row[0], 'lon': row[1]}
+            if not self.is_lat_long:
+                second_column_onwards = row[2:]
+            else:
+                second_column_onwards = row[3:]
             second_column_onwards_dict = dict(zip(second_column_onwards_names, second_column_onwards))
             # If it is a mapbubble, add 'z' based on some key
             if chart_type == 'mapbubble':
@@ -340,6 +361,7 @@ class HighMap(BaseHighCharts):
             just_for_sake_series['name'] = 'Regions'
             just_for_sake_series['type'] = 'map'
             just_for_sake_series['color'] = 'black'
+            just_for_sake_series['showInLegend'] = False
             serieses.insert(0, just_for_sake_series)
         return serieses
 
@@ -351,7 +373,10 @@ class HighMap(BaseHighCharts):
         chart_type = self.get_chart_type()
         for i, kv in enumerate(data):
             if chart_type == 'mapbubble':
-                region_detail = {'code': kv[0], 'z': kv[1]}
+                if not self.is_lat_long:
+                    region_detail = {'code': kv[0], 'z': kv[1]}
+                else:
+                    region_detail = {'lat': kv[0], 'lon': kv[1], 'z': kv[2]}
             elif chart_type == 'map':
                 region_detail = {'code': kv[0], 'value': kv[1]}
             first_series['data'].append(region_detail)
@@ -362,8 +387,9 @@ class HighMap(BaseHighCharts):
         serieses.append(first_series)
         if chart_type == 'mapbubble':
             just_for_sake_series = {}
-            just_for_sake_series['name'] = 'Regions'
+            just_for_sake_series['name'] = 'Basemap'
             just_for_sake_series['type'] = 'map'
+            just_for_sake_series['showInLegend'] = False
             serieses.insert(0, just_for_sake_series)
         return serieses
 
@@ -376,6 +402,8 @@ class HighMap(BaseHighCharts):
         return self.get_options().get('map_area', 'custom/world')
 
     def get_series_name(self):
+        if self.is_lat_long:
+            return self.get_data()[0][2]
         return self.get_data()[0][1]
 
     def get_color_axis(self):
@@ -401,7 +429,10 @@ class HighMap(BaseHighCharts):
     def get_chart_type(self):
         # If you are using mapbubble, ensure you don't set allAreas to False.
         # Also if you are setting mapbubble for a multi series chart, then probably you should set zKey too to get different bubble sizes.
-        return self.get_options().get("map_type", "map")
+        if self.is_lat_long:
+            return "mapbubble"
+        else:
+            return self.get_options().get("map_type", "map")
 
 
 def column(matrix, i):

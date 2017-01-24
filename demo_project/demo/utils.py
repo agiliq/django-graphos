@@ -396,6 +396,16 @@ map_data = [
 ]
 
 
+map_data_us_multi_series_lat_lon = [
+    ['Latitude', 'Longitude', 'Winner', 'Seats'],
+    [32.380120, -86.300629, 'Trump', 10],
+    [58.299740, -134.406794, 'Trump', 10],
+    [33.448260, -112.075774, 'Trump', 10],
+    [34.748655, -92.274494, 'Clinton', 20],
+    [38.579065, -121.491014, 'Clinton', 20],
+]
+
+
 map_data_us_multi_series = [
     ['State', 'Winner', 'Seats'],
     ['us-nj', 'Trump', 10],
@@ -427,6 +437,20 @@ map_data_us_multi_series = [
     ['us-mo', 'Clinton', 12],
     ['us-tx', 'Clinton', 45],
     ['us-wv', 'Clinton', 45],
+]
+
+
+map_data_us_lat_lon = [
+    ['Latitude', 'Longitude', 'Population'],
+    [32.380120, -86.300629,  900],
+    [58.299740, -134.406794, 387],
+    [33.448260, -112.075774, 313],
+]
+map_data_india_lat_lon = [
+    ['Latitude', 'Longitude', 'Population'],
+    [25.4851484, 83.2104426, 900],
+    [27.7126407, 78.7391187, 387],
+    [28.2699017, 79.1604971, 313],
 ]
 
 
