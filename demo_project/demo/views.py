@@ -305,7 +305,6 @@ class HighChartsDemo(Demo):
             'area_chart': self.renderer.AreaChart(data_source),
             'donut_chart': self.renderer.DonutChart(data_source),
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
-            'log_chart': self.renderer.LogarithmicChart(data_source),
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
             # If you want highmap_chart to be bubble chart, then add 'map_type': 'mapbubble' to options.
             'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),

@@ -229,20 +229,6 @@ class DonutChart(PieChart):
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
 
-class LogarithmicChart(BaseHighCharts):
-    # TODO: Remove this, any chart can be converted to logarithmic
-    def get_series(self):
-        data = super(LogarithmicChart, self).get_series()
-        data = data[0].get('data')
-        return data
-
-    def get_js_template(self):
-        return "graphos/highcharts/js_log.html"
-
-    def get_chart_type(self):
-        return "log_chart"
-
-
 class MultiAxisChart(BaseHighCharts):
     # TODO: This should be renamed dual axis, its not multi axis
     # It will break with more than two serieses
