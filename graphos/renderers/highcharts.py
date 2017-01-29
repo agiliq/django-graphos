@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
+from ..exceptions import GraphosException
 
 
 class BaseHighCharts(BaseChart):
@@ -87,6 +88,9 @@ class BaseHighCharts(BaseChart):
         chart['type'] = self.get_chart_type()
         return chart
 
+    def get_chart_type(self):
+        raise GraphosException("Not Implemented")
+
     def get_chart_json(self):
         chart = self.get_chart()
         return json.dumps(chart, cls=JSONEncoderForHTML)
@@ -138,6 +142,16 @@ class BarChart(BaseHighCharts):
 class ColumnChart(BaseHighCharts):
     def get_chart_type(self):
         return "column"
+
+
+class AreaChart(BaseHighCharts):
+    def get_chart_type(self):
+        return "area"
+
+
+class ScatterChart(BaseHighCharts):
+    def get_chart_type(self):
+        return "scatter"
 
 
 class ColumnLineChart(BaseHighCharts):
@@ -196,11 +210,6 @@ class PieChart(BaseHighCharts):
         return "pie"
 
 
-class AreaChart(BaseHighCharts):
-    def get_chart_type(self):
-        return "area"
-
-
 class DonutChart(PieChart):
     def get_js_template(self):
         return "graphos/highcharts/js_donut.html"
@@ -220,12 +229,8 @@ class DonutChart(PieChart):
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
 
-class ScatterChart(BaseHighCharts):
-    def get_chart_type(self):
-        return "scatter"
-
-
 class LogarithmicChart(BaseHighCharts):
+    # TODO: Remove this, any chart can be converted to logarithmic
     def get_series(self):
         data = super(LogarithmicChart, self).get_series()
         data = data[0].get('data')

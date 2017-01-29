@@ -8,7 +8,7 @@ from .sources.csv_file import CSVDataSource
 from .sources.model import ModelDataSource
 from .sources.mongo import MongoDBDataSource
 
-from .renderers import base, flot, gchart, yui, matplotlib_renderer
+from .renderers import base, flot, gchart, yui, matplotlib_renderer, highcharts
 from .exceptions import GraphosException
 from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_default_options, get_db
 
@@ -148,13 +148,12 @@ class TestBaseRenderer(TestCase):
             [2007, 1030, 540]
         ]
 
-        options = {"title": "Sales and Expences Graph"}
+        self.options = {"title": "Sales and Expences Graph"}
 
         self.default_options = {'title': 'Chart'}
         self.empty_options = {}
         self.data_source = SimpleDataSource(data)
         self.data = data
-        self.options = options
         self.html_id = 'base_chart'
         self.template = 'graphos/as_html.html'
         self.header = data[0]
@@ -191,6 +190,14 @@ class TestBaseRenderer(TestCase):
         self.assertTrue(hasattr(chart, "get_html_id"))
         self.assertTrue(self.html_id, chart.get_html_id())
         self.assertTrue(hasattr(chart, "as_html"))
+        self.assertRaises(GraphosException, chart.as_html)
+
+    def test_options(self):
+        """
+        Assert that options get set to a dictionary in case no options is passed during initialization
+        """
+        chart = base.BaseChart(data_source=self.data_source)
+        self.assertEqual(self.default_options, chart.get_options())
 
 
 class TestFlotRenderer(TestCase):
@@ -310,22 +317,128 @@ class TestGchartRenderer(TestCase):
     def test_column_chart(self):
         chart = gchart.ColumnChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
-        self.assertTrue("Column" in chart.as_html())
+        self.assertTrue("ColumnChart" in chart.as_html())
 
     def test_bar_chart(self):
         chart = gchart.BarChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("BarChart" in chart.as_html())
 
+    def test_pie_chart(self):
+        chart = gchart.PieChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("PieChart" in chart.as_html())
+
+    def test_area_chart(self):
+        chart = gchart.AreaChart(data_source=self.data_source)
+        self.assertNotEqual(chart.as_html(), "")
+        self.assertTrue("AreaChart" in chart.as_html())
+
     def test_candlestick_chart(self):
+        # TODO: Change tests. Candlestick probably expects data in a particular format.
+        # Assert that data sent to candlestick is in correct format, and test accordingly
         chart = gchart.CandlestickChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("CandlestickChart" in chart.as_html())
 
     def test_gauge_chart(self):
+        # TODO: Change tests. Candlestick probably expects data in a particular format.
+        # Assert that data sent to candlestick is in correct format, and test accordingly
         chart = gchart.GaugeChart(data_source=self.data_source)
         self.assertNotEqual(chart.as_html(), "")
         self.assertTrue("Gauge" in chart.as_html())
+
+
+class TestHighchartsRenderer(TestCase):
+    def setUp(self):
+        data = [
+            ['Year', 'Sales', 'Expenses'],
+            [2004, 1000, 400],
+            [2005, 1170, 460],
+            [2006, 660, 1120],
+            [2007, 1030, 540]
+        ]
+        self.data_source = SimpleDataSource(data)
+        self.categories = [2004, 2005, 2006, 2007]
+        self.x_axis_title = 'Year'
+        self.series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030]}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]
+
+    def test_base_highcharts(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_categories(), self.categories)
+        self.assertEqual(chart.get_categories_json(), json.dumps(self.categories))
+        self.assertEqual(chart.get_series(), self.series)
+
+    def test_get_series_with_colors(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'colors': ['red']})
+        series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]
+        self.assertEqual(chart.get_series(), series)
+        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'colors': ['red', 'blue']})
+        series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540], 'color': 'blue'}]
+        self.assertEqual(chart.get_series(), series)
+
+    def test_get_title(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_title(), {'text': 'Chart'})
+        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'title': 'Highcharts'})
+        self.assertEqual(chart.get_title(), {'text': 'Highcharts'})
+        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'title': {'text': 'Highcharts', 'align': 'center'}})
+        self.assertEqual(chart.get_title(), {'text': 'Highcharts', 'align': 'center'})
+
+    def test_get_subtitle(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_subtitle(), {})
+        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'subtitle': 'Highcharts'})
+        self.assertEqual(chart.get_subtitle(), {'text': 'Highcharts'})
+        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'subtitle': {'text': 'Highcharts', 'align': 'center'}})
+        self.assertEqual(chart.get_subtitle(), {'text': 'Highcharts', 'align': 'center'})
+
+    def test_get_xaxis(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': self.x_axis_title}})
+
+    def test_get_yaxis(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_y_axis(), {})
+
+    def test_get_tooltip(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_tooltip(), {})
+
+    def test_line_chart(self):
+        chart = highcharts.LineChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'line'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_column_chart(self):
+        chart = highcharts.ColumnChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'column'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_bar_chart(self):
+        chart = highcharts.BarChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'bar'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_area_chart(self):
+        chart = highcharts.AreaChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'area'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_scatter_chart(self):
+        chart = highcharts.ScatterChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'scatter'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_pie_chart(self):
+        chart = highcharts.PieChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'pie'})
+        self.assertNotEqual(chart.as_html(), "")
+        series = [
+                {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660}, {'name': 2007, 'y': 1030}]},
+                {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120}, {'name': 2007, 'y': 540}]}
+        ]
+        self.assertEqual(chart.get_series(), series)
 
 
 class TestYUIRenderer(TestCase):
