@@ -225,7 +225,7 @@ This data essentially tells that in year 2004, sales was 1000 units and expense 
 
 This should be used if you want to generate a chart from a Django queryset.
 
-	from graphos.sources.models import ModelDataSource
+	from graphos.sources.model import ModelDataSource
 	queryset = Account.objects.all()
 	data_source = ModelDataSource(queryset,
 								  fields=['year', 'sales'])
