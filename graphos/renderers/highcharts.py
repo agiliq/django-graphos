@@ -128,11 +128,11 @@ class BaseHighCharts(BaseChart):
     def get_x_axis_title(self):
         return self.get_data()[0][0]
 
-    def get_credit(self):
+    def get_credits(self):
         credits = self.get_options().get('credits', {})
         return credits
 
-    def get_credit_json(self):
+    def get_credits_json(self):
         credits = self.get_credit()
         return json.dumps(credits, cls=JSONEncoderForHTML)
 
