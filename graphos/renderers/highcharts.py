@@ -133,7 +133,7 @@ class BaseHighCharts(BaseChart):
         return credits
 
     def get_credits_json(self):
-        credits = self.get_credit()
+        credits = self.get_credits()
         return json.dumps(credits, cls=JSONEncoderForHTML)
 
 
