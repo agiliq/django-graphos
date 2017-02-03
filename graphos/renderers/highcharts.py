@@ -136,6 +136,24 @@ class BaseHighCharts(BaseChart):
         credits = self.get_credits()
         return json.dumps(credits, cls=JSONEncoderForHTML)
 
+    def get_exporting(self):
+        exporting = self.get_options().get('exporting', {})
+        return exporting
+
+    def get_exporting_json(self):
+        exporting = self.get_exporting()
+        return json.dumps(exporting, cls=JSONEncoderForHTML)
+
+    def get_legend(self):
+        legend = self.get_options().get('legend', {})
+        return legend
+
+    def get_legend_json(self):
+        legend = self.get_legend()
+        return json.dumps(legend, cls=JSONEncoderForHTML)
+
+
+
 
 class LineChart(BaseHighCharts):
     def get_chart_type(self):
