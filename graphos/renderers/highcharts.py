@@ -152,7 +152,13 @@ class BaseHighCharts(BaseChart):
         legend = self.get_legend()
         return json.dumps(legend, cls=JSONEncoderForHTML)
 
+    def get_navigation(self):
+        navigation = self.get_options().get('navigation', {})
+        return navigation
 
+    def get_navigation_json(self):
+        navigation = self.get_navigation()
+        return json.dumps(navigation, cls=JSONEncoderForHTML)
 
 
 class LineChart(BaseHighCharts):
