@@ -160,6 +160,14 @@ class BaseHighCharts(BaseChart):
         navigation = self.get_navigation()
         return json.dumps(navigation, cls=JSONEncoderForHTML)
 
+    def get_annotations(self):
+        annotations = self.get_options().get('annotations', {})
+        return annotations
+
+    def get_annotations_json(self):
+        annotations = self.get_annotations()
+        return json.dumps(annotations, cls=JSONEncoderForHTML)
+
 
 class LineChart(BaseHighCharts):
     def get_chart_type(self):
@@ -464,3 +472,4 @@ def column(matrix, i):
 
 def pie_column(matrix, i):
     return [{'name':row[0],'y':row[i]} for row in matrix]
+
