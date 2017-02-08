@@ -5,6 +5,7 @@
   <script src="https://code.highcharts.com/maps/modules/map.js"></script>
   <script src="https://code.highcharts.com/maps/modules/data.js"></script>
   <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/heatmap.js"></script>
   <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
   <script src="https://code.highcharts.com/mapdata/countries/us/custom/us-all-territories.js"></script>
   <script src="https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
@@ -108,6 +109,11 @@
     <div id="highmap_chart_multi_series_lat_lon" class="well">
       {{ highmap_chart_multi_lat_lon.as_html }}
     </div>
+
+    <div id="heat_map" class="well">
+      {{ heat_map.as_html }}
+    </div>
+
     <br />
 
 {% endblock %}
