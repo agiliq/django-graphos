@@ -2,7 +2,6 @@ from .base import BaseChart
 import json
 from collections import defaultdict
 from decimal import Decimal
-import collections
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
@@ -417,7 +416,7 @@ class HighMap(BaseHighCharts):
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
         if not 'map' in plot_options:
-            plot_options['map'] =  {}
+            plot_options['map'] = {}
         if not 'mapbubble' in plot_options:
             plot_options['mapbubble'] = {}
         return plot_options
