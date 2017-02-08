@@ -136,6 +136,30 @@ class BaseHighCharts(BaseChart):
         credits = self.get_credits()
         return json.dumps(credits, cls=JSONEncoderForHTML)
 
+    def get_exporting(self):
+        exporting = self.get_options().get('exporting', {})
+        return exporting
+
+    def get_exporting_json(self):
+        exporting = self.get_exporting()
+        return json.dumps(exporting, cls=JSONEncoderForHTML)
+
+    def get_legend(self):
+        legend = self.get_options().get('legend', {})
+        return legend
+
+    def get_legend_json(self):
+        legend = self.get_legend()
+        return json.dumps(legend, cls=JSONEncoderForHTML)
+
+    def get_navigation(self):
+        navigation = self.get_options().get('navigation', {})
+        return navigation
+
+    def get_navigation_json(self):
+        navigation = self.get_navigation()
+        return json.dumps(navigation, cls=JSONEncoderForHTML)
+
 
 class LineChart(BaseHighCharts):
     def get_chart_type(self):
@@ -303,7 +327,7 @@ class HighMap(BaseHighCharts):
 
                 In this case all states won by AAP make up one series and will be colored in a particular color.
                 Then all states won by BJP will be colored in a particular color. This color will be different from AAP color.
-                But colorAxis doesn't make sense here. It's not a choropleth map.
+                But colorAxis doesn't make sense here. It's not a choropleth map. But colorAxes(not colorAxis) could make senese here, i.e set color intensities for different serieses. But highcharts doesn't allow setting colorAxes, i.e color intensities for different serieses.
                 Graphos internally finds out all the distinct entries of second column of tabular data and created different serieses for different states.
         """
         if self.series_type == 'single_series':
