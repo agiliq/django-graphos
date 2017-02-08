@@ -1,0 +1,20 @@
+<script>
+$(function () {
+    var plotOp = {{chart.get_plot_options_json | safe}};
+    $('#{{ chart.get_html_id }}').highcharts({
+        chart: {{chart.get_chart_json | safe}},
+        exporting: {{chart.get_exporting_json | safe}},
+        legend: {{chart.get_legend_json | safe}},
+        navigation: {{chart.get_navigation_json | safe}},
+        title: {{chart.get_title_json | safe}},
+        subtitle: {{chart.get_subtitle_json | safe}},
+        xAxis: {{chart.get_x_axis_json | safe}},
+        yAxis: {{chart.get_y_axis_json | safe}},
+        series: {{ chart.get_series_json|safe }},
+        tooltip: {{chart.get_tooltip_json|safe}},
+        plotOptions: plotOp,
+        colorAxis: {{chart.get_color_axis_json | safe}},
+        credits: {{chart.get_credits_json | safe}}
+    });
+});
+</script>

@@ -464,3 +464,72 @@ def column(matrix, i):
 
 def pie_column(matrix, i):
     return [{'name':row[0],'y':row[i]} for row in matrix]
+
+
+
+class HeatMap(BaseHighCharts):
+    def remove_duplicates(self, lst):
+        dset = set()
+        # relies on the fact that dset.add() always returns None.
+        return [l for l in lst if
+                l not in dset and not dset.add(l)]
+
+    def get_categories(self, columnID):
+        # categories = super(HeatMap, self).get_categories()
+        return self.remove_duplicates(column(self.get_data(), columnID))
+
+    def get_series(self):
+        data = self.get_data()[1:]
+        serieses = []
+        new_list = []
+        X_list = self.remove_duplicates(column(data, 0))
+        Y_list = self.remove_duplicates(column(data, 1))
+        Value_list = column(data, 2)
+        counter = 0
+        for i in range(0,len(X_list)):
+            for j in range(0, len(Y_list)):
+                new_list.append([i, j, Value_list[counter]])
+                counter += 1
+        data = new_list
+        serieses.append({"data": data})
+        return serieses
+
+    def get_x_axis(self):
+        x_axis = []
+        x_axis.append({'categories': self.get_categories(0)[1:],'title': {'enabled': True, 'text': self.get_categories(0)[0]}})
+        return x_axis
+
+    def get_y_axis(self):
+        y_axis = []
+        y_axis.append({'categories': self.get_categories(1)[1:],'title': {'enabled': True, 'text': self.get_categories(1)[0]}})
+        return y_axis
+
+    def get_color_axis(self):
+        color_axis = self.get_options().get('colorAxis', {})
+        return color_axis
+
+    def get_color_axis_json(self):
+        color_axis = self.get_color_axis()
+        return json.dumps(color_axis, cls=JSONEncoderForHTML)
+
+    def get_chart_type(self):
+        return "heatmap"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_heatmaps.html"
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'heatmap' in plot_options:
+            plot_options['heatmap'] = {}
+        if 'borderWidth' not in plot_options['heatmap']:
+            plot_options['heatmap']['borderWidth'] = 1
+        if 'dataLabels' not in plot_options['heatmap']:
+            plot_options['heatmap']['dataLabels'] = {}
+        if 'enabled' not in plot_options['heatmap']['dataLabels']:
+            plot_options['heatmap']['dataLabels']['enabled'] = True
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
