@@ -2,6 +2,7 @@ from .base import BaseChart
 import json
 from collections import defaultdict
 from decimal import Decimal
+from copy import deepcopy
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
@@ -491,7 +492,7 @@ class HeatMap(BaseHighCharts):
                 new_list.append([i, j, Value_list[counter]])
                 counter += 1
         data = new_list
-        serieses.append({"data": data, 'borderWidth': 1, 'dataLabels': {'enabled': True, 'color': '#000000'}})
+        serieses.append({"data": data})
         return serieses
 
     def get_x_axis(self):
@@ -518,22 +519,38 @@ class HeatMap(BaseHighCharts):
     def get_js_template(self):
         return "graphos/highcharts/js_heatmaps.html"
 
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'heatmap' in plot_options:
+            plot_options['heatmap'] = {}
+        if 'borderWidth' not in plot_options['heatmap']:
+            plot_options['heatmap']['borderWidth'] = 1
+        if 'dataLabels' not in plot_options['heatmap']:
+            plot_options['heatmap']['dataLabels'] = {}
+        if 'enabled' not in plot_options['heatmap']['dataLabels']:
+            plot_options['heatmap']['dataLabels']['enabled'] = True
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
 
 class HeatMap_2(BaseHighCharts):
 
     def get_series(self):
-        data = self.get_data()
-        data = data[1:]
+        tempdata = deepcopy(self.get_data())
+        tempdata = tempdata[1:]
         serieses = []
         new_list = []
-        X_len = len(data)
-        Y_len = len(data[0])
-        ValueList = self.get_data()[1:]
-        for row in ValueList:
+        X_len = len(tempdata)
+        Y_len = len(tempdata[0])
+        value_list = tempdata
+        for row in value_list:
             del row[0]
         for i in range(0,X_len):
             for j in range(0, Y_len-1):
-                new_list.append([i, j, ValueList[i][j]])
+                new_list.append([i, j, value_list[i][j]])
         serieses.append({'data': new_list, 'borderWidth': 1, 'dataLabels': {'enabled': True, 'color': '#000000'}})
         return serieses
 
@@ -556,4 +573,18 @@ class HeatMap_2(BaseHighCharts):
     def get_js_template(self):
         return "graphos/highcharts/js_heatmaps.html"
 
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'heatmap' in plot_options:
+            plot_options['heatmap'] = {}
+        if 'borderWidth' not in plot_options['heatmap']:
+            plot_options['heatmap']['borderWidth'] = 1
+        if 'dataLabels' not in plot_options['heatmap']:
+            plot_options['heatmap']['dataLabels'] = {}
+        if 'enabled' not in plot_options['heatmap']['dataLabels']:
+            plot_options['heatmap']['dataLabels']['enabled'] = True
+        return plot_options
 
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
