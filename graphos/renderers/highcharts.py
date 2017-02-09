@@ -520,3 +520,34 @@ class HeatMap(BaseHighCharts):
     def get_plot_options_json(self):
         plot_options = self.get_plot_options()
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+
+class Funnel(BaseHighCharts):
+
+    def get_series(self):
+        serieses = []
+        data = self.get_data()[1:]
+        serieses.append({"data": data})
+        return serieses
+
+    def get_chart_type(self):
+        return "funnel"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_funnel.html"
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'heatmap' in plot_options:
+            plot_options['heatmap'] = {}
+        if 'borderWidth' not in plot_options['heatmap']:
+            plot_options['heatmap']['borderWidth'] = 1
+        if 'dataLabels' not in plot_options['heatmap']:
+            plot_options['heatmap']['dataLabels'] = {}
+        if 'enabled' not in plot_options['heatmap']['dataLabels']:
+            plot_options['heatmap']['dataLabels']['enabled'] = True
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
