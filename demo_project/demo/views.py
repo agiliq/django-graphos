@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
+from copy import deepcopy
 
 from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matplotlib_renderer
 from graphos.sources.simple import SimpleDataSource
@@ -314,7 +315,8 @@ class HighChartsDemo(Demo):
             'highmap_chart_multi': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'allAreas': False, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
             'highmap_chart_multi_bubble': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
             'highmap_chart_multi_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series_lat_lon), options={'title': 'Multi series with latitude and longitude', 'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
-            'heat_map': self.renderer.HeatMap(SimpleDataSource(heatmap_data), options={'colorAxis': {'min': 0,'minColor': '#FF0000','maxColor': '#6495ed'},'title': 'Demo of Heatmap'})})
+            'heat_map': self.renderer.HeatMap(SimpleDataSource(heatmap_data), options={'colorAxis': {'min': 0,'minColor': '#FF0000','maxColor': '#6495ed'},'title': 'Demo of Heatmap'})
+        })
         return context
 
 highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
