@@ -551,7 +551,8 @@ class HeatMap_2(BaseHighCharts):
         for i in range(0,X_len):
             for j in range(0, Y_len-1):
                 new_list.append([i, j, value_list[i][j]])
-        serieses.append({'data': new_list, 'borderWidth': 1, 'dataLabels': {'enabled': True, 'color': '#000000'}})
+        data = new_list
+        serieses.append({'data': data})
         return serieses
 
     def get_y_axis(self):
