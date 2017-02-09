@@ -615,3 +615,15 @@ heatmap_data = [['Name','Month','Salary'],
                 ['John Snow','Apr',4230],
                 ['John Snow','May',7895],
                 ['John Snow','June',15000]]
+
+heatmap_type2_data = [['Name', 'Yash', 'Akshar', 'Ashok','Shabda'],
+                      ['Uttar Pradesh',1000,2000,3000,4000],
+                      ['Bihar',2000,5000,8000,9800],
+                      ['Hyderabad',10000,9855,6000,2000],
+                      ['Banglore',98652,78563,8522,2000],
+                      ['Chennai',98745,8563,5236,2000],
+                      ['Vizag',9875,7000,966,2300],
+                      ['Maharashtra',9000,16789,9087,6789],
+                      ['Punjab',3467,8900,5670,9900]
+                      ]
+
