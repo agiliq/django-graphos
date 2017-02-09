@@ -518,3 +518,42 @@ class HeatMap(BaseHighCharts):
     def get_js_template(self):
         return "graphos/highcharts/js_heatmaps.html"
 
+
+class HeatMap_2(BaseHighCharts):
+
+    def get_series(self):
+        data = self.get_data()
+        data = data[1:]
+        serieses = []
+        new_list = []
+        X_len = len(data)
+        Y_len = len(data[0])
+        ValueList = self.get_data()[1:]
+        for row in ValueList:
+            del row[0]
+        for i in range(0,X_len):
+            for j in range(0, Y_len-1):
+                new_list.append([i, j, ValueList[i][j]])
+        serieses.append({'data': new_list, 'borderWidth': 1, 'dataLabels': {'enabled': True, 'color': '#000000'}})
+        return serieses
+
+    def get_y_axis(self):
+        categories = self.get_data()[0][1:]
+        y_axis = {'categories': categories}
+        return y_axis
+
+    def get_color_axis(self):
+        color_axis = self.get_options().get('colorAxis', {})
+        return color_axis
+
+    def get_color_axis_json(self):
+        color_axis = self.get_color_axis()
+        return json.dumps(color_axis, cls=JSONEncoderForHTML)
+
+    def get_chart_type(self):
+        return "heatmap"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_heatmaps.html"
+
+
