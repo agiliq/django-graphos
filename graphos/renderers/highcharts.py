@@ -535,18 +535,18 @@ class Funnel(BaseHighCharts):
 
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
-        if not 'series' in plot_options:
-            plot_options['series'] = {}
-        if 'neckWidth' not in plot_options['series']:
-            plot_options['series']['neckWidth'] = '30%'
-        if 'neckHeight' not in plot_options['series']:
-            plot_options['series']['neckHeight'] = '25%'
-        if 'dataLabels' not in plot_options['series']:
-            plot_options['series']['dataLabels'] = {}
-        if 'enabled' not in plot_options['series']['dataLabels']:
-            plot_options['series']['dataLabels']['enabled'] = True
-        if 'softConnector' not in plot_options['series']['dataLabels']:
-            plot_options['series']['dataLabels']['softConnector'] = True
+        if not 'funnel' in plot_options:
+            plot_options['funnel'] = {}
+        if 'neckWidth' not in plot_options['funnel']:
+            plot_options['funnel']['neckWidth'] = '30%'
+        if 'neckHeight' not in plot_options['funnel']:
+            plot_options['funnel']['neckHeight'] = '25%'
+        if 'dataLabels' not in plot_options['funnel']:
+            plot_options['funnel']['dataLabels'] = {}
+        if 'enabled' not in plot_options['funnel']['dataLabels']:
+            plot_options['funnel']['dataLabels']['enabled'] = True
+        if 'softConnector' not in plot_options['funnel']['dataLabels']:
+            plot_options['funnel']['dataLabels']['softConnector'] = True
         return plot_options
 
     def get_plot_options_json(self):
