@@ -533,9 +533,6 @@ class Funnel(BaseHighCharts):
     def get_chart_type(self):
         return "funnel"
 
-    def get_js_template(self):
-        return "graphos/highcharts/js_funnel.html"
-
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
         if not 'series' in plot_options:
