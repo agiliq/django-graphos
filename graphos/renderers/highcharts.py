@@ -538,14 +538,18 @@ class Funnel(BaseHighCharts):
 
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
-        if not 'heatmap' in plot_options:
-            plot_options['heatmap'] = {}
-        if 'borderWidth' not in plot_options['heatmap']:
-            plot_options['heatmap']['borderWidth'] = 1
-        if 'dataLabels' not in plot_options['heatmap']:
-            plot_options['heatmap']['dataLabels'] = {}
-        if 'enabled' not in plot_options['heatmap']['dataLabels']:
-            plot_options['heatmap']['dataLabels']['enabled'] = True
+        if not 'series' in plot_options:
+            plot_options['series'] = {}
+        if 'neckWidth' not in plot_options['series']:
+            plot_options['series']['neckWidth'] = '30%'
+        if 'neckHeight' not in plot_options['series']:
+            plot_options['series']['neckHeight'] = '25%'
+        if 'dataLabels' not in plot_options['series']:
+            plot_options['series']['dataLabels'] = {}
+        if 'enabled' not in plot_options['series']['dataLabels']:
+            plot_options['series']['dataLabels']['enabled'] = True
+        if 'softConnector' not in plot_options['series']['dataLabels']:
+            plot_options['series']['dataLabels']['softConnector'] = True
         return plot_options
 
     def get_plot_options_json(self):
