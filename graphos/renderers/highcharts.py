@@ -1,8 +1,9 @@
 from .base import BaseChart
 import json
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from decimal import Decimal
 from copy import deepcopy
+
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
@@ -552,3 +553,64 @@ class Funnel(BaseHighCharts):
     def get_plot_options_json(self):
         plot_options = self.get_plot_options()
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+class TreeMap(BaseHighCharts):
+
+    def get_series(self):
+        serieses = []
+        treemap_data = self.get_data()
+        l = treemap_data[1:]
+        root = {}
+        for path in l:
+            parent = root
+            for n in path:
+                parent = parent.setdefault(n, {})
+        root = OrderedDict(root)
+        final_data = []
+        counter_0 = 0
+        counter_1 = 0
+        counter_2 = 0
+        for i, j in root.items():
+            parent_data = {}
+            parent_value = 0
+            parent_data['id'] = 'id_' + str(counter_0)
+            parent_data['name'] = i
+            parent_data['color'] = '#c64017'
+            parent_id = 'id_' + str(counter_0)
+            final_data.append(parent_data)
+            for k, l in j.items():
+                data = {}
+                data['id'] = parent_id + str(counter_1)
+                data['name'] = k
+                data['parent'] = parent_id
+                data['color'] = '#17c646'
+                child_id = parent_id + str(counter_1)
+                final_data.append(data)
+                counter_1 += 1
+                for m, na in l.items():
+                    data = {}
+                    data['id'] = child_id + str(counter_1)
+                    data['name'] = m
+                    data['parent'] = child_id
+                    data['color'] = '#efef1a'
+                    (key, value) = na.items()[0]
+                    data['value'] = key
+                    sub_child_id = child_id + str(counter_2)
+                    final_data.append(data)
+                    counter_2 += 1
+                    parent_value += key
+            parent_data['value'] = parent_value
+            counter_0 += 1
+        data = final_data
+        serieses.append({"data": data})
+        return serieses
+
+    def get_chart_type(self):
+        return "treemap"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_treemap.html"
+
+
+# Demo data for tree map
+# [{'name': 'A', 'value': 6}, {'name': 'B', 'value': 6}, {'name': 'C','value': 4}, {'name': 'D','value': 3}, {'name': 'E','value': 2}, {'name': 'F','value': 2}, {'name': 'G','value': 1}]

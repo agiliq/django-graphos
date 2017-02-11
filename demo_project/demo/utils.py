@@ -578,3 +578,29 @@ heatmap_data = [['Name', 'Yash', 'Akshar', 'Ashok','Shabda'],
                       ['Punjab',3467,8900,5670,9900]
                       ]
 
+funnel_data = [['Unique users', 'Counts'],
+            ['Website visits', 654],
+            ['Downloads', 4064],
+            ['Requested price list', 1987],
+            ['Invoice sent', 976],
+            ['Finalized', 846]
+        ]
+
+
+treemap_data = [["Continent","Country","Cause","Death Rate"],
+                ["Asia","India","Cardiovascular Disease",10],
+                ["Asia","India","Road Accident",5],
+                ["Asia","India","Cancer",3],
+                ["Asia","China","Cardiovascular Disease",9],
+                ["Asia","China","Road Accident",6],
+                ["Asia","China","Cancer",1],
+                ["South Ameria","Brazil","Cardiovascular Disease",11],
+                ["South Ameria","Brazil","Road Accident",3],
+                ["South Ameria","Brazil","Cancer",2],
+                ["South Ameria","Uruguay","Cardiovascular Disease",12],
+                ["South Ameria","Uruguay","Road Accident",9],
+                ["South Ameria","Uruguay","Cancer",8],
+                ["Europe","France","Cardiovascular Disease",9],
+                ["Europe","France","Road Accident",4],
+                ["Europe","France","Cancer",6]
+                ]

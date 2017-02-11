@@ -3,6 +3,9 @@
 {% block extra_head %}
   <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/funnel.js"></script>
+  <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+  <script src="https://code.highcharts.com/modules/treemap.js"></script>
   <script src="https://code.highcharts.com/maps/modules/data.js"></script>
   <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
@@ -111,6 +114,14 @@
 
     <div id="heat_map" class="well">
       {{ heat_map.as_html }}
+    </div>
+
+    <div id="funnel" class="well">
+      {{ funnel.as_html }}
+    </div>
+
+    <div id="treemap" class="well">
+      {{ treemap.as_html }}
     </div>
 
     <br />
