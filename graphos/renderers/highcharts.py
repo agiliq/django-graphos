@@ -3,6 +3,7 @@ import json
 from collections import defaultdict, OrderedDict
 from decimal import Decimal
 from copy import deepcopy
+import random
 
 
 from django.template.loader import render_to_string
@@ -554,36 +555,83 @@ class Funnel(BaseHighCharts):
         plot_options = self.get_plot_options()
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
-class TreeMap(BaseHighCharts):
 
-    def get_series(self):
-        serieses = []
-        treemap_data = self.get_data()
-        l = treemap_data[1:]
-        root = {}
-        for path in l:
-            parent = root
-            for n in path:
-                parent = parent.setdefault(n, {})
-        root = OrderedDict(root)
-        final_data = []
-        counter_0 = 0
-        counter_1 = 0
-        counter_2 = 0
+def nested_list_to_tree(data):
+    treemap_data = data
+    l = treemap_data[1:]
+    root = {}
+    for path in l:
+        parent = root
+        for n in path:
+            parent = parent.setdefault(n, {})
+    root = OrderedDict(root)
+    return root
+
+def generate_treemap_data(root, no_of_column):
+    final_data = []
+    color_picker_list = ['#42f44e', '#d61532', '#f1f442', '#ee42f4', '#4286f4', '#B96A30', '#396932', '#B6CFEB',
+                         '#72F998', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D00E4E', '#42f44e', '#d61532',
+                         '#00f442', '#ee42f4', '#E91605', '#B96000', '#396932', '#B6CFEB', '#72F458', '#4F7030',
+                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f400', '#ee42f4',
+                         '#E99905', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
+                         '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
+                         '#396932', '#B6CFEB', '#729958', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E',
+                         '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB',
+                         '#72F458', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7A!4E', '#42f44e', '#d61532',
+                         '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030',
+                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4',
+                         '#E91605', '#B96A30', '#39FF32', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
+                         '#9AC7F4', '#D7FE4E', '#40744e', '#ZZ1532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
+                         '#3905932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65', '#BBC7F4', '#D7FE4E']
+    counter_0 = 0
+    counter_1 = 0
+    counter_2 = 0
+    if no_of_column == 2:
+        for i, j in root.items():
+            parent_data = {}
+            parent_data['id'] = 'id_' + str(counter_0)
+            parent_data['name'] = i
+            parent_data['color'] = color_picker_list[counter_0]
+            (key, value) = j.items()[0]
+            parent_data['value'] = key
+            final_data.append(parent_data)
+            counter_0 += 1
+    if no_of_column == 3:
         for i, j in root.items():
             parent_data = {}
             parent_value = 0
             parent_data['id'] = 'id_' + str(counter_0)
             parent_data['name'] = i
-            parent_data['color'] = '#c64017'
+            parent_data['color'] =  color_picker_list[counter_0]
             parent_id = 'id_' + str(counter_0)
-            final_data.append(parent_data)
             for k, l in j.items():
                 data = {}
                 data['id'] = parent_id + str(counter_1)
                 data['name'] = k
                 data['parent'] = parent_id
-                data['color'] = '#17c646'
+                data['color'] = color_picker_list[counter_0]
+                (key, value) = l.items()[0]
+                data['value'] = key
+                final_data.append(data)
+                parent_value += key
+                counter_1 += 1
+            parent_data['value'] = parent_value
+            final_data.append(parent_data)
+            counter_0 += 1
+    if no_of_column == 4:
+        for i, j in root.items():
+            parent_data = {}
+            parent_value = 0
+            parent_data['id'] = 'id_' + str(counter_0)
+            parent_data['name'] = i
+            parent_data['color'] = color_picker_list[counter_0]
+            parent_id = 'id_' + str(counter_0)
+            for k, l in j.items():
+                data = {}
+                data['id'] = parent_id + str(counter_1)
+                data['name'] = k
+                data['parent'] = parent_id
+                data['color'] = color_picker_list[counter_0]
                 child_id = parent_id + str(counter_1)
                 final_data.append(data)
                 counter_1 += 1
@@ -592,15 +640,25 @@ class TreeMap(BaseHighCharts):
                     data['id'] = child_id + str(counter_1)
                     data['name'] = m
                     data['parent'] = child_id
-                    data['color'] = '#efef1a'
+                    data['color'] = color_picker_list[counter_0]
                     (key, value) = na.items()[0]
                     data['value'] = key
-                    sub_child_id = child_id + str(counter_2)
                     final_data.append(data)
                     counter_2 += 1
                     parent_value += key
             parent_data['value'] = parent_value
+            final_data.append(parent_data)
             counter_0 += 1
+    return final_data
+
+class TreeMap(BaseHighCharts):
+
+    def get_series(self):
+        serieses = []
+        data = self.get_data()
+        root = nested_list_to_tree(data)
+        no_of_column = len(data[0])
+        final_data = generate_treemap_data(root, no_of_column)
         data = final_data
         serieses.append({"data": data})
         return serieses
@@ -608,9 +666,30 @@ class TreeMap(BaseHighCharts):
     def get_chart_type(self):
         return "treemap"
 
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'treemap' in plot_options:
+            plot_options['treemap'] = {}
+        if 'type' not in plot_options['treemap']:
+            plot_options['treemap']['type'] = 'treemap'
+        if 'layoutAlgorithm' not in plot_options['treemap']:
+            plot_options['treemap']['layoutAlgorithm'] = 'squarified'
+        if 'allowDrillToNode' not in plot_options['treemap']:
+            plot_options['treemap']['allowDrillToNode'] = True
+        if 'animationLimit' not in plot_options['treemap']:
+            plot_options['treemap']['animationLimit'] = 1000
+        if 'levelIsConstant' not in plot_options['treemap']:
+            plot_options['treemap']['levelIsConstant'] = False
+        if 'dataLabels' not in plot_options['treemap']:
+            plot_options['treemap']['dataLabels'] = {'enabled': False}
+        if 'levels' not in plot_options['treemap']:
+            plot_options['treemap']['levels'] = [{'level': 1,'dataLabels': {'enabled': True},'borderWidth': 3}]
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
     def get_js_template(self):
         return "graphos/highcharts/js_treemap.html"
 
-
-# Demo data for tree map
-# [{'name': 'A', 'value': 6}, {'name': 'B', 'value': 6}, {'name': 'C','value': 4}, {'name': 'D','value': 3}, {'name': 'E','value': 2}, {'name': 'F','value': 2}, {'name': 'G','value': 1}]

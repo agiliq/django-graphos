@@ -316,8 +316,7 @@ class HighChartsDemo(Demo):
             'highmap_chart_multi_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series_lat_lon), options={'title': 'Multi series with latitude and longitude', 'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
             'heat_map': self.renderer.HeatMap(SimpleDataSource(heatmap_data), options={'colorAxis': {'min': 0,'minColor': '#FF0000','maxColor': '#6495ed'},'title': 'Demo of Heatmap'}),
             'funnel': self.renderer.Funnel(SimpleDataSource(funnel_data)),
-            'treemap': self.renderer.TreeMap(SimpleDataSource(treemap_data),options={'treemap': {'layoutAlgorithm': 'squarified','allowDrillToNode': True, 'animationLimit': 1000, 'dataLabels': {'enabled': False},'levelIsConstant': False,'levels': [{'level': 1,'dataLabels': {
-            'enabled': True},'borderWidth': 3}]}})
+            'treemap': self.renderer.TreeMap(SimpleDataSource(treemap_data))
         })
         return context
 

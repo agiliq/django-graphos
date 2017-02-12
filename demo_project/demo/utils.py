@@ -604,3 +604,21 @@ treemap_data = [["Continent","Country","Cause","Death Rate"],
                 ["Europe","France","Road Accident",4],
                 ["Europe","France","Cancer",6]
                 ]
+
+# treemap_data = [["Country","Cause","Death Rate"],
+#                 ["India","Cardiovascular Disease",10],
+#                 ["India","Road Accident",5],
+#                 ["India","Cancer",3],
+#                 ["China","Cardiovascular Disease",9],
+#                 ["China","Road Accident",6],
+#                 ["China","Cancer",1],
+#                 ["Brazil","Cardiovascular Disease",11],
+#                 ["Brazil","Road Accident",3],
+#                 ["Brazil","Cancer",2],
+#                 ["Uruguay","Cardiovascular Disease",12],
+#                 ["Uruguay","Road Accident",9],
+#                 ["Uruguay","Cancer",8],
+#                 ["France","Cardiovascular Disease",9],
+#                 ["France","Road Accident",4],
+#                 ["France","Cancer",6]
+#                 ]
