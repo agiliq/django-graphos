@@ -11,7 +11,7 @@ from graphos.views import FlotAsJson, RendererAsJson
 from .models import Account
 from .utils import get_mongo_cursor
 from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us, map_data_us_lat_lon, map_data_us_multi_series, map_data_us_multi_series_lat_lon,
-                    mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data,
+                    mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data, treemap_data_highcharts,
                     create_demo_accounts, create_demo_mongo, get_db)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
@@ -315,7 +315,9 @@ class HighChartsDemo(Demo):
             'highmap_chart_multi_bubble': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
             'highmap_chart_multi_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series_lat_lon), options={'title': 'Multi series with latitude and longitude', 'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
             'heat_map': self.renderer.HeatMap(SimpleDataSource(heatmap_data), options={'colorAxis': {'min': 0,'minColor': '#FF0000','maxColor': '#6495ed'},'title': 'Demo of Heatmap'}),
-            'funnel': self.renderer.Funnel(SimpleDataSource(funnel_data))})
+            'funnel': self.renderer.Funnel(SimpleDataSource(funnel_data)),
+            'treemap': self.renderer.TreeMap(SimpleDataSource(treemap_data_highcharts))
+        })
         return context
 
 highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
