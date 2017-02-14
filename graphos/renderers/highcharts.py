@@ -240,8 +240,25 @@ class PieChart(BaseHighCharts):
             serieses.append(series)
         return serieses
 
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'pie' in plot_options:
+            plot_options['pie'] = {}
+        if 'showInLegend' not in plot_options['pie']:
+            plot_options['pie']['showInLegend'] = True
+        if 'dataLabels' not in plot_options['pie']:
+            plot_options['pie']['dataLabels'] = {'enabled': False}
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
     def get_chart_type(self):
         return "pie"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_piechart.html"
 
 
 class DonutChart(PieChart):
