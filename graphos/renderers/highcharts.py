@@ -3,7 +3,6 @@ import json
 from collections import defaultdict, OrderedDict
 from decimal import Decimal
 from copy import deepcopy
-import random
 
 
 from django.template.loader import render_to_string
