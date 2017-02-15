@@ -1,7 +1,9 @@
 from .base import BaseChart
 import json
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from decimal import Decimal
+from copy import deepcopy
+
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
@@ -335,7 +337,7 @@ class HighMap(BaseHighCharts):
 
                 In this case all states won by AAP make up one series and will be colored in a particular color.
                 Then all states won by BJP will be colored in a particular color. This color will be different from AAP color.
-                But colorAxis doesn't make sense here. It's not a choropleth map.
+                But colorAxis doesn't make sense here. It's not a choropleth map. But colorAxes(not colorAxis) could make senese here, i.e set color intensities for different serieses. But highcharts doesn't allow setting colorAxes, i.e color intensities for different serieses.
                 Graphos internally finds out all the distinct entries of second column of tabular data and created different serieses for different states.
         """
         if self.series_type == 'single_series':
@@ -472,4 +474,228 @@ def column(matrix, i):
 
 def pie_column(matrix, i):
     return [{'name':row[0],'y':row[i]} for row in matrix]
+
+class HeatMap(BaseHighCharts):
+
+    def get_series(self):
+        tempdata = deepcopy(self.get_data())
+        tempdata = tempdata[1:]
+        serieses = []
+        new_list = []
+        X_len = len(tempdata)
+        Y_len = len(tempdata[0])
+        value_list = tempdata
+        for row in value_list:
+            del row[0]
+        for i in range(0,X_len):
+            for j in range(0, Y_len-1):
+                new_list.append([i, j, value_list[i][j]])
+        data = new_list
+        serieses.append({'data': data})
+        return serieses
+
+    def get_y_axis(self):
+        categories = self.get_data()[0][1:]
+        y_axis = {'categories': categories}
+        return y_axis
+
+    def get_color_axis(self):
+        color_axis = self.get_options().get('colorAxis', {})
+        return color_axis
+
+    def get_color_axis_json(self):
+        color_axis = self.get_color_axis()
+        return json.dumps(color_axis, cls=JSONEncoderForHTML)
+
+    def get_chart_type(self):
+        return "heatmap"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_heatmaps.html"
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'heatmap' in plot_options:
+            plot_options['heatmap'] = {}
+        if 'borderWidth' not in plot_options['heatmap']:
+            plot_options['heatmap']['borderWidth'] = 1
+        if 'dataLabels' not in plot_options['heatmap']:
+            plot_options['heatmap']['dataLabels'] = {}
+        if 'enabled' not in plot_options['heatmap']['dataLabels']:
+            plot_options['heatmap']['dataLabels']['enabled'] = True
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+
+class Funnel(BaseHighCharts):
+
+    def get_series(self):
+        serieses = []
+        data = self.get_data()[1:]
+        serieses.append({"data": data})
+        return serieses
+
+    def get_chart_type(self):
+        return "funnel"
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'funnel' in plot_options:
+            plot_options['funnel'] = {}
+        if 'neckWidth' not in plot_options['funnel']:
+            plot_options['funnel']['neckWidth'] = '30%'
+        if 'neckHeight' not in plot_options['funnel']:
+            plot_options['funnel']['neckHeight'] = '25%'
+        if 'dataLabels' not in plot_options['funnel']:
+            plot_options['funnel']['dataLabels'] = {}
+        if 'enabled' not in plot_options['funnel']['dataLabels']:
+            plot_options['funnel']['dataLabels']['enabled'] = True
+        if 'softConnector' not in plot_options['funnel']['dataLabels']:
+            plot_options['funnel']['dataLabels']['softConnector'] = True
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+
+def nested_list_to_tree(data):
+    treemap_data = data
+    l = treemap_data[1:]
+    root = {}
+    for path in l:
+        parent = root
+        for n in path:
+            parent = parent.setdefault(n, {})
+    root = OrderedDict(root)
+    return root
+
+def generate_treemap_data(root, no_of_column):
+    final_data = []
+    color_picker_list = ['#42f44e', '#d61532', '#f1f442', '#ee42f4', '#4286f4', '#B96A30', '#396932', '#B6CFEB',
+                         '#72F998', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D00E4E', '#42f44e', '#d61532',
+                         '#00f442', '#ee42f4', '#E91605', '#B96000', '#396932', '#B6CFEB', '#72F458', '#4F7030',
+                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f400', '#ee42f4',
+                         '#E99905', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
+                         '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
+                         '#396932', '#B6CFEB', '#729958', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E',
+                         '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB',
+                         '#72F458', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7A!4E', '#42f44e', '#d61532',
+                         '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030',
+                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4',
+                         '#E91605', '#B96A30', '#39FF32', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
+                         '#9AC7F4', '#D7FE4E', '#40744e', '#ZZ1532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
+                         '#3905932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65', '#BBC7F4', '#D7FE4E']
+    counter_0 = 0
+    counter_1 = 0
+    counter_2 = 0
+    if no_of_column == 2:
+        for i, j in root.items():
+            parent_data = {}
+            parent_data['id'] = 'id_' + str(counter_0)
+            parent_data['name'] = i
+            parent_data['color'] = color_picker_list[counter_0]
+            (key, value) = j.items()[0]
+            parent_data['value'] = key
+            final_data.append(parent_data)
+            counter_0 += 1
+    if no_of_column == 3:
+        for i, j in root.items():
+            parent_data = {}
+            parent_value = 0
+            parent_data['id'] = 'id_' + str(counter_0)
+            parent_data['name'] = i
+            parent_data['color'] =  color_picker_list[counter_0]
+            parent_id = 'id_' + str(counter_0)
+            for k, l in j.items():
+                data = {}
+                data['id'] = parent_id + str(counter_1)
+                data['name'] = k
+                data['parent'] = parent_id
+                data['color'] = color_picker_list[counter_0]
+                (key, value) = l.items()[0]
+                data['value'] = key
+                final_data.append(data)
+                parent_value += key
+                counter_1 += 1
+            parent_data['value'] = parent_value
+            final_data.append(parent_data)
+            counter_0 += 1
+    if no_of_column == 4:
+        for i, j in root.items():
+            parent_data = {}
+            parent_value = 0
+            parent_data['id'] = 'id_' + str(counter_0)
+            parent_data['name'] = i
+            parent_data['color'] = color_picker_list[counter_0]
+            parent_id = 'id_' + str(counter_0)
+            for k, l in j.items():
+                data = {}
+                data['id'] = parent_id + str(counter_1)
+                data['name'] = k
+                data['parent'] = parent_id
+                data['color'] = color_picker_list[counter_0]
+                child_id = parent_id + str(counter_1)
+                final_data.append(data)
+                counter_1 += 1
+                for m, na in l.items():
+                    data = {}
+                    data['id'] = child_id + str(counter_1)
+                    data['name'] = m
+                    data['parent'] = child_id
+                    data['color'] = color_picker_list[counter_0]
+                    (key, value) = na.items()[0]
+                    data['value'] = key
+                    final_data.append(data)
+                    counter_2 += 1
+                    parent_value += key
+            parent_data['value'] = parent_value
+            final_data.append(parent_data)
+            counter_0 += 1
+    return final_data
+
+class TreeMap(BaseHighCharts):
+
+    def get_series(self):
+        serieses = []
+        data = self.get_data()
+        root = nested_list_to_tree(data)
+        no_of_column = len(data[0])
+        final_data = generate_treemap_data(root, no_of_column)
+        data = final_data
+        serieses.append({"data": data})
+        return serieses
+
+    def get_chart_type(self):
+        return "treemap"
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'treemap' in plot_options:
+            plot_options['treemap'] = {}
+        if 'type' not in plot_options['treemap']:
+            plot_options['treemap']['type'] = 'treemap'
+        if 'layoutAlgorithm' not in plot_options['treemap']:
+            plot_options['treemap']['layoutAlgorithm'] = 'squarified'
+        if 'allowDrillToNode' not in plot_options['treemap']:
+            plot_options['treemap']['allowDrillToNode'] = True
+        if 'animationLimit' not in plot_options['treemap']:
+            plot_options['treemap']['animationLimit'] = 1000
+        if 'levelIsConstant' not in plot_options['treemap']:
+            plot_options['treemap']['levelIsConstant'] = False
+        if 'dataLabels' not in plot_options['treemap']:
+            plot_options['treemap']['dataLabels'] = {'enabled': False}
+        if 'levels' not in plot_options['treemap']:
+            plot_options['treemap']['levels'] = [{'level': 1,'dataLabels': {'enabled': True},'borderWidth': 3}]
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_treemap.html"
 

@@ -565,3 +565,42 @@ def create_demo_mongo():
     data_only = data[1:]
     for row in data_only:
         docs.insert(dict(zip(header, row)))
+
+
+heatmap_data = [['Name', 'Yash', 'Akshar', 'Ashok','Shabda'],
+                      ['Uttar Pradesh',1000,2000,3000,4000],
+                      ['Bihar',2000,5000,8000,9800],
+                      ['Hyderabad',10000,9855,6000,2000],
+                      ['Banglore',98652,78563,8522,2000],
+                      ['Chennai',98745,8563,5236,2000],
+                      ['Vizag',9875,7000,966,2300],
+                      ['Maharashtra',9000,16789,9087,6789],
+                      ['Punjab',3467,8900,5670,9900]
+                      ]
+
+funnel_data = [['Unique users', 'Counts'],
+            ['Website visits', 654],
+            ['Downloads', 4064],
+            ['Requested price list', 1987],
+            ['Invoice sent', 976],
+            ['Finalized', 846]
+        ]
+
+
+treemap_data_highcharts = [["Continent","Country","Cause","Death Rate"],
+                ["Asia","India","Cardiovascular Disease",10],
+                ["Asia","India","Road Accident",5],
+                ["Asia","India","Cancer",3],
+                ["Asia","China","Cardiovascular Disease",9],
+                ["Asia","China","Road Accident",6],
+                ["Asia","China","Cancer",1],
+                ["South Ameria","Brazil","Cardiovascular Disease",11],
+                ["South Ameria","Brazil","Road Accident",3],
+                ["South Ameria","Brazil","Cancer",2],
+                ["South Ameria","Uruguay","Cardiovascular Disease",12],
+                ["South Ameria","Uruguay","Road Accident",9],
+                ["South Ameria","Uruguay","Cancer",8],
+                ["Europe","France","Cardiovascular Disease",9],
+                ["Europe","France","Road Accident",4],
+                ["Europe","France","Cancer",6]
+                ]
