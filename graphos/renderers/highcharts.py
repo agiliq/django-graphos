@@ -578,6 +578,20 @@ class Funnel(BaseHighCharts):
         plot_options = self.get_plot_options()
         return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
+color_picker_list = ['#42f44e', '#d61532', '#f1f442', '#ee42f4', '#4286f4', '#B96A30', '#396932', '#B6CFEB',
+                         '#72F998', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D00E4E', '#42f44e', '#d61532',
+                         '#00f442', '#ee42f4', '#E91605', '#B96000', '#396932', '#B6CFEB', '#72F458', '#4F7030',
+                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f400', '#ee42f4',
+                         '#E99905', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
+                         '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
+                         '#396932', '#B6CFEB', '#729958', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E',
+                         '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB',
+                         '#72F458', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7A!4E', '#42f44e', '#d61532',
+                         '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030',
+                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4',
+                         '#E91605', '#B96A30', '#39FF32', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
+                         '#9AC7F4', '#D7FE4E', '#40744e', '#ZZ1532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
+                         '#3905932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65', '#BBC7F4', '#D7FE4E']
 
 def nested_list_to_tree(data):
     treemap_data = data
@@ -592,20 +606,6 @@ def nested_list_to_tree(data):
 
 def generate_treemap_data(root, no_of_column):
     final_data = []
-    color_picker_list = ['#42f44e', '#d61532', '#f1f442', '#ee42f4', '#4286f4', '#B96A30', '#396932', '#B6CFEB',
-                         '#72F998', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D00E4E', '#42f44e', '#d61532',
-                         '#00f442', '#ee42f4', '#E91605', '#B96000', '#396932', '#B6CFEB', '#72F458', '#4F7030',
-                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f400', '#ee42f4',
-                         '#E99905', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
-                         '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
-                         '#396932', '#B6CFEB', '#729958', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E',
-                         '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB',
-                         '#72F458', '#4F7030', '#563FF7', '#280B65', '#9AC7F4', '#D7A!4E', '#42f44e', '#d61532',
-                         '#f1f442', '#ee42f4', '#E91605', '#B96A30', '#396932', '#B6CFEB', '#72F458', '#4F7030',
-                         '#563FF7', '#280B65', '#9AC7F4', '#D7FE4E', '#42f44e', '#d61532', '#f1f442', '#ee42f4',
-                         '#E91605', '#B96A30', '#39FF32', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65',
-                         '#9AC7F4', '#D7FE4E', '#40744e', '#ZZ1532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
-                         '#3905932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65', '#BBC7F4', '#D7FE4E']
     counter_0 = 0
     counter_1 = 0
     counter_2 = 0
@@ -674,6 +674,45 @@ def generate_treemap_data(root, no_of_column):
             counter_0 += 1
     return final_data
 
+
+def generate_pie_donut_data(root, no_of_column):
+    final_data = []
+    counter_0 = 0
+    list_0 = []
+    list_1 = []
+    if no_of_column == 2:
+        for i, j in root.items():
+            parent_data = {}
+            parent_data['name'] = i
+            parent_data['color'] = color_picker_list[counter_0]
+            (key, value) = j.items()[0]
+            parent_data['y'] = key
+            final_data.append(parent_data)
+            counter_0 += 1
+        return final_data
+    if no_of_column == 3:
+        for i, j in root.items():
+            parent_data = {}
+            parent_value = 0
+            parent_data['name'] = i
+            parent_data['color'] = color_picker_list[counter_0]
+            for k, l in j.items():
+                data = {}
+                data['name'] = k
+                data['color'] = color_picker_list[counter_0]
+                (key, value) = l.items()[0]
+                data['y'] = key
+                parent_value += key
+                list_1.append(data)
+            counter_0 += 1
+            parent_data['y'] = parent_value
+            list_0.append(parent_data)
+        final_data.append(list_0)
+        final_data.append(list_1)
+        return final_data
+
+
+
 class TreeMap(BaseHighCharts):
 
     def get_series(self):
@@ -716,3 +755,26 @@ class TreeMap(BaseHighCharts):
     def get_js_template(self):
         return "graphos/highcharts/js_treemap.html"
 
+
+class PieDonut(BaseHighCharts):
+
+    def get_series(self):
+        serieses = []
+        data = self.get_data()
+        root = nested_list_to_tree(data)
+        no_of_column = len(data[0])
+        final_data = generate_pie_donut_data(root, no_of_column)
+        result = final_data
+        if no_of_column == 2:
+            serieses.append({"name":data[0][0],"data": result,"size": '100%'})
+        if no_of_column == 3:
+            serieses.append({'name': data[0][0], 'data': result[0], 'size': '60%','dataLabels': {'enabled': False}, 'showInLegend': True})
+            serieses.append({'name':  data[0][1], 'data': result[1], 'size': '80%','innerSize': '60%'})
+        return serieses
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+    def get_chart_type(self):
+        return "pie"
