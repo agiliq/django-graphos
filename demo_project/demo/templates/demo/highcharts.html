@@ -2,6 +2,7 @@
 
 {% block extra_head %}
   <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+  <script type="text/javascript" src="http://code.highcharts.com/highcharts-3d.js"></script>
   <script src="https://code.highcharts.com/maps/modules/map.js"></script>
   <script src="https://code.highcharts.com/maps/modules/funnel.js"></script>
   <script src="https://code.highcharts.com/modules/treemap.js"></script>
@@ -123,6 +124,9 @@
       {{ treemap.as_html }}
     </div>
 
+    <div id="pie_donut" class="well">
+      {{ pie_donut.as_html }}
+    </div>
     <br />
 
 {% endblock %}
