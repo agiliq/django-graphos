@@ -35,13 +35,29 @@ class BaseHighCharts(BaseChart):
         series_names = data[0][1:]
         serieses = []
         options = self.get_options()
-        for i, name in enumerate(series_names):
-            series = {"name": name, "data": column(data, i+1)[1:]}
-            # If colors was passed then add color for the serieses
-            if 'colors' in options and len(options['colors']) > i:
-                series['color'] = options['colors'][i]
-            serieses.append(series)
-        serieses = self.add_series_options(serieses)
+        if 'annotation' in options:
+            data = self.get_data()
+            data_list = column(data, 1)[1:]
+            annotation_list = options['annotation']
+            new_data = []
+            for i in data_list:
+                temp_data = {}
+                for j in annotation_list:
+                    if i == j['id']:
+                        temp_data['y'] = i
+                        temp_data['dataLabels'] = {'enabled': True, 'format': j['value']}
+                    else:
+                        temp_data['y'] = i
+                new_data.append(temp_data)
+            serieses.append({"name": data[0][1], "data": new_data})
+        else:
+            for i, name in enumerate(series_names):
+                series = {"name": name, "data": column(data, i+1)[1:]}
+                # If colors was passed then add color for the serieses
+                if 'colors' in options and len(options['colors']) > i:
+                    series['color'] = options['colors'][i]
+                serieses.append(series)
+            serieses = self.add_series_options(serieses)
         return serieses
 
     def add_series_options(self, serieses):
@@ -168,9 +184,11 @@ class LineChart(BaseHighCharts):
         return "line"
 
 
+
 class BarChart(BaseHighCharts):
     def get_chart_type(self):
         return "bar"
+
 
 
 class ColumnChart(BaseHighCharts):
