@@ -343,7 +343,7 @@ class HighMap(BaseHighCharts):
             value_to_check_for_series_type = self.get_data()[1][1]
         else:
             value_to_check_for_series_type = self.get_data()[1][2]
-        if type(value_to_check_for_series_type) in [int, float, long, Decimal]: # TODO: It could be any numeric, not just int
+        if type(value_to_check_for_series_type) in [int, float, long, Decimal]:
             self.series_type = 'single_series'
         else:
             self.series_type = 'multi_series'
@@ -444,6 +444,12 @@ class HighMap(BaseHighCharts):
                     region_detail = {'code': kv[0], 'z': kv[1]}
                 else:
                     region_detail = {'lat': kv[0], 'lon': kv[1], 'z': kv[2]}
+            elif chart_type == 'mappoint':
+                # It must be a lat/lon chart because points only make sense for lat/lon
+                if not self.is_lat_long:
+                    raise GraphosException("For mappoint chart, you must use lat/lon")
+                else:
+                    region_detail = {'lat': kv[0], 'lon': kv[1]}
             elif chart_type == 'map':
                 region_detail = {'code': kv[0], 'value': kv[1]}
             first_series['data'].append(region_detail)
@@ -452,12 +458,14 @@ class HighMap(BaseHighCharts):
         first_series['name'] = self.get_series_name()
         serieses = []
         serieses.append(first_series)
-        if chart_type == 'mapbubble':
+        if chart_type == 'mapbubble' or chart_type == 'mappoint':
             just_for_sake_series = {}
             just_for_sake_series['name'] = 'Basemap'
             just_for_sake_series['type'] = 'map'
             just_for_sake_series['showInLegend'] = False
             serieses.insert(0, just_for_sake_series)
+        if chart_type == 'mappoint':
+            first_series['lineWidth'] = 2
         return serieses
 
     def get_js_template(self):
@@ -496,7 +504,7 @@ class HighMap(BaseHighCharts):
     def get_chart_type(self):
         # If you are using mapbubble, ensure you don't set allAreas to False.
         # Also if you are setting mapbubble for a multi series chart, then probably you should set zKey too to get different bubble sizes.
-        if self.is_lat_long:
+        if self.is_lat_long and self.get_options().get("map_type") != 'mappoint':
             return "mapbubble"
         else:
             return self.get_options().get("map_type", "map")

@@ -10,7 +10,7 @@ from graphos.sources.model import ModelDataSource
 from graphos.views import FlotAsJson, RendererAsJson
 from .models import Account
 from .utils import get_mongo_cursor
-from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us, map_data_us_lat_lon, map_data_us_multi_series, map_data_us_multi_series_lat_lon,
+from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us, map_data_us_point, map_data_us_lat_lon, map_data_us_multi_series, map_data_us_multi_series_lat_lon,
                     mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data, treemap_data_highcharts, piechart_data_highcharts,
                     create_demo_accounts, create_demo_mongo, get_db)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
@@ -308,6 +308,7 @@ class HighChartsDemo(Demo):
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
             # If you want highmap_chart to be bubble chart, then add 'map_type': 'mapbubble' to options.
             'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
+            'highmap_chart_point': self.renderer.HighMap(SimpleDataSource(map_data_us_point), options={'map_type': 'mappoint', 'map_area': 'countries/us/custom/us-all-territories', 'plotOptions': {}}),
             'highmap_chart_bubble': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'map_type': 'mapbubble', 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
             'highmap_chart_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_lat_lon), options={'title': 'With latitude and longitude', 'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
             # If you want highmap_chart to be bubble chart, then add 'map_type': 'mapbubble' and 'zKey': 'Seats' to options. Also remove 'allAreas': False.
