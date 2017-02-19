@@ -139,9 +139,9 @@ class Demo(TemplateView):
         line_chart = self.renderer.LineChart(data_source,
                                       options={'title': "Sales Growth"})
         column_chart = self.renderer.ColumnChart(simple_data_source,
-                                          options={'title': "Sales/ Expense",'annotation':{'Sales':[{'id':660, 'value':"Minimum"},{'id': 1170,'value': "Maximum"}],'Expenses':[{'id':400, 'value':"Minimum"},{'id': 1120,'value': "Maximum"}]}})
+                                          options={'title': "Sales/ Expense"})
         bar_chart = self.renderer.BarChart(data_source,
-                                    options={'title': "Expense Growth",'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}})
+                                    options={'title': "Expense Growth"})
         pie_chart = self.renderer.PieChart(data_source)
 
         context = {
