@@ -61,7 +61,7 @@ class BaseHighCharts(BaseChart):
                 if 'colors' in options and len(options['colors']) > i:
                     series['color'] = options['colors'][i]
                 serieses.append(series)
-            serieses = self.add_series_options(serieses)
+        serieses = self.add_series_options(serieses)
         return serieses
 
     def add_series_options(self, serieses):
