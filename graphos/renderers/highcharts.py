@@ -422,8 +422,10 @@ class HighMap(BaseHighCharts):
             serieses.append(series)
             if colors and len(colors) > i:
                 series['color'] = colors[i]
+            if chart_type == 'mappoint':
+                series['lineWidth'] = 2
             i += 1
-        if chart_type == 'mapbubble':
+        if chart_type == 'mapbubble' or chart_type == 'mappoint':
             just_for_sake_series = {}
             just_for_sake_series['name'] = 'Regions'
             just_for_sake_series['type'] = 'map'
