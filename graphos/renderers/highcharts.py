@@ -37,19 +37,23 @@ class BaseHighCharts(BaseChart):
         options = self.get_options()
         if 'annotation' in options:
             data = self.get_data()
-            data_list = column(data, 1)[1:]
             annotation_list = options['annotation']
-            new_data = []
-            for i in data_list:
-                temp_data = {}
-                for j in annotation_list:
-                    if i == j['id']:
-                        temp_data['y'] = i
-                        temp_data['dataLabels'] = {'enabled': True, 'format': j['value']}
-                    else:
-                        temp_data['y'] = i
-                new_data.append(temp_data)
-            serieses.append({"name": data[0][1], "data": new_data})
+            for i, name in enumerate(series_names):
+                new_data = []
+                if name in annotation_list:
+                    data_list = column(data, i + 1)[1:]
+                    for k in data_list:
+                        temp_data = {}
+                        for j in annotation_list[name]:
+                            if k == j['id']:
+                                temp_data['y'] = k
+                                temp_data['dataLabels'] = {'enabled': True, 'format': j['value']}
+                            else:
+                                temp_data['y'] = k
+                        new_data.append(temp_data)
+                    serieses.append({"name": name, "data": new_data})
+                else:
+                    serieses.append({"name": name, "data": column(data, i + 1)[1:]})
         else:
             for i, name in enumerate(series_names):
                 series = {"name": name, "data": column(data, i+1)[1:]}

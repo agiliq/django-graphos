@@ -139,9 +139,9 @@ class Demo(TemplateView):
         line_chart = self.renderer.LineChart(data_source,
                                       options={'title': "Sales Growth"})
         column_chart = self.renderer.ColumnChart(simple_data_source,
-                                          options={'title': "Sales/ Expense"})
+                                          options={'title': "Sales/ Expense",'annotation':{'Sales':[{'id':660, 'value':"Minimum"},{'id': 1170,'value': "Maximum"}],'Expenses':[{'id':400, 'value':"Minimum"},{'id': 1120,'value': "Maximum"}]}})
         bar_chart = self.renderer.BarChart(data_source,
-                                    options={'title': "Expense Growth"})
+                                    options={'title': "Expense Growth",'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}})
         pie_chart = self.renderer.PieChart(data_source)
 
         context = {
@@ -293,7 +293,7 @@ class HighChartsDemo(Demo):
         data_source = context.get("data_source")
         simple_data_source = context.get("simple_data_source")
         line_chart = self.renderer.LineChart(data_source,
-                options={'colors': ['red', ], 'series': {'dataLabels': {'enabled': True}}})
+                options={'colors': ['red', ], 'series': {'dataLabels': {'enabled': False}}, 'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}})
         secondary_data = [
             ['year', 'revenue', 'sales'],
             [2004, 100, 50000],
@@ -302,7 +302,7 @@ class HighChartsDemo(Demo):
         ]
         context.update({
             'line_chart': line_chart,
-            'area_chart': self.renderer.AreaChart(data_source),
+            'area_chart': self.renderer.AreaChart(data_source, options={'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}}),
             'donut_chart': self.renderer.DonutChart(data_source),
             'scatter_chart': self.renderer.ScatterChart(simple_data_source),
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
