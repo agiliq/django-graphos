@@ -51,9 +51,12 @@ class BaseHighCharts(BaseChart):
                             else:
                                 temp_data['y'] = k
                         new_data.append(temp_data)
-                    serieses.append({"name": name, "data": new_data})
+                    series = {"name": name, "data": new_data}
                 else:
-                    serieses.append({"name": name, "data": column(data, i + 1)[1:]})
+                    series = {"name": name, "data": column(data, i + 1)[1:]}
+                if 'colors' in options and len(options['colors']) > i:
+                    series['color'] = options['colors'][i]
+                serieses.append(series)
         else:
             for i, name in enumerate(series_names):
                 series = {"name": name, "data": column(data, i+1)[1:]}
