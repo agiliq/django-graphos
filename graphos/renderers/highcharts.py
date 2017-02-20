@@ -334,24 +334,14 @@ class HighMap(BaseHighCharts):
         self.is_lat_long = False
         first_column = self.get_data()[1][0]
         second_column = self.get_data()[1][1]
-        try:
-            if type(first_column) in [int, float, long, Decimal] and type(second_column) in [int, float, long, Decimal]:
-                self.is_lat_long = True
-        except:
-            # Added try except as long is not supported in python 3
-            if type(first_column) in [int, float, Decimal] and type(second_column) in [int, float, Decimal]:
-                self.is_lat_long = True
+        if type(first_column) in [int, float, Decimal] and type(second_column) in [int, float, Decimal]:
+            self.is_lat_long = True
         if not self.is_lat_long:
             value_to_check_for_series_type = self.get_data()[1][1]
         else:
             value_to_check_for_series_type = self.get_data()[1][2]
-        try:
-            if type(value_to_check_for_series_type) in [int, float, long, Decimal]: # TODO: It could be any numeric, not just int
-                self.series_type = 'single_series'
-        except:
-            # Added try except as long is not supported in python 3
-            if type(value_to_check_for_series_type) in [int, float, Decimal]: # TODO: It could be any numeric, not just int
-                self.series_type = 'single_series'
+        if type(value_to_check_for_series_type) in [int, float, Decimal]: # TODO: It could be any numeric, not just int
+            self.series_type = 'single_series'
         else:
             self.series_type = 'multi_series'
 
