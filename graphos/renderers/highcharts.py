@@ -630,8 +630,8 @@ def generate_treemap_data(root, no_of_column):
             parent_data['id'] = 'id_' + str(counter_0)
             parent_data['name'] = i
             parent_data['color'] = color_picker_list[counter_0]
-            (key, value) = j.items()[0]
-            parent_data['value'] = key
+            key = list(j.keys())
+            parent_data['value'] = key[0]
             final_data.append(parent_data)
             counter_0 += 1
     if no_of_column == 3:
@@ -648,10 +648,10 @@ def generate_treemap_data(root, no_of_column):
                 data['name'] = k
                 data['parent'] = parent_id
                 data['color'] = color_picker_list[counter_0]
-                (key, value) = l.items()[0]
-                data['value'] = key
+                key = list(l.keys())
+                data['value'] = key[0]
                 final_data.append(data)
-                parent_value += key
+                parent_value += key[0]
                 counter_1 += 1
             parent_data['value'] = parent_value
             final_data.append(parent_data)
@@ -679,11 +679,11 @@ def generate_treemap_data(root, no_of_column):
                     data['name'] = m
                     data['parent'] = child_id
                     data['color'] = color_picker_list[counter_0]
-                    (key, value) = na.items()[0]
-                    data['value'] = key
+                    key = list(na.keys())
+                    data['value'] = key[0]
                     final_data.append(data)
                     counter_2 += 1
-                    parent_value += key
+                    parent_value += key[0]
             parent_data['value'] = parent_value
             final_data.append(parent_data)
             counter_0 += 1
@@ -700,8 +700,8 @@ def generate_pie_donut_data(root, no_of_column):
             parent_data = {}
             parent_data['name'] = i
             parent_data['color'] = color_picker_list[counter_0]
-            (key, value) = j.items()[0]
-            parent_data['y'] = key
+            key = list(j.keys())
+            parent_data['y'] = key[0]
             final_data.append(parent_data)
             counter_0 += 1
         return final_data
@@ -715,9 +715,9 @@ def generate_pie_donut_data(root, no_of_column):
                 data = {}
                 data['name'] = k
                 data['color'] = color_picker_list[counter_0]
-                (key, value) = l.items()[0]
-                data['y'] = key
-                parent_value += key
+                key= list(l.keys())
+                data['y'] = key[0]
+                parent_value += key[0]
                 list_1.append(data)
             counter_0 += 1
             parent_data['y'] = parent_value
