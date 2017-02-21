@@ -508,6 +508,15 @@ map_data_us = [
     ['us-ak', 1],
 ]
 
+map_data_us_point = [
+    ['Lat', 'Lon', 'Name', 'Population'],
+    [46.8797, -110.3626, 'akhilesh', 438],
+    [41.4925, -99.9018, 'akhilesh', 438],
+    [45.4925, -89.9018, 'akhilesh', 438],
+    [32.1656, -82.9001, 'mulayam', 438],
+    [33.1656, -81.9001, 'mulayam', 438],
+]
+
 
 mongo_series_object_1 = [[440, 39],
                          [488, 29.25],

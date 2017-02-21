@@ -51,9 +51,12 @@ class BaseHighCharts(BaseChart):
                             else:
                                 temp_data['y'] = k
                         new_data.append(temp_data)
-                    serieses.append({"name": name, "data": new_data})
+                    series = {"name": name, "data": new_data}
                 else:
-                    serieses.append({"name": name, "data": column(data, i + 1)[1:]})
+                    series = {"name": name, "data": column(data, i + 1)[1:]}
+                if 'colors' in options and len(options['colors']) > i:
+                    series['color'] = options['colors'][i]
+                serieses.append(series)
         else:
             for i, name in enumerate(series_names):
                 series = {"name": name, "data": column(data, i+1)[1:]}
@@ -61,7 +64,7 @@ class BaseHighCharts(BaseChart):
                 if 'colors' in options and len(options['colors']) > i:
                     series['color'] = options['colors'][i]
                 serieses.append(series)
-            serieses = self.add_series_options(serieses)
+        serieses = self.add_series_options(serieses)
         return serieses
 
     def add_series_options(self, serieses):
@@ -429,8 +432,10 @@ class HighMap(BaseHighCharts):
             serieses.append(series)
             if colors and len(colors) > i:
                 series['color'] = colors[i]
+            if chart_type == 'mappoint':
+                series['lineWidth'] = 2
             i += 1
-        if chart_type == 'mapbubble':
+        if chart_type == 'mapbubble' or chart_type == 'mappoint':
             just_for_sake_series = {}
             just_for_sake_series['name'] = 'Regions'
             just_for_sake_series['type'] = 'map'
@@ -451,6 +456,12 @@ class HighMap(BaseHighCharts):
                     region_detail = {'code': kv[0], 'z': kv[1]}
                 else:
                     region_detail = {'lat': kv[0], 'lon': kv[1], 'z': kv[2]}
+            elif chart_type == 'mappoint':
+                # It must be a lat/lon chart because points only make sense for lat/lon
+                if not self.is_lat_long:
+                    raise GraphosException("For mappoint chart, you must use lat/lon")
+                else:
+                    region_detail = {'lat': kv[0], 'lon': kv[1]}
             elif chart_type == 'map':
                 region_detail = {'code': kv[0], 'value': kv[1]}
             first_series['data'].append(region_detail)
@@ -459,12 +470,14 @@ class HighMap(BaseHighCharts):
         first_series['name'] = self.get_series_name()
         serieses = []
         serieses.append(first_series)
-        if chart_type == 'mapbubble':
+        if chart_type == 'mapbubble' or chart_type == 'mappoint':
             just_for_sake_series = {}
             just_for_sake_series['name'] = 'Basemap'
             just_for_sake_series['type'] = 'map'
             just_for_sake_series['showInLegend'] = False
             serieses.insert(0, just_for_sake_series)
+        if chart_type == 'mappoint':
+            first_series['lineWidth'] = 2
         return serieses
 
     def get_js_template(self):
@@ -503,7 +516,7 @@ class HighMap(BaseHighCharts):
     def get_chart_type(self):
         # If you are using mapbubble, ensure you don't set allAreas to False.
         # Also if you are setting mapbubble for a multi series chart, then probably you should set zKey too to get different bubble sizes.
-        if self.is_lat_long:
+        if self.is_lat_long and self.get_options().get("map_type") != 'mappoint':
             return "mapbubble"
         else:
             return self.get_options().get("map_type", "map")
