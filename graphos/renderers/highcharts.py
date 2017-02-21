@@ -816,3 +816,71 @@ class PieDonut(BaseHighCharts):
 
     def get_chart_type(self):
         return "pie"
+
+
+class Bubble(BaseHighCharts):
+
+    def get_series(self):
+        serieses = []
+        new_data = []
+        data = self.get_data()[1:]
+        for i in data:
+            new_data.append({
+                'name': i[0],
+                'x': i[1],
+                'y': i[2],
+                'z': i[3]
+            })
+        serieses.append({'data': new_data,'name': ""})
+        return serieses
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        if not 'bubble' in plot_options:
+            plot_options['bubble'] = {}
+        if 'dataLabels' not in plot_options['bubble']:
+            plot_options['bubble']['dataLabels'] = {"enabled": True, "format": "{point.name}"}
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+    def get_x_axis(self):
+        x_axis = self.get_options().get('xAxis', {})
+        if not 'gridLineWidth' not in x_axis:
+            x_axis['gridLineWidth'] = 1
+        if not 'title' in x_axis:
+            x_axis['title'] = {}
+        if not 'text' in x_axis['title']:
+            x_axis['title']['text'] = self.get_x_axis_title()
+        if not 'plotLines' in x_axis:
+            x_axis['poltLines'] = []
+        return x_axis
+
+    def get_x_axis_json(self):
+        x_axis = self.get_x_axis()
+        return json.dumps(x_axis, cls=JSONEncoderForHTML)
+
+
+    def get_y_axis(self):
+        y_axis = self.get_options().get('yAxis', {})
+        if not 'maxPadding' not in y_axis:
+            y_axis['maxPadding'] = 0.2
+        if not 'title' in y_axis:
+            y_axis['title'] = {}
+        if not 'text' in y_axis['title']:
+            y_axis['title']['text'] = ""
+        if not 'plotLines' in y_axis:
+            y_axis['poltLines'] = []
+        return y_axis
+
+    def get_y_axis_json(self):
+        y_axis = self.get_y_axis()
+        return json.dumps(y_axis, cls=JSONEncoderForHTML)
+
+    def get_chart_type(self):
+        return "bubble"
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_bubble.html"
