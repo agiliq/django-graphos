@@ -335,17 +335,25 @@ class HighMap(BaseHighCharts):
         first_column = self.get_data()[1][0]
         second_column = self.get_data()[1][1]
         if sys.version_info > (3,):
-            long = int
-        if type(first_column) in [int, float, long, Decimal] and type(second_column) in [int, float,long, Decimal]:
-            self.is_lat_long = True
+            if type(first_column) in [int, float, Decimal] and type(second_column) in [int, float, Decimal]:
+                self.is_lat_long = True
+        else:
+            if type(first_column) in [int, float, long, Decimal] and type(second_column) in [int, float,long, Decimal]:
+                self.is_lat_long = True
         if not self.is_lat_long:
             value_to_check_for_series_type = self.get_data()[1][1]
         else:
             value_to_check_for_series_type = self.get_data()[1][2]
-        if type(value_to_check_for_series_type) in [int, float,long, Decimal]: # TODO: It could be any numeric, not just int
-            self.series_type = 'single_series'
+        if sys.version_info > (3,):
+            if type(value_to_check_for_series_type) in [int, float, Decimal]: # TODO: It could be any numeric, not just int
+                self.series_type = 'single_series'
+            else:
+                self.series_type = 'multi_series'
         else:
-            self.series_type = 'multi_series'
+            if type(value_to_check_for_series_type) in [int, float,long, Decimal]: # TODO: It could be any numeric, not just int
+                self.series_type = 'single_series'
+            else:
+                self.series_type = 'multi_series'
 
     def get_series(self):
         # Currently graphos highmap only work with two columns, essentially that means only one series
