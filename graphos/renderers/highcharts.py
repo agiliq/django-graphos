@@ -3,7 +3,7 @@ import json
 from collections import defaultdict, OrderedDict
 from decimal import Decimal
 from copy import deepcopy
-
+import sys
 
 from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
@@ -337,16 +337,26 @@ class HighMap(BaseHighCharts):
         self.is_lat_long = False
         first_column = self.get_data()[1][0]
         second_column = self.get_data()[1][1]
-        if type(first_column) in [int, float, long, Decimal] and type(second_column) in [int, float, long, Decimal]:
-            self.is_lat_long = True
+        if sys.version_info > (3,):
+            if type(first_column) in [int, float, Decimal] and type(second_column) in [int, float, Decimal]:
+                self.is_lat_long = True
+        else:
+            if type(first_column) in [int, float, long, Decimal] and type(second_column) in [int, float,long, Decimal]:
+                self.is_lat_long = True
         if not self.is_lat_long:
             value_to_check_for_series_type = self.get_data()[1][1]
         else:
             value_to_check_for_series_type = self.get_data()[1][2]
-        if type(value_to_check_for_series_type) in [int, float, long, Decimal]:
-            self.series_type = 'single_series'
+        if sys.version_info > (3,):
+            if type(value_to_check_for_series_type) in [int, float, Decimal]: # TODO: It could be any numeric, not just int
+                self.series_type = 'single_series'
+            else:
+                self.series_type = 'multi_series'
         else:
-            self.series_type = 'multi_series'
+            if type(value_to_check_for_series_type) in [int, float,long, Decimal]: # TODO: It could be any numeric, not just int
+                self.series_type = 'single_series'
+            else:
+                self.series_type = 'multi_series'
 
     def get_series(self):
         # Currently graphos highmap only work with two columns, essentially that means only one series
@@ -643,8 +653,8 @@ def generate_treemap_data(root, no_of_column):
             parent_data['id'] = 'id_' + str(counter_0)
             parent_data['name'] = i
             parent_data['color'] = color_picker_list[counter_0]
-            (key, value) = j.items()[0]
-            parent_data['value'] = key
+            key = list(j.keys())
+            parent_data['value'] = key[0]
             final_data.append(parent_data)
             counter_0 += 1
     if no_of_column == 3:
@@ -661,10 +671,10 @@ def generate_treemap_data(root, no_of_column):
                 data['name'] = k
                 data['parent'] = parent_id
                 data['color'] = color_picker_list[counter_0]
-                (key, value) = l.items()[0]
-                data['value'] = key
+                key = list(l.keys())
+                data['value'] = key[0]
                 final_data.append(data)
-                parent_value += key
+                parent_value += key[0]
                 counter_1 += 1
             parent_data['value'] = parent_value
             final_data.append(parent_data)
@@ -692,11 +702,11 @@ def generate_treemap_data(root, no_of_column):
                     data['name'] = m
                     data['parent'] = child_id
                     data['color'] = color_picker_list[counter_0]
-                    (key, value) = na.items()[0]
-                    data['value'] = key
+                    key = list(na.keys())
+                    data['value'] = key[0]
                     final_data.append(data)
                     counter_2 += 1
-                    parent_value += key
+                    parent_value += key[0]
             parent_data['value'] = parent_value
             final_data.append(parent_data)
             counter_0 += 1
@@ -713,8 +723,8 @@ def generate_pie_donut_data(root, no_of_column):
             parent_data = {}
             parent_data['name'] = i
             parent_data['color'] = color_picker_list[counter_0]
-            (key, value) = j.items()[0]
-            parent_data['y'] = key
+            key = list(j.keys())
+            parent_data['y'] = key[0]
             final_data.append(parent_data)
             counter_0 += 1
         return final_data
@@ -728,9 +738,9 @@ def generate_pie_donut_data(root, no_of_column):
                 data = {}
                 data['name'] = k
                 data['color'] = color_picker_list[counter_0]
-                (key, value) = l.items()[0]
-                data['y'] = key
-                parent_value += key
+                key= list(l.keys())
+                data['y'] = key[0]
+                parent_value += key[0]
                 list_1.append(data)
             counter_0 += 1
             parent_data['y'] = parent_value
