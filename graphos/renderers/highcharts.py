@@ -810,10 +810,6 @@ class PieDonut(BaseHighCharts):
             serieses.append({'name':  data[0][1], 'data': result[1], 'size': '80%','innerSize': '60%'})
         return serieses
 
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
-
     def get_chart_type(self):
         return "pie"
 
@@ -842,10 +838,6 @@ class Bubble(BaseHighCharts):
             plot_options['bubble']['dataLabels'] = {"enabled": True, "format": "{point.name}"}
         return plot_options
 
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
-
     def get_x_axis(self):
         x_axis = self.get_options().get('xAxis', {})
         if not 'gridLineWidth' not in x_axis:
@@ -858,26 +850,18 @@ class Bubble(BaseHighCharts):
             x_axis['poltLines'] = []
         return x_axis
 
-    def get_x_axis_json(self):
-        x_axis = self.get_x_axis()
-        return json.dumps(x_axis, cls=JSONEncoderForHTML)
-
-
     def get_y_axis(self):
+        data = self.get_data()[1:]
         y_axis = self.get_options().get('yAxis', {})
         if not 'maxPadding' not in y_axis:
             y_axis['maxPadding'] = 0.2
         if not 'title' in y_axis:
             y_axis['title'] = {}
         if not 'text' in y_axis['title']:
-            y_axis['title']['text'] = ""
+            y_axis['title']['text'] = data[0][2]
         if not 'plotLines' in y_axis:
             y_axis['poltLines'] = []
         return y_axis
-
-    def get_y_axis_json(self):
-        y_axis = self.get_y_axis()
-        return json.dumps(y_axis, cls=JSONEncoderForHTML)
 
     def get_chart_type(self):
         return "bubble"
