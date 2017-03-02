@@ -141,8 +141,21 @@ class BaseHighCharts(BaseChart):
         x_axis = self.get_x_axis()
         return json.dumps(x_axis, cls=JSONEncoderForHTML)
 
+    def get_y_axis_title(self):
+        data = self.get_data()
+        # For single series data, set y-axis title to header of first series
+        # For multi series data, it's responsibility of user to set yAxis title.
+        if len(data[0]) == 2:
+            return data[0][1]
+        else:
+            return "Values"
+
     def get_y_axis(self):
         y_axis = self.get_options().get('yAxis', {})
+        if not 'title' in y_axis:
+            y_axis['title'] = {}
+        if not 'text' in y_axis['title']:
+            y_axis['title']['text'] = self.get_y_axis_title()
         return y_axis
 
     def get_y_axis_json(self):
@@ -277,11 +290,9 @@ class ScatterChart(BaseHighCharts):
             return self.get_data()[0][1]
 
     def get_x_axis(self):
-        x_axis = self.get_options().get('xAxis', {})
-        if not 'title' in x_axis:
-            x_axis['title'] = {}
-        if not 'text' in x_axis['title']:
-            x_axis['title']['text'] = self.get_x_axis_title()
+        x_axis = super(ScatterChart, self).get_x_axis()
+        # categories doesn't make sense for Scatter chart because x axis doesn't have categories. Instead it has values
+        del x_axis['categories']
         return x_axis
 
     def get_y_axis_title(self):
@@ -289,14 +300,6 @@ class ScatterChart(BaseHighCharts):
             return self.get_data()[0][1]
         else:
             return self.get_data()[0][2]
-
-    def get_y_axis(self):
-        y_axis = self.get_options().get('yAxis', {})
-        if not 'title' in y_axis:
-            y_axis['title'] = {}
-        if not 'text' in y_axis['title']:
-            y_axis['title']['text'] = self.get_y_axis_title()
-        return y_axis
 
 
 class ColumnLineChart(BaseHighCharts):
@@ -406,7 +409,7 @@ class MultiAxisChart(BaseHighCharts):
 
     def get_y_axis(self):
         y_axis = super(MultiAxisChart, self).get_y_axis()
-        # This is overriding any thing set in yAxis. Fix
+        # TODO: This is overriding any thing set in yAxis. Fix
         y_axis = []
         y_axis.append({'title': {'text': self.get_series()[1]['name']}})
         y_axis.append({'title': {'text': self.get_series()[0]['name']}, 'opposite': True})
@@ -625,6 +628,7 @@ class HeatMap(BaseHighCharts):
         return serieses
 
     def get_y_axis(self):
+        # TODO: Check if this should call super()
         categories = self.get_data()[0][1:]
         y_axis = {'categories': categories}
         return y_axis
