@@ -877,7 +877,7 @@ class Bubble(BaseHighCharts):
         serieses = []
         for series_name, points in name_to_points_dict.items():
             series = {}
-            #series['name'] = series_name
+            series['name'] = series_name
             series['data'] = points
             # TODO: Add color ability
             serieses.append(series)
