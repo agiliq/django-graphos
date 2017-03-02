@@ -1,5 +1,6 @@
 <script>
 $(function () {
+    var plotOp = {{chart.get_plot_options_json | safe}};
     $('#{{ chart.get_html_id }}').highcharts({
         chart: {{chart.get_chart_json | safe}},
         exporting: {{chart.get_exporting_json | safe}},
@@ -11,7 +12,7 @@ $(function () {
         yAxis: {{chart.get_y_axis_json | safe}},
         series: {{ chart.get_series_json|safe }},
         tooltip: {{chart.get_tooltip_json|safe}},
-        plotOptions: {{chart.get_options_json | safe}},
+        plotOptions: plotOp,
         credits: {{chart.get_credits_json | safe}}
     });
 });

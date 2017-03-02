@@ -124,6 +124,14 @@ class BaseHighCharts(BaseChart):
         chart = self.get_chart()
         return json.dumps(chart, cls=JSONEncoderForHTML)
 
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
     def get_x_axis_title(self):
         return self.get_data()[0][0]
 
@@ -272,17 +280,6 @@ class ScatterChart(BaseHighCharts):
             serieses.append(series)
         return serieses
 
-    def get_js_template(self):
-        return "graphos/highcharts/js_scatter.html"
-
-    def get_plot_options(self):
-        plot_options = self.get_options().get('plotOptions', {})
-        return plot_options
-
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
-
     def get_x_axis_title(self):
         if self.series_type == 'single_series':
             return self.get_data()[0][0]
@@ -364,10 +361,6 @@ class PieChart(BaseHighCharts):
             plot_options['pie']['dataLabels'] = {'enabled': False}
         return plot_options
 
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
-
     def get_chart_type(self):
         return "pie"
 
@@ -376,9 +369,6 @@ class PieChart(BaseHighCharts):
 
 
 class DonutChart(PieChart):
-    def get_js_template(self):
-        return "graphos/highcharts/js_donut.html"
-
     def get_chart(self):
         chart = super(DonutChart, self).get_chart()
         chart['options3d'] = {'enabled': True, 'alpha': 45}
@@ -388,10 +378,6 @@ class DonutChart(PieChart):
         plot_options = self.get_options().get('plotOptions', {})
         plot_options['pie'] = {'innerSize': 100, 'depth': 45}
         return plot_options
-
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
 
 class MultiAxisChart(BaseHighCharts):
@@ -588,10 +574,6 @@ class HighMap(BaseHighCharts):
             plot_options['mapbubble'] = {}
         return plot_options
 
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
-
     def get_chart_type(self):
         # If you are using mapbubble, ensure you don't set allAreas to False.
         # Also if you are setting mapbubble for a multi series chart, then probably you should set zKey too to get different bubble sizes.
@@ -659,10 +641,6 @@ class HeatMap(BaseHighCharts):
             plot_options['heatmap']['dataLabels']['enabled'] = True
         return plot_options
 
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
-
 
 class Funnel(BaseHighCharts):
 
@@ -691,9 +669,6 @@ class Funnel(BaseHighCharts):
             plot_options['funnel']['dataLabels']['softConnector'] = True
         return plot_options
 
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
 color_picker_list = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f',
                      '#f45b5b', '#91e8e1', '#42f44e', '#d61532', '#f1f442', '#ee42f4', '#4286f4', '#B96A30',
@@ -866,10 +841,6 @@ class TreeMap(BaseHighCharts):
             plot_options['treemap']['levels'] = [{'level': 1,'dataLabels': {'enabled': True},'borderWidth': 3}]
         return plot_options
 
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
-
     def get_js_template(self):
         return "graphos/highcharts/js_treemap.html"
 
@@ -889,10 +860,6 @@ class PieDonut(BaseHighCharts):
             serieses.append({'name': data[0][0], 'data': result[0], 'size': '60%','dataLabels': {'enabled': False}, 'showInLegend': True})
             serieses.append({'name':  data[0][1], 'data': result[1], 'size': '80%','innerSize': '60%'})
         return serieses
-
-    def get_plot_options_json(self):
-        plot_options = self.get_plot_options()
-        return json.dumps(plot_options, cls=JSONEncoderForHTML)
 
     def get_chart_type(self):
         return "pie"
