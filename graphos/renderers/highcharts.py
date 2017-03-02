@@ -863,3 +863,33 @@ class PieDonut(BaseHighCharts):
 
     def get_chart_type(self):
         return "pie"
+
+
+class Bubble(BaseHighCharts):
+
+    def get_series(self):
+        data = self.get_data()[1:]
+        name_to_points_dict = defaultdict(list)
+        for row in data:
+            series_name = row[0]
+            l = [row[1], row[2], row[3]]
+            name_to_points_dict[series_name].append(l)
+        serieses = []
+        for series_name, points in name_to_points_dict.items():
+            series = {}
+            series['name'] = series_name
+            series['data'] = points
+            # TODO: Add color ability
+            serieses.append(series)
+        return serieses
+
+    def get_x_axis(self):
+        x_axis = self.get_options().get('xAxis', {})
+        return x_axis
+
+    def get_y_axis(self):
+        y_axis = self.get_options().get('yAxis', {})
+        return y_axis
+
+    def get_chart_type(self):
+        return "bubble"
