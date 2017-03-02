@@ -41,6 +41,25 @@ candlestick_data = [['Mon', 20, 28, 38, 45],
                     ['Thu', 77, 77, 66, 50],
                     ['Fri', 68, 66, 22, 15]]
 
+# TODO: Come up with a better example
+scatter_single_series_data = [
+    ['Rainfall', 'Precipitation'],
+    [1, 2],
+    [2, 3],
+    [5, 7],
+]
+
+# TODO: Come up with a better example
+scatter_multi_series_data = [
+    ['Leader', 'Rainfall', 'Precipitation'],
+    ['Trump', 1, 2],
+    ['Clinton', 2, 3],
+    ['Trump', 5, 7],
+    ['Clinton', 6, 9],
+    ['Clinton', 7, 4],
+    ['Clinton', 7, 8],
+]
+
 treemap_data = [
           ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
           ['Global',    None,                 0,                               0],
@@ -634,7 +653,38 @@ piechart_data_highcharts = [["Country","Cause","Death Rate"],
 
 bubble_chart_data = [["Country","Sugar Consumption","Fat Consumption","GDP"],
                      ["India",10,15,90],
-                     ["Pakistan",23,9,85],
-                     ["Japan",5,6,110],
-                     ["China",11,17,100],
-                     ["USA",9,20,120]]
+                     ["India",11,20,19],
+                     ["India",12,15,70],
+                     ["India",13,30,39],
+                     ["India",14,12,9],
+                     ["India",15,5,98],
+                     ["India",16,35,150],
+                     ["Pakistan",20,49,87],
+                     ["Pakistan",24,19,85],
+                     ["Pakistan",28,45,56],
+                     ["Pakistan",17,30,155],
+                     ["Pakistan",5,7,120],
+                     ["Pakistan",14,10,96],
+                     ["Pakistan",7,9,45],
+                     ["Japan",18,60,110],
+                     ["Japan", 41, 16, 140],
+                     ["Japan", 47, 36, 150],
+                     ["Japan", 61, 56, 70],
+                     ["Japan", 74, 36, 210],
+                     ["Japan", 10, 46, 90],
+                     ["Japan", 30, 26, 100],
+                     ["China",14,18,100],
+                     ["China", 9, 17, 10],
+                     ["China", 51, 67, 200],
+                     ["China", 12, 27, 160],
+                     ["China", 42, 67, 86],
+                     ["China", 30, 97, 20],
+                     ["China", 16, 67, 90],
+                     ["USA",56,20,120],
+                     ["USA", 32, 23, 220],
+                     ["USA", 15, 85, 320],
+                     ["USA", 48, 10, 20],
+                     ["USA", 30, 96, 150],
+                     ["USA", 14, 22, 160],
+                     ["USA", 39, 21, 100],
+                     ["USA", 44, 29, 150]]

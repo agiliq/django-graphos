@@ -399,7 +399,7 @@ class TestHighchartsRenderer(TestCase):
 
     def test_get_yaxis(self):
         chart = highcharts.BaseHighCharts(data_source=self.data_source)
-        self.assertEqual(chart.get_y_axis(), {})
+        self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Values'}})
 
     def test_get_tooltip(self):
         chart = highcharts.BaseHighCharts(data_source=self.data_source)
