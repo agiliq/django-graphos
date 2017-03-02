@@ -191,11 +191,9 @@ class LineChart(BaseHighCharts):
         return "line"
 
 
-
 class BarChart(BaseHighCharts):
     def get_chart_type(self):
         return "bar"
-
 
 
 class ColumnChart(BaseHighCharts):
