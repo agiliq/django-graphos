@@ -337,31 +337,21 @@ class HighMap(BaseHighCharts):
         self.is_lat_long = False
         first_column = self.get_data()[1][0]
         second_column = self.get_data()[1][1]
-        if sys.version_info > (3,):
-            if type(first_column) in [int, float, Decimal] and type(second_column) in [int, float, Decimal]:
-                self.is_lat_long = True
-        else:
-            if type(first_column) in [int, float, long, Decimal] and type(second_column) in [int, float,long, Decimal]:
-                self.is_lat_long = True
+        types = [int, float, Decimal]
+        if not sys.version_info > (3,):
+            types.append(long)
+        if type(first_column) in types and type(second_column) in types:
+            self.is_lat_long = True
         if not self.is_lat_long:
             value_to_check_for_series_type = self.get_data()[1][1]
         else:
             value_to_check_for_series_type = self.get_data()[1][2]
-        if sys.version_info > (3,):
-            if type(value_to_check_for_series_type) in [int, float, Decimal]: # TODO: It could be any numeric, not just int
-                self.series_type = 'single_series'
-            else:
-                self.series_type = 'multi_series'
+        if type(value_to_check_for_series_type) in types:
+            self.series_type = 'single_series'
         else:
-            if type(value_to_check_for_series_type) in [int, float,long, Decimal]: # TODO: It could be any numeric, not just int
-                self.series_type = 'single_series'
-            else:
-                self.series_type = 'multi_series'
+            self.series_type = 'multi_series'
 
     def get_series(self):
-        # Currently graphos highmap only work with two columns, essentially that means only one series
-        # That's why you see kv[1] and nothing beyond kv[1]
-        # Can highcharts maps make sense for multiple serieses?
         """
         Different serieses should come up based on different data formats passed.
             1. Single series
