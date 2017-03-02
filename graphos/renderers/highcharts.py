@@ -239,6 +239,7 @@ class ScatterChart(BaseHighCharts):
     def calculate_single_series(self):
         data = [[row[0], row[1]] for row in self.get_data()[1:]]
         # TODO: What should be series_name in this case? Should it be read from options?
+        # TODO: Add color ability
         series = {'data': data}
         return [series]
 
@@ -254,6 +255,7 @@ class ScatterChart(BaseHighCharts):
             series = {}
             series['name'] = series_name
             series['data'] = points
+            # TODO: Add color ability
             serieses.append(series)
         return serieses
 
