@@ -41,6 +41,25 @@ candlestick_data = [['Mon', 20, 28, 38, 45],
                     ['Thu', 77, 77, 66, 50],
                     ['Fri', 68, 66, 22, 15]]
 
+# TODO: Come up with a better example
+scatter_single_series_data = [
+    ['Rainfall', 'Precipitation'],
+    [1, 2],
+    [2, 3],
+    [5, 7],
+]
+
+# TODO: Come up with a better example
+scatter_multi_series_data = [
+    ['Leader', 'Rainfall', 'Precipitation'],
+    ['Trump', 1, 2],
+    ['Clinton', 2, 3],
+    ['Trump', 5, 7],
+    ['Clinton', 6, 9],
+    ['Clinton', 7, 4],
+    ['Clinton', 7, 8],
+]
+
 treemap_data = [
           ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
           ['Global',    None,                 0,                               0],
