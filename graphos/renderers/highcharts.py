@@ -369,9 +369,6 @@ class PieChart(BaseHighCharts):
 
 
 class DonutChart(PieChart):
-    def get_js_template(self):
-        return "graphos/highcharts/js_donut.html"
-
     def get_chart(self):
         chart = super(DonutChart, self).get_chart()
         chart['options3d'] = {'enabled': True, 'alpha': 45}
