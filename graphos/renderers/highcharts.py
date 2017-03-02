@@ -280,9 +280,6 @@ class ScatterChart(BaseHighCharts):
             serieses.append(series)
         return serieses
 
-    def get_js_template(self):
-        return "graphos/highcharts/js_scatter.html"
-
     def get_x_axis_title(self):
         if self.series_type == 'single_series':
             return self.get_data()[0][0]
