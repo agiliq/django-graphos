@@ -11,6 +11,10 @@ from ..exceptions import GraphosException
 
 
 class BaseHighCharts(BaseChart):
+    """
+    This has been written with categorical x axis in mind.
+    This assumes that first column would be non-numeric, and assumes that every other column tells data for a series and would be numeric. If this assumption is violated, chart wouldn't be proper.
+    """
     def get_html_template(self):
         return "graphos/highcharts/html.html"
 
@@ -80,7 +84,7 @@ class BaseHighCharts(BaseChart):
 
     def get_categories(self):
         """
-        This would return [2004, 2005, 2006, 2007]
+        This would return ['2004', '2005', '2006', '2007']
         """
         return column(self.get_data(), 0)[1:]
 
@@ -120,6 +124,9 @@ class BaseHighCharts(BaseChart):
         chart = self.get_chart()
         return json.dumps(chart, cls=JSONEncoderForHTML)
 
+    def get_x_axis_title(self):
+        return self.get_data()[0][0]
+
     def get_x_axis(self):
         x_axis = self.get_options().get('xAxis', {})
         if not 'categories' in x_axis:
@@ -149,9 +156,6 @@ class BaseHighCharts(BaseChart):
     def get_tooltip_json(self):
         tooltip = self.get_tooltip()
         return json.dumps(tooltip, cls=JSONEncoderForHTML)
-
-    def get_x_axis_title(self):
-        return self.get_data()[0][0]
 
     def get_credits(self):
         credits = self.get_options().get('credits', {})
@@ -207,8 +211,90 @@ class AreaChart(BaseHighCharts):
 
 
 class ScatterChart(BaseHighCharts):
+    def __init__(self, *args, **kwargs):
+        super(ScatterChart, self).__init__(*args, **kwargs)
+        types = [int, float, Decimal]
+        if not sys.version_info > (3,):
+            types.append(long)
+        data = self.get_data()
+        if type(data[1][0]) in types:
+            self.series_type = 'single_series'
+        else:
+            self.series_type = 'multi_series'
+        if len(data[0]) < 2:
+            raise GraphosException("Scatter chart needs atleast 2 columns")
+        if len(data[0]) > 3:
+            raise GraphosException("Scatter chart can't have more than 3 columns")
+
     def get_chart_type(self):
         return "scatter"
+
+    def get_series(self):
+        if self.series_type == 'single_series':
+            serieses = self.calculate_single_series()
+        else:
+            serieses = self.calculate_multi_series()
+        return serieses
+
+    def calculate_single_series(self):
+        data = [[row[0], row[1]] for row in self.get_data()[1:]]
+        # TODO: What should be series_name in this case? Should it be read from options?
+        series = {'data': data}
+        return [series]
+
+    def calculate_multi_series(self):
+        data = self.get_data()[1:]
+        name_to_points_dict = defaultdict(list)
+        for row in data:
+            series_name = row[0]
+            l = [row[1], row[2]]
+            name_to_points_dict[series_name].append(l)
+        serieses = []
+        for series_name, points in name_to_points_dict.items():
+            series = {}
+            series['name'] = series_name
+            series['data'] = points
+            serieses.append(series)
+        return serieses
+
+    def get_js_template(self):
+        return "graphos/highcharts/js_scatter.html"
+
+    def get_plot_options(self):
+        plot_options = self.get_options().get('plotOptions', {})
+        return plot_options
+
+    def get_plot_options_json(self):
+        plot_options = self.get_plot_options()
+        return json.dumps(plot_options, cls=JSONEncoderForHTML)
+
+    def get_x_axis_title(self):
+        if self.series_type == 'single_series':
+            return self.get_data()[0][0]
+        else:
+            return self.get_data()[0][1]
+
+    def get_x_axis(self):
+        x_axis = self.get_options().get('xAxis', {})
+        if not 'title' in x_axis:
+            x_axis['title'] = {}
+        if not 'text' in x_axis['title']:
+            x_axis['title']['text'] = self.get_x_axis_title()
+        return x_axis
+
+    def get_y_axis_title(self):
+        if self.series_type == 'single_series':
+            return self.get_data()[0][1]
+        else:
+            return self.get_data()[0][2]
+
+    def get_y_axis(self):
+        y_axis = self.get_options().get('yAxis', {})
+        if not 'title' in y_axis:
+            y_axis['title'] = {}
+        if not 'text' in y_axis['title']:
+            y_axis['title']['text'] = self.get_y_axis_title()
+        return y_axis
 
 
 class ColumnLineChart(BaseHighCharts):
