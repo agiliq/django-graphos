@@ -11,7 +11,7 @@ from graphos.views import FlotAsJson, RendererAsJson
 from .models import Account
 from .utils import get_mongo_cursor
 from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us, map_data_us_point, map_data_us_lat_lon, map_data_us_multi_series, map_data_us_multi_series_lat_lon,
-                    mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data, treemap_data_highcharts, piechart_data_highcharts,bubble_chart_data,
+                    mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data, treemap_data_highcharts, piechart_data_highcharts,bubble_chart_data_single, bubble_chart_data_multi,
                     create_demo_accounts, create_demo_mongo, get_db, scatter_single_series_data, scatter_multi_series_data)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
@@ -320,7 +320,8 @@ class HighChartsDemo(Demo):
             'funnel': self.renderer.Funnel(SimpleDataSource(funnel_data)),
             'treemap': self.renderer.TreeMap(SimpleDataSource(treemap_data_highcharts)),
             'pie_donut': self.renderer.PieDonut(SimpleDataSource(piechart_data_highcharts)),
-            'bubble_chart': self.renderer.Bubble(SimpleDataSource(bubble_chart_data))
+            'bubble_chart_multi': self.renderer.Bubble(SimpleDataSource(bubble_chart_data_multi)),
+            'bubble_chart_single': self.renderer.Bubble(SimpleDataSource(bubble_chart_data_single))
         })
         return context
 
