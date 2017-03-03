@@ -364,9 +364,6 @@ class PieChart(BaseHighCharts):
     def get_chart_type(self):
         return "pie"
 
-    def get_js_template(self):
-        return "graphos/highcharts/js_piechart.html"
-
 
 class DonutChart(PieChart):
     def get_chart(self):
