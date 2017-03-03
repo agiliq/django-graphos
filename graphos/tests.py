@@ -396,14 +396,36 @@ class TestHighchartsRenderer(TestCase):
     def test_get_xaxis(self):
         chart = highcharts.BaseHighCharts(data_source=self.data_source)
         self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': self.x_axis_title}})
+        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'xAxis': {'type': 'logarithmic', 'title': {'text': 'Sales vs Year'}}})
+        self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': 'Sales vs Year'}, 'type': 'logarithmic'})
 
     def test_get_yaxis(self):
         chart = highcharts.BaseHighCharts(data_source=self.data_source)
         self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Values'}})
 
+    def test_get_yaxis_single_series(self):
+        # TODO: Infer y axis title for single series
+        pass
+
     def test_get_tooltip(self):
         chart = highcharts.BaseHighCharts(data_source=self.data_source)
         self.assertEqual(chart.get_tooltip(), {})
+
+    def test_get_credits(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_credits(), {})
+
+    def test_get_exporting(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_exporting(), {})
+
+    def test_get_legend(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_legend(), {})
+
+    def test_get_navigation(self):
+        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        self.assertEqual(chart.get_navigation(), {})
 
     def test_line_chart(self):
         chart = highcharts.LineChart(data_source=self.data_source)

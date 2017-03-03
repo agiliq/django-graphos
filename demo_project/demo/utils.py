@@ -654,7 +654,7 @@ piechart_data_highcharts = [["Country","Cause","Death Rate"],
                 ["France","Cancer",6]
                 ]
 
-bubble_chart_data = [["Country","Sugar Consumption","Fat Consumption","GDP"],
+bubble_chart_data_multi = [["Country","Sugar Consumption","Fat Consumption","GDP"],
                      ["India",10,15,90],
                      ["India",11,20,19],
                      ["India",12,15,70],
@@ -691,3 +691,13 @@ bubble_chart_data = [["Country","Sugar Consumption","Fat Consumption","GDP"],
                      ["USA", 14, 22, 160],
                      ["USA", 39, 21, 100],
                      ["USA", 44, 29, 150]]
+
+
+bubble_chart_data_single = [["Sugar Consumption","Fat Consumption","GDP"],
+                     [10,15,90],
+                     [11,20,19],
+                     [12,15,70],
+                     [13,30,39],
+                     [14,12,9],
+                     [15,5,98],
+                     [16,35,150]]
