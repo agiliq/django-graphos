@@ -42,22 +42,25 @@ candlestick_data = [['Mon', 20, 28, 38, 45],
                     ['Fri', 68, 66, 22, 15]]
 
 # TODO: Come up with a better example
-scatter_single_series_data = [
-    ['Rainfall', 'Precipitation'],
-    [1, 2],
-    [2, 3],
-    [5, 7],
+scatter_multi_series_data = [
+    ['state','country','Rainfall', 'Precipitation'],
+    ['Uttar Pradesh','India',1, 2],
+    ['Bihar','India',2, 3],
+    ['Telangana','India',5, 7],
+    ['Lahore','Pakistan',9,8],
+    ['Hyderabad','Pakistan',8,7],
+    ['Lahore','Pakistan',3,11]
 ]
 
 # TODO: Come up with a better example
-scatter_multi_series_data = [
+scatter_single_series_data = [
     ['Leader', 'Rainfall', 'Precipitation'],
     ['Trump', 1, 2],
     ['Clinton', 2, 3],
-    ['Trump', 5, 7],
-    ['Clinton', 6, 9],
-    ['Clinton', 7, 4],
-    ['Clinton', 7, 8],
+    ['Trumps', 5, 7],
+    ['George', 6, 9],
+    ['Alex', 7, 4],
+    ['Donald', 7, 8],
 ]
 
 treemap_data = [
