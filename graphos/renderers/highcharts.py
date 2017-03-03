@@ -867,7 +867,36 @@ class PieDonut(BaseHighCharts):
 
 class Bubble(BaseHighCharts):
 
+    def __init__(self, *args, **kwargs):
+        super(Bubble, self).__init__(*args, **kwargs)
+        types = [int, float, Decimal]
+        if not sys.version_info > (3,):
+            types.append(long)
+        data = self.get_data()
+        if type(data[1][0]) in types:
+            self.series_type = 'single_series'
+        else:
+            self.series_type = 'multi_series'
+        if len(data[0]) < 3:
+            raise GraphosException("Bubble chart needs atleast 3 columns")
+        if len(data[0]) > 4:
+            raise GraphosException("Bubble chart can't have more than 4 columns")
+
     def get_series(self):
+        if self.series_type == 'single_series':
+            serieses = self.calculate_single_series()
+        else:
+            serieses = self.calculate_multi_series()
+        return serieses
+
+    def calculate_single_series(self):
+        data = [[row[0], row[1], row[2]] for row in self.get_data()[1:]]
+        # TODO: What should be series_name in this case? Should it be read from options?
+        # TODO: Add color ability
+        series = {'data': data}
+        return [series]
+
+    def calculate_multi_series(self):
         data = self.get_data()[1:]
         name_to_points_dict = defaultdict(list)
         for row in data:
@@ -883,13 +912,23 @@ class Bubble(BaseHighCharts):
             serieses.append(series)
         return serieses
 
+    def get_x_axis_title(self):
+        if self.series_type == 'single_series':
+            return self.get_data()[0][0]
+        else:
+            return self.get_data()[0][1]
+
     def get_x_axis(self):
-        x_axis = self.get_options().get('xAxis', {})
+        x_axis = super(Bubble, self).get_x_axis()
+        # categories doesn't make sense for Bubble chart because x axis doesn't have categories. Instead it has values
+        del x_axis['categories']
         return x_axis
 
-    def get_y_axis(self):
-        y_axis = self.get_options().get('yAxis', {})
-        return y_axis
+    def get_y_axis_title(self):
+        if self.series_type == 'single_series':
+            return self.get_data()[0][1]
+        else:
+            return self.get_data()[0][2]
 
     def get_chart_type(self):
         return "bubble"
