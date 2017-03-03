@@ -872,14 +872,14 @@ class Bubble(BaseHighCharts):
         if not sys.version_info > (3,):
             types.append(long)
         data = self.get_data()
-        if type(data[1][0]) in types:
+        if type(data[1][1]) in types:
             self.series_type = 'single_series'
         else:
             self.series_type = 'multi_series'
-        if len(data[0]) < 3:
-            raise GraphosException("Bubble chart needs atleast 3 columns")
-        if len(data[0]) > 4:
-            raise GraphosException("Bubble chart can't have more than 4 columns")
+        if len(data[0]) < 4:
+            raise GraphosException("Bubble chart needs atleast 4 columns")
+        if len(data[0]) > 5:
+            raise GraphosException("Bubble chart can't have more than 5 columns")
 
     def get_series(self):
         if self.series_type == 'single_series':
@@ -889,18 +889,20 @@ class Bubble(BaseHighCharts):
         return serieses
 
     def calculate_single_series(self):
-        data = [[row[0], row[1], row[2]] for row in self.get_data()[1:]]
+        temp_name = self.get_data()[0][0]
+        data = [{temp_name: row[0], "x": row[1], 'y': row[2],'z': row[3]} for row in self.get_data()[1:]]
         # TODO: What should be series_name in this case? Should it be read from options?
         # TODO: Add color ability
-        series = {'data': data}
+        series = {'data': data, 'name': self.get_data()[0][0]}
         return [series]
 
     def calculate_multi_series(self):
+        temp_name = self.get_data()[0][0]
         data = self.get_data()[1:]
         name_to_points_dict = defaultdict(list)
         for row in data:
-            series_name = row[0]
-            l = [row[1], row[2], row[3]]
+            series_name = row[1]
+            l = {temp_name: row[0], "x": row[2], "y": row[3],"z": row[4]}
             name_to_points_dict[series_name].append(l)
         serieses = []
         for series_name, points in name_to_points_dict.items():
@@ -913,9 +915,9 @@ class Bubble(BaseHighCharts):
 
     def get_x_axis_title(self):
         if self.series_type == 'single_series':
-            return self.get_data()[0][0]
-        else:
             return self.get_data()[0][1]
+        else:
+            return self.get_data()[0][2]
 
     def get_x_axis(self):
         x_axis = super(Bubble, self).get_x_axis()
@@ -925,9 +927,9 @@ class Bubble(BaseHighCharts):
 
     def get_y_axis_title(self):
         if self.series_type == 'single_series':
-            return self.get_data()[0][1]
-        else:
             return self.get_data()[0][2]
+        else:
+            return self.get_data()[0][3]
 
     def get_chart_type(self):
         return "bubble"
