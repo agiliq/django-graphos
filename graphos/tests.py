@@ -349,7 +349,7 @@ class TestGchartRenderer(TestCase):
         self.assertTrue("Gauge" in chart.as_html())
 
 
-class TestHighchartsRenderer(TestCase):
+class TestBaseHighcharts(TestCase):
     def setUp(self):
         data = [
             ['Year', 'Sales', 'Expenses'],
@@ -427,31 +427,37 @@ class TestHighchartsRenderer(TestCase):
         chart = highcharts.BaseHighCharts(data_source=self.data_source)
         self.assertEqual(chart.get_navigation(), {})
 
-    def test_line_chart(self):
-        chart = highcharts.LineChart(data_source=self.data_source)
-        self.assertEqual(chart.get_chart(), {'type': 'line'})
-        self.assertNotEqual(chart.as_html(), "")
-
-    def test_column_chart(self):
-        chart = highcharts.ColumnChart(data_source=self.data_source)
-        self.assertEqual(chart.get_chart(), {'type': 'column'})
-        self.assertNotEqual(chart.as_html(), "")
-
-    def test_bar_chart(self):
-        chart = highcharts.BarChart(data_source=self.data_source)
-        self.assertEqual(chart.get_chart(), {'type': 'bar'})
-        self.assertNotEqual(chart.as_html(), "")
-
-    def test_area_chart(self):
-        chart = highcharts.AreaChart(data_source=self.data_source)
-        self.assertEqual(chart.get_chart(), {'type': 'area'})
-        self.assertNotEqual(chart.as_html(), "")
-
     def test_scatter_chart(self):
         chart = highcharts.ScatterChart(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'scatter'})
         self.assertNotEqual(chart.as_html(), "")
 
+
+class TestHighchartsLineChart(TestBaseHighcharts):
+    def test_line_chart(self):
+        chart = highcharts.LineChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'line'})
+        self.assertNotEqual(chart.as_html(), "")
+
+class TestHighchartsBarChart(TestBaseHighcharts):
+    def test_bar_chart(self):
+        chart = highcharts.BarChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'bar'})
+        self.assertNotEqual(chart.as_html(), "")
+
+class TestHighchartsColumnChart(TestBaseHighcharts):
+    def test_column_chart(self):
+        chart = highcharts.ColumnChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'column'})
+        self.assertNotEqual(chart.as_html(), "")
+
+class TestHighchartsAreaChart(TestBaseHighcharts):
+    def test_area_chart(self):
+        chart = highcharts.AreaChart(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'area'})
+        self.assertNotEqual(chart.as_html(), "")
+
+class TestHighchartsPieChart(TestBaseHighcharts):
     def test_pie_chart(self):
         chart = highcharts.PieChart(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'pie'})
