@@ -152,16 +152,16 @@ And then in the template:
 
 In this example we are planning to use Google chart, as is evident from the import statement in the view, we import gchart.LineChart. So we must also include the google chart javascript in our template.
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
+      google.charts.load('current', {packages: ['corechart']});
     </script>
 
 So the template would look like
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
+      google.charts.load('current', {packages: ['corechart']});
     </script>
 
     {{ chart.as_html }}
@@ -320,9 +320,9 @@ Most of the chart providers support LineChart, BarChart, ColumnChart and PieChar
 
 ##### Template
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
+      google.charts.load('current', {packages: ['corechart']});
     </script>
 
     {{ chart.as_html }}
@@ -384,9 +384,9 @@ Most of the chart providers support LineChart, BarChart, ColumnChart and PieChar
 
 ##### Template
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
+      google.charts.load('current', {packages: ['corechart']});
     </script>
     {{ chart.as_html }}
 
