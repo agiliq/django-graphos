@@ -472,11 +472,6 @@ class TestHighchartsPieChart(TestBaseHighcharts):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'pie'})
         self.assertNotEqual(chart.as_html(), "")
-        series = [
-                {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660}, {'name': 2007, 'y': 1030}]},
-                {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120}, {'name': 2007, 'y': 540}]}
-        ]
-        self.assertEqual(chart.get_series(), series)
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=self.data_source)
@@ -699,6 +694,27 @@ class TestHighchartsTreeMap(TestBaseHighcharts):
     # Modifiy after color functionality is there in TreeMap
     def test_get_series_with_colors(self):
         pass
+
+
+class TestHighchartsPieDonut(TestHighchartsPieChart):
+    chart_klass = highcharts.PieDonut
+    pie_data = [["Country", "Cause", "Death Rate"],
+                    ["India", "Cardiovascular Disease", 10],
+                    ["India", "Road Accident", 5],
+                    ["India", "Cancer", 3],
+                    ["China", "Cardiovascular Disease", 9],
+                    ["China", "Road Accident", 6],
+                    ["China", "Cancer", 1]]
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=SimpleDataSource(self.pie_data))
+        series = [{"showInLegend": True, "dataLabels": {"enabled": False}, "data": [{"color": "#7cb5ec", "y": 16, "name": "China"}, {"color": "#434348", "y": 18, "name": "India"}], "name": "Country", "size": "60%"}, {"innerSize": "60%", "data": [{"color": "#7cb5ec", "y": 6, "name": "Road Accident"}, {"color": "#7cb5ec", "y": 9, "name": "Cardiovascular Disease"}, {"color": "#7cb5ec", "y": 1, "name": "Cancer"}, {"color": "#434348", "y": 5, "name": "Road Accident"}, {"color": "#434348", "y": 10, "name": "Cardiovascular Disease"}, {"color": "#434348", "y": 3, "name": "Cancer"}], "name": "Cause", "size": "80%"}]
+        self.assertEqual(chart.get_series(), series)
+
+    # To be modified once color functionality is added to Chart.
+    def test_get_series_with_colors(self):
+        pass
+
 
 
 class TestYUIRenderer(TestCase):
