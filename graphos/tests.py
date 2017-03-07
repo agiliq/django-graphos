@@ -655,11 +655,26 @@ class TestHighchartsBubbleChart(TestBaseHighcharts):
         pass
 
 
+class TestHighchartsHeatMap(TestBaseHighcharts):
+    chart_klass = highcharts.HeatMap
 
+    def test_heatmap_chart(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'heatmap'})
+        self.assertNotEqual(chart.as_html(), "")
 
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        series = [{'data': [[0, 0, 1000],[0, 1, 400],[1, 0, 1170],[1, 1, 460],[2, 0, 660],[2, 1, 1120],[3, 0, 1030],[3, 1, 540]]}]
+        self.assertEqual(chart.get_series(), series)
 
+    def test_get_yaxis(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_y_axis(), {'categories': ['Sales', 'Expenses']})
 
-
+    # This function should be modified when color ability is added to Heatmap.
+    def test_get_series_with_colors(self):
+        pass
 
 class TestYUIRenderer(TestCase):
     def setUp(self):
