@@ -574,6 +574,31 @@ class TestHighchartsLineColumnChart(TestBaseHighcharts):
         series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]
         self.assertEqual(chart.get_series(), series)
 
+class TestHighchartsFunnel(TestBaseHighcharts):
+    chart_klass = highcharts.Funnel
+    funnel_data = [['Unique users', 'Counts'],
+                   ['Website visits', 654],
+                   ['Downloads', 4064],
+                   ['Requested price list', 1987],
+                   ['Invoice sent', 976],
+                   ['Finalized', 846]
+                   ]
+    def test_funnel_chart(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'funnel'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=SimpleDataSource(self.funnel_data))
+        series = [{'data': [['Website visits', 654], ['Downloads', 4064], ['Requested price list', 1987],
+                            ['Invoice sent', 976], ['Finalized', 846]]}]
+        self.assertEqual(chart.get_series(), series)
+
+    # Needs to be modified when color functionality is added to Funnel
+    def test_get_series_with_colors(self):
+        chart = self.chart_klass(data_source=SimpleDataSource(self.funnel_data))
+        series = [{'data': [['Website visits', 654],['Downloads', 4064],['Requested price list', 1987],['Invoice sent', 976],['Finalized', 846]]}]
+        self.assertEqual(chart.get_series(), series)
 
 
 
