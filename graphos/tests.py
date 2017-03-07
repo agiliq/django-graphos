@@ -351,6 +351,7 @@ class TestGchartRenderer(TestCase):
 
 class TestBaseHighcharts(TestCase):
     chart_klass = highcharts.BaseHighCharts
+
     def setUp(self):
         data = [
             ['Year', 'Sales', 'Expenses'],
@@ -440,12 +441,14 @@ class TestHighchartsLineChart(TestBaseHighcharts):
         self.assertEqual(chart.get_chart(), {'type': 'line'})
         self.assertNotEqual(chart.as_html(), "")
 
+
 class TestHighchartsBarChart(TestBaseHighcharts):
     chart_klass = highcharts.BarChart
     def test_bar_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'bar'})
         self.assertNotEqual(chart.as_html(), "")
+
 
 class TestHighchartsColumnChart(TestBaseHighcharts):
     chart_klass = highcharts.ColumnChart
@@ -454,12 +457,14 @@ class TestHighchartsColumnChart(TestBaseHighcharts):
         self.assertEqual(chart.get_chart(), {'type': 'column'})
         self.assertNotEqual(chart.as_html(), "")
 
+
 class TestHighchartsAreaChart(TestBaseHighcharts):
     chart_klass = highcharts.AreaChart
     def test_area_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'area'})
         self.assertNotEqual(chart.as_html(), "")
+
 
 class TestHighchartsPieChart(TestBaseHighcharts):
     chart_klass = highcharts.PieChart
@@ -506,6 +511,7 @@ class TestHighchartsScatterChart(TestBaseHighcharts):
         ['Hyderabad', 'Pakistan', 8, 7],
         ['Lahore', 'Pakistan', 3, 11]
     ]
+
     def test_scatter_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'scatter'})
@@ -519,8 +525,7 @@ class TestHighchartsScatterChart(TestBaseHighcharts):
         self.assertEqual(chart.get_series(), series)
         # Scatter Chart has ability to work with multiseries data.
         chart = self.chart_klass(data_source=SimpleDataSource(self.multiseriesdata))
-        series = [{'data': [{'State': 'Lahore', 'x': 9, 'y': 8},{'State': 'Hyderabad', 'x': 8, 'y': 7},{'State': 'Lahore', 'x': 3, 'y': 11}],'name': 'Pakistan'},
-                  {'data': [{'State': 'Uttar Pradesh', 'x': 1, 'y': 2},{'State': 'Bihar', 'x': 2, 'y': 3},{'State': 'Telangana', 'x': 5, 'y': 7}],'name': 'India'}]
+        series = [{"data": [{"y": 8, "x": 9, "State": "Lahore"}, {"y": 7, "x": 8, "State": "Hyderabad"}, {"y": 11, "x": 3, "State": "Lahore"}], "name": "Pakistan"}, {"data": [{"y": 2, "x": 1, "State": "Uttar Pradesh"}, {"y": 3, "x": 2, "State": "Bihar"}, {"y": 7, "x": 5, "State": "Telangana"}], "name": "India"}]
         self.assertEqual(chart.get_series(), series)
 
     # This function should be modified when color ability is added to Scatter.
@@ -535,6 +540,7 @@ class TestHighchartsScatterChart(TestBaseHighcharts):
     def test_get_yaxis(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Expenses'}})
+
 
 class TestHighchartsColumnLineChart(TestBaseHighcharts):
     chart_klass = highcharts.ColumnLineChart
@@ -555,6 +561,7 @@ class TestHighchartsColumnLineChart(TestBaseHighcharts):
         series = [{'type': 'column', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'line'}]
         self.assertEqual(chart.get_series(), series)
 
+
 class TestHighchartsLineColumnChart(TestBaseHighcharts):
     chart_klass = highcharts.LineColumnChart
 
@@ -574,6 +581,7 @@ class TestHighchartsLineColumnChart(TestBaseHighcharts):
         series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]
         self.assertEqual(chart.get_series(), series)
 
+
 class TestHighchartsFunnel(TestBaseHighcharts):
     chart_klass = highcharts.Funnel
     funnel_data = [['Unique users', 'Counts'],
@@ -583,6 +591,7 @@ class TestHighchartsFunnel(TestBaseHighcharts):
                    ['Invoice sent', 976],
                    ['Finalized', 846]
                    ]
+
     def test_funnel_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'funnel'})
@@ -599,6 +608,56 @@ class TestHighchartsFunnel(TestBaseHighcharts):
         chart = self.chart_klass(data_source=SimpleDataSource(self.funnel_data))
         series = [{'data': [['Website visits', 654],['Downloads', 4064],['Requested price list', 1987],['Invoice sent', 976],['Finalized', 846]]}]
         self.assertEqual(chart.get_series(), series)
+
+
+class TestHighchartsBubbleChart(TestBaseHighcharts):
+    chart_klass = highcharts.Bubble
+    def setUp(self):
+        data = [["Country", "Sugar Consumption", "Fat Consumption", "GDP"],
+                ["India", 10, 15, 90],
+                ["USA", 11, 20, 19],
+                ["Srilanka", 15, 5, 98],
+                ["Indonesia", 16, 35, 150]]
+        self.data_source = SimpleDataSource(data)
+
+    def test_bubble_chart(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'bubble'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_get_series(self):
+        bubble_chart_data_multi = [["Grade", "Country", "Sugar Consumption", "Fat Consumption", "GDP"],
+                                   ["A", "India", 10, 15, 90],
+                                   ["B", "India", 11, 20, 19],
+                                   ["P", "USA", 39, 21, 100],
+                                   ["O", "USA", 44, 29, 150]]
+        chart = self.chart_klass(data_source=self.data_source)
+        series = [{'data': [{'Country': 'India', 'x': 10, 'y': 15, 'z': 90},{'Country': 'USA', 'x': 11, 'y': 20, 'z': 19},{'Country': 'Srilanka', 'x': 15, 'y': 5, 'z': 98},{'Country': 'Indonesia', 'x': 16, 'y': 35, 'z': 150}],'name': 'Country'}]
+        self.assertEqual(chart.get_series(), series)
+        chart = self.chart_klass(data_source=SimpleDataSource(bubble_chart_data_multi))
+        series = [{'data': [{'Grade': 'A', 'x': 10, 'y': 15, 'z': 90},{'Grade': 'B', 'x': 11, 'y': 20, 'z': 19}],'name': 'India'},{'data': [{'Grade': 'P', 'x': 39, 'y': 21, 'z': 100},{'Grade': 'O', 'x': 44, 'y': 29, 'z': 150}],'name': 'USA'}]
+        self.assertEqual(chart.get_series(), series)
+
+    # Needs to be modified when color functionality is added to Bubble
+    def test_get_series_with_colors(self):
+        pass
+
+    def test_get_yaxis(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Fat Consumption'}})
+
+    def test_get_xaxis(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_x_axis(), {'title': {'text': 'Sugar Consumption'}})
+
+    # Bubble chart do not have any attribute categories.
+    def test_get_categories(self):
+        pass
+
+
+
+
+
 
 
 
