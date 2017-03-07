@@ -536,6 +536,46 @@ class TestHighchartsScatterChart(TestBaseHighcharts):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Expenses'}})
 
+class TestHighchartsColumnLineChart(TestBaseHighcharts):
+    chart_klass = highcharts.ColumnLineChart
+
+    def test_line_chart(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'column_line'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        series = [{'type': 'column', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'line'}]
+        self.assertEqual(chart.get_series(), series)
+
+    # This function should be modified when color ability is added to ColumnLine.
+    def test_get_series_with_colors(self):
+        chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
+        series = [{'type': 'column', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'line'}]
+        self.assertEqual(chart.get_series(), series)
+
+class TestHighchartsLineColumnChart(TestBaseHighcharts):
+    chart_klass = highcharts.LineColumnChart
+
+    def test_line_chart(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'line_column'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]
+        self.assertEqual(chart.get_series(), series)
+
+    # This function should be modified when color ability is added to ColumnLine.
+    def test_get_series_with_colors(self):
+        chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
+        series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]
+        self.assertEqual(chart.get_series(), series)
+
+
+
 
 class TestYUIRenderer(TestCase):
     def setUp(self):
