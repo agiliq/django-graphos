@@ -350,6 +350,7 @@ class TestGchartRenderer(TestCase):
 
 
 class TestBaseHighcharts(TestCase):
+    chart_klass = highcharts.BaseHighCharts
     def setUp(self):
         data = [
             ['Year', 'Sales', 'Expenses'],
@@ -363,44 +364,48 @@ class TestBaseHighcharts(TestCase):
         self.x_axis_title = 'Year'
         self.series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030]}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]
 
-    def test_base_highcharts(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+    def test_get_categories(self):
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_categories(), self.categories)
         self.assertEqual(chart.get_categories_json(), json.dumps(self.categories))
+
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_series(), self.series)
 
     def test_get_series_with_colors(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'colors': ['red']})
+        chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
         series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]
         self.assertEqual(chart.get_series(), series)
-        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'colors': ['red', 'blue']})
+        chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red', 'blue']})
         series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540], 'color': 'blue'}]
         self.assertEqual(chart.get_series(), series)
 
     def test_get_title(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_title(), {'text': 'Chart'})
-        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'title': 'Highcharts'})
+        chart = self.chart_klass(data_source=self.data_source, options={'title': 'Highcharts'})
         self.assertEqual(chart.get_title(), {'text': 'Highcharts'})
-        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'title': {'text': 'Highcharts', 'align': 'center'}})
+        chart = self.chart_klass(data_source=self.data_source, options={'title': {'text': 'Highcharts', 'align': 'center'}})
         self.assertEqual(chart.get_title(), {'text': 'Highcharts', 'align': 'center'})
 
     def test_get_subtitle(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_subtitle(), {})
-        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'subtitle': 'Highcharts'})
+        chart = self.chart_klass(data_source=self.data_source, options={'subtitle': 'Highcharts'})
         self.assertEqual(chart.get_subtitle(), {'text': 'Highcharts'})
-        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'subtitle': {'text': 'Highcharts', 'align': 'center'}})
+        chart = self.chart_klass(data_source=self.data_source, options={'subtitle': {'text': 'Highcharts', 'align': 'center'}})
         self.assertEqual(chart.get_subtitle(), {'text': 'Highcharts', 'align': 'center'})
 
     def test_get_xaxis(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': self.x_axis_title}})
-        chart = highcharts.BaseHighCharts(data_source=self.data_source, options={'xAxis': {'type': 'logarithmic', 'title': {'text': 'Sales vs Year'}}})
+        chart = self.chart_klass(data_source=self.data_source, options={'xAxis': {'type': 'logarithmic', 'title': {'text': 'Sales vs Year'}}})
         self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': 'Sales vs Year'}, 'type': 'logarithmic'})
 
     def test_get_yaxis(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Values'}})
 
     def test_get_yaxis_single_series(self):
@@ -408,58 +413,58 @@ class TestBaseHighcharts(TestCase):
         pass
 
     def test_get_tooltip(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_tooltip(), {})
 
     def test_get_credits(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_credits(), {})
 
     def test_get_exporting(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_exporting(), {})
 
     def test_get_legend(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_legend(), {})
 
     def test_get_navigation(self):
-        chart = highcharts.BaseHighCharts(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_navigation(), {})
-
-    def test_scatter_chart(self):
-        chart = highcharts.ScatterChart(data_source=self.data_source)
-        self.assertEqual(chart.get_chart(), {'type': 'scatter'})
-        self.assertNotEqual(chart.as_html(), "")
 
 
 class TestHighchartsLineChart(TestBaseHighcharts):
+    chart_klass = highcharts.LineChart
     def test_line_chart(self):
-        chart = highcharts.LineChart(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'line'})
         self.assertNotEqual(chart.as_html(), "")
 
 class TestHighchartsBarChart(TestBaseHighcharts):
+    chart_klass = highcharts.BarChart
     def test_bar_chart(self):
-        chart = highcharts.BarChart(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'bar'})
         self.assertNotEqual(chart.as_html(), "")
 
 class TestHighchartsColumnChart(TestBaseHighcharts):
+    chart_klass = highcharts.ColumnChart
     def test_column_chart(self):
-        chart = highcharts.ColumnChart(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'column'})
         self.assertNotEqual(chart.as_html(), "")
 
 class TestHighchartsAreaChart(TestBaseHighcharts):
+    chart_klass = highcharts.AreaChart
     def test_area_chart(self):
-        chart = highcharts.AreaChart(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'area'})
         self.assertNotEqual(chart.as_html(), "")
 
 class TestHighchartsPieChart(TestBaseHighcharts):
+    chart_klass = highcharts.PieChart
     def test_pie_chart(self):
-        chart = highcharts.PieChart(data_source=self.data_source)
+        chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'pie'})
         self.assertNotEqual(chart.as_html(), "")
         series = [
@@ -467,6 +472,69 @@ class TestHighchartsPieChart(TestBaseHighcharts):
                 {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120}, {'name': 2007, 'y': 540}]}
         ]
         self.assertEqual(chart.get_series(), series)
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        series = [
+            {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660},
+                                       {'name': 2007, 'y': 1030}]},
+            {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120},
+                                          {'name': 2007, 'y': 540}]}
+        ]
+        self.assertEqual(chart.get_series(), series)
+
+    # This function should be modified when color ability is added to Piechart.
+    def test_get_series_with_colors(self):
+        chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
+        series = [
+            {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660},
+                                       {'name': 2007, 'y': 1030}]},
+            {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120},
+                                          {'name': 2007, 'y': 540}]}
+        ]
+        self.assertEqual(chart.get_series(), series)
+
+
+class TestHighchartsScatterChart(TestBaseHighcharts):
+    chart_klass = highcharts.ScatterChart
+    multiseriesdata = [
+        ['State', 'Country', 'Rainfall', 'Precipitation'],
+        ['Uttar Pradesh', 'India', 1, 2],
+        ['Bihar', 'India', 2, 3],
+        ['Telangana', 'India', 5, 7],
+        ['Lahore', 'Pakistan', 9, 8],
+        ['Hyderabad', 'Pakistan', 8, 7],
+        ['Lahore', 'Pakistan', 3, 11]
+    ]
+    def test_scatter_chart(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'type': 'scatter'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        series = [{'data': [{'Year': 2004, 'x': 1000, 'y': 400}, {'Year': 2005, 'x': 1170, 'y': 460},
+                            {'Year': 2006, 'x': 660, 'y': 1120}, {'Year': 2007, 'x': 1030, 'y': 540}],
+                   'name': 'Year'}]
+        self.assertEqual(chart.get_series(), series)
+        # Scatter Chart has ability to work with multiseries data.
+        chart = self.chart_klass(data_source=SimpleDataSource(self.multiseriesdata))
+        series = [{'data': [{'State': 'Lahore', 'x': 9, 'y': 8},{'State': 'Hyderabad', 'x': 8, 'y': 7},{'State': 'Lahore', 'x': 3, 'y': 11}],'name': 'Pakistan'},
+                  {'data': [{'State': 'Uttar Pradesh', 'x': 1, 'y': 2},{'State': 'Bihar', 'x': 2, 'y': 3},{'State': 'Telangana', 'x': 5, 'y': 7}],'name': 'India'}]
+        self.assertEqual(chart.get_series(), series)
+
+    # This function should be modified when color ability is added to Scatter.
+    def test_get_series_with_colors(self):
+        chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
+        pass
+
+    def test_get_xaxis(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_x_axis(),{'title': {'text': 'Sales'}})
+
+    def test_get_yaxis(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Expenses'}})
 
 
 class TestYUIRenderer(TestCase):
