@@ -676,6 +676,31 @@ class TestHighchartsHeatMap(TestBaseHighcharts):
     def test_get_series_with_colors(self):
         pass
 
+class TestHighchartsTreeMap(TestBaseHighcharts):
+    chart_klass = highcharts.TreeMap
+    treemap_data = [["Country", "Cause", "Death Rate"],
+                    ["India", "Cardiovascular Disease", 10],
+                    ["India", "Road Accident", 5],
+                    ["India", "Cancer", 3],
+                    ["China", "Cardiovascular Disease", 9],
+                    ["China", "Road Accident", 6],
+                    ["China", "Cancer", 1]]
+
+    def test_treemap_chart(self):
+        chart = self.chart_klass(data_source=SimpleDataSource(self.treemap_data))
+        self.assertEqual(chart.get_chart(), {'type': 'treemap'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=SimpleDataSource(self.treemap_data))
+        series = [{"data": [{"color": "#7cb5ec", "value": 6, "id": "id_00", "parent": "id_0", "name": "Road Accident"}, {"color": "#7cb5ec", "value": 9, "id": "id_01", "parent": "id_0", "name": "Cardiovascular Disease"}, {"color": "#7cb5ec", "value": 1, "id": "id_02", "parent": "id_0", "name": "Cancer"}, {"color": "#7cb5ec", "id": "id_0", "value": 16, "name": "China"}, {"color": "#434348", "value": 5, "id": "id_13", "parent": "id_1", "name": "Road Accident"}, {"color": "#434348", "value": 10, "id": "id_14", "parent": "id_1", "name": "Cardiovascular Disease"}, {"color": "#434348", "value": 3, "id": "id_15", "parent": "id_1", "name": "Cancer"}, {"color": "#434348", "id": "id_1", "value": 18, "name": "India"}]}]
+        self.assertEqual(chart.get_series(), series)
+
+    # Modifiy after color functionality is there in TreeMap
+    def test_get_series_with_colors(self):
+        pass
+
+
 class TestYUIRenderer(TestCase):
     def setUp(self):
         data = [
