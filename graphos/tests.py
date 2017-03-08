@@ -716,6 +716,62 @@ class TestHighchartsPieDonut(TestHighchartsPieChart):
         pass
 
 
+class TestHighchartsHighMap(TestBaseHighcharts):
+    chart_klass = highcharts.HighMap
+
+    map_data_us_multi_series_lat_lon = [
+        ['Latitude', 'Longitude', 'Winner', 'Seats'],
+        [32.380120, -86.300629, 'Trump', 10],
+        [58.299740, -134.406794, 'Trump', 10]]
+    map_data_us_multi_series = [
+        ['State', 'Winner', 'Seats'],
+        ['us-nj', 'Trump', 10],
+        ['us-ri', 'Trump', 10]]
+    map_data_us_lat_lon = [
+        ['Latitude', 'Longitude', 'Population'],
+        [32.380120, -86.300629, 900],
+        [58.299740, -134.406794, 387],
+        [33.448260, -112.075774, 313],
+    ]
+    map_data_us = [
+        ['State', 'Population'],
+        ['us-nj', 438],
+        ['us-ri', 387]]
+    map_data_us_point = [
+        ['Lat', 'Lon', 'Name', 'Date'],
+        [46.8797, -110.3626, 'trump', '25th February'],
+        [41.4925, -99.9018, 'trump', '26th February'],
+        [45.4925, -89.9018, 'trump', '27th February']]
+
+    def test_highmap_chart(self):
+        chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us))
+        self.assertEqual(chart.get_chart(), {'type': 'map'})
+        self.assertNotEqual(chart.as_html(), "")
+
+    def test_get_series(self):
+        chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us))
+        series = [{'joinBy': ['hc-key', 'code'], 'data': [{'code': 'us-nj', 'value': 438}, {'code': 'us-ri', 'value': 387}], 'name': 'Population'}]
+        self.assertEqual(chart.get_series(), series)
+        chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_point))
+        series = [{'color': 'black', 'type': 'map', 'name': 'Regions', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 46.8797, 'Date': '25th February', 'lon': -110.3626}, {'lat': 41.4925, 'Date': '26th February', 'lon': -99.9018}, {'lat': 45.4925, 'Date': '27th February', 'lon': -89.9018}], 'name': 'trump'}]
+        self.assertEqual(chart.get_series(), series)
+        chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_lat_lon))
+        series = [{'type': 'map', 'name': 'Basemap', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 32.38012, 'z': 900, 'lon': -86.300629}, {'lat': 58.29974, 'z': 387, 'lon': -134.406794}, {'lat': 33.44826, 'z': 313, 'lon': -112.075774}], 'name': 'Population'}]
+        self.assertEqual(chart.get_series(), series)
+        chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_multi_series))
+        series = [{'joinBy': ['hc-key', 'code'], 'data': [{'code': 'us-nj', 'Seats': 10}, {'code': 'us-ri', 'Seats': 10}], 'name': 'Trump'}]
+        self.assertEqual(chart.get_series(), series)
+        chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_multi_series_lat_lon))
+        series = [{'color': 'black', 'type': 'map', 'name': 'Regions', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 32.38012, 'lon': -86.300629, 'Seats': 10}, {'lat': 58.29974, 'lon': -134.406794, 'Seats': 10}], 'name': 'Trump'}]
+        self.assertEqual(chart.get_series(), series)
+
+    # Needs some modification
+    def test_get_series_with_colors(self):
+        pass
+
+
+
+
 
 class TestYUIRenderer(TestCase):
     def setUp(self):
