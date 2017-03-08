@@ -434,6 +434,7 @@ class TestBaseHighcharts(TestCase):
         self.assertEqual(chart.get_navigation(), {})
 
 
+
 class TestHighchartsLineChart(TestBaseHighcharts):
     chart_klass = highcharts.LineChart
     def test_line_chart(self):
@@ -670,6 +671,10 @@ class TestHighchartsHeatMap(TestBaseHighcharts):
     # This function should be modified when color ability is added to Heatmap.
     def test_get_series_with_colors(self):
         pass
+
+    def test_get_color_axis(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_color_axis(), {})
 
 class TestHighchartsTreeMap(TestBaseHighcharts):
     chart_klass = highcharts.TreeMap
