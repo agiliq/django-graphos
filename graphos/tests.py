@@ -434,7 +434,6 @@ class TestBaseHighcharts(TestCase):
         self.assertEqual(chart.get_navigation(), {})
 
 
-
 class TestHighchartsLineChart(TestBaseHighcharts):
     chart_klass = highcharts.LineChart
     def test_line_chart(self):
@@ -752,6 +751,8 @@ class TestHighchartsHighMap(TestBaseHighcharts):
         chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us))
         self.assertEqual(chart.get_chart(), {'type': 'map'})
         self.assertNotEqual(chart.as_html(), "")
+        chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_lat_lon))
+        self.assertEqual(chart.get_chart(), {'type': 'mapbubble'})
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us))
@@ -773,6 +774,23 @@ class TestHighchartsHighMap(TestBaseHighcharts):
     # Needs some modification
     def test_get_series_with_colors(self):
         pass
+
+    def test_get_color_axis(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_color_axis(), {})
+
+    # What should be done for this ? Should it be kept or removed ?
+    def test_get_map(self):
+        pass
+
+
+class TestHighchartsDonutChart(TestHighchartsPieChart):
+    chart_klass = highcharts.DonutChart
+
+    def test_pie_chart(self):
+        chart = self.chart_klass(data_source=self.data_source)
+        self.assertEqual(chart.get_chart(), {'options3d': {'alpha': 45, 'enabled': True}, 'type': 'pie'})
+        self.assertNotEqual(chart.as_html(), "")
 
 
 
