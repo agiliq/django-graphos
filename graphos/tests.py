@@ -410,8 +410,15 @@ class TestBaseHighcharts(TestCase):
         self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Values'}})
 
     def test_get_yaxis_single_series(self):
-        # TODO: Infer y axis title for single series
-        pass
+        single_data = [
+            ['Year', 'Sales'],
+            [2004, 1000],
+            [2005, 1170],
+            [2006, 660],
+            [2007, 1030]
+        ]
+        chart = self.chart_klass(data_source=SimpleDataSource(single_data))
+        self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Sales'}})
 
     def test_get_tooltip(self):
         chart = self.chart_klass(data_source=self.data_source)
@@ -436,6 +443,7 @@ class TestBaseHighcharts(TestCase):
 
 class TestHighchartsLineChart(TestBaseHighcharts):
     chart_klass = highcharts.LineChart
+
     def test_line_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'line'})
@@ -444,6 +452,7 @@ class TestHighchartsLineChart(TestBaseHighcharts):
 
 class TestHighchartsBarChart(TestBaseHighcharts):
     chart_klass = highcharts.BarChart
+
     def test_bar_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'bar'})
@@ -452,6 +461,7 @@ class TestHighchartsBarChart(TestBaseHighcharts):
 
 class TestHighchartsColumnChart(TestBaseHighcharts):
     chart_klass = highcharts.ColumnChart
+
     def test_column_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'column'})
@@ -460,6 +470,7 @@ class TestHighchartsColumnChart(TestBaseHighcharts):
 
 class TestHighchartsAreaChart(TestBaseHighcharts):
     chart_klass = highcharts.AreaChart
+
     def test_area_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'area'})
@@ -468,6 +479,7 @@ class TestHighchartsAreaChart(TestBaseHighcharts):
 
 class TestHighchartsPieChart(TestBaseHighcharts):
     chart_klass = highcharts.PieChart
+
     def test_pie_chart(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'type': 'pie'})
@@ -535,6 +547,9 @@ class TestHighchartsScatterChart(TestBaseHighcharts):
     def test_get_yaxis(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_y_axis(), {'title': {'text': 'Expenses'}})
+
+    def test_get_yaxis_single_series(self):
+        pass
 
 
 class TestHighchartsColumnLineChart(TestBaseHighcharts):
@@ -649,6 +664,9 @@ class TestHighchartsBubbleChart(TestBaseHighcharts):
     def test_get_categories(self):
         pass
 
+    # Bubble chart do not have any attribute yaxis singleseries.
+    def test_get_yaxis_single_series(self):
+        pass
 
 class TestHighchartsHeatMap(TestBaseHighcharts):
     chart_klass = highcharts.HeatMap
@@ -674,6 +692,10 @@ class TestHighchartsHeatMap(TestBaseHighcharts):
     def test_get_color_axis(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_color_axis(), {})
+
+    def test_get_yaxis_single_series(self):
+        pass
+
 
 class TestHighchartsTreeMap(TestBaseHighcharts):
     chart_klass = highcharts.TreeMap
@@ -783,6 +805,9 @@ class TestHighchartsHighMap(TestBaseHighcharts):
     def test_get_map(self):
         pass
 
+    def test_get_yaxis_single_series(self):
+        pass
+
 
 class TestHighchartsDonutChart(TestHighchartsPieChart):
     chart_klass = highcharts.DonutChart
@@ -791,9 +816,6 @@ class TestHighchartsDonutChart(TestHighchartsPieChart):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_chart(), {'options3d': {'alpha': 45, 'enabled': True}, 'type': 'pie'})
         self.assertNotEqual(chart.as_html(), "")
-
-
-
 
 
 class TestYUIRenderer(TestCase):
