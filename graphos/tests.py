@@ -642,10 +642,10 @@ class TestHighchartsBubbleChart(TestBaseHighcharts):
                                    ["P", "USA", 39, 21, 100],
                                    ["O", "USA", 44, 29, 150]]
         chart = self.chart_klass(data_source=self.data_source)
-        series = [{'data': [{'Country': 'India', 'x': 10, 'y': 15, 'z': 90},{'Country': 'USA', 'x': 11, 'y': 20, 'z': 19},{'Country': 'Srilanka', 'x': 15, 'y': 5, 'z': 98},{'Country': 'Indonesia', 'x': 16, 'y': 35, 'z': 150}],'name': 'Country'}]
+        series = [{'data': [{'y': 15, 'Country': 'India', 'z': 90, 'x': 10}, {'y': 20, 'Country': 'USA', 'z': 19, 'x': 11}, {'y': 5, 'Country': 'Srilanka', 'z': 98, 'x': 15}, {'y': 35, 'Country': 'Indonesia', 'z': 150, 'x': 16}], 'name': 'Country'}]
         self.assertEqual(chart.get_series(), series)
         chart = self.chart_klass(data_source=SimpleDataSource(bubble_chart_data_multi))
-        series = [{'data': [{'Grade': 'A', 'x': 10, 'y': 15, 'z': 90},{'Grade': 'B', 'x': 11, 'y': 20, 'z': 19}],'name': 'India'},{'data': [{'Grade': 'P', 'x': 39, 'y': 21, 'z': 100},{'Grade': 'O', 'x': 44, 'y': 29, 'z': 150}],'name': 'USA'}]
+        series = [{'data': [{'Grade': 'A', 'x': 10, 'z': 90, 'y': 15}, {'Grade': 'B', 'x': 11, 'z': 19, 'y': 20}], 'name': 'India'}, {'data': [{'Grade': 'P', 'x': 39, 'z': 100, 'y': 21}, {'Grade': 'O', 'x': 44, 'z': 150, 'y': 29}], 'name': 'USA'}]
         self.assertEqual(chart.get_series(), series)
 
     # Needs to be modified when color functionality is added to Bubble
@@ -678,7 +678,7 @@ class TestHighchartsHeatMap(TestBaseHighcharts):
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=self.data_source)
-        series = [{'data': [[0, 0, 1000],[0, 1, 400],[1, 0, 1170],[1, 1, 460],[2, 0, 660],[2, 1, 1120],[3, 0, 1030],[3, 1, 540]]}]
+        series = [{'data': [[0, 0, 1000], [0, 1, 400], [1, 0, 1170], [1, 1, 460], [2, 0, 660], [2, 1, 1120], [3, 0, 1030], [3, 1, 540]]}]
         self.assertEqual(chart.get_series(), series)
 
     def test_get_yaxis(self):
@@ -702,10 +702,9 @@ class TestHighchartsTreeMap(TestBaseHighcharts):
     treemap_data = [["Country", "Cause", "Death Rate"],
                     ["India", "Cardiovascular Disease", 10],
                     ["India", "Road Accident", 5],
-                    ["India", "Cancer", 3],
                     ["China", "Cardiovascular Disease", 9],
                     ["China", "Road Accident", 6],
-                    ["China", "Cancer", 1]]
+                    ]
 
     def test_treemap_chart(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.treemap_data))
@@ -714,7 +713,7 @@ class TestHighchartsTreeMap(TestBaseHighcharts):
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.treemap_data))
-        series = [{"data": [{"color": "#7cb5ec", "value": 6, "id": "id_00", "parent": "id_0", "name": "Road Accident"}, {"color": "#7cb5ec", "value": 9, "id": "id_01", "parent": "id_0", "name": "Cardiovascular Disease"}, {"color": "#7cb5ec", "value": 1, "id": "id_02", "parent": "id_0", "name": "Cancer"}, {"color": "#7cb5ec", "id": "id_0", "value": 16, "name": "China"}, {"color": "#434348", "value": 5, "id": "id_13", "parent": "id_1", "name": "Road Accident"}, {"color": "#434348", "value": 10, "id": "id_14", "parent": "id_1", "name": "Cardiovascular Disease"}, {"color": "#434348", "value": 3, "id": "id_15", "parent": "id_1", "name": "Cancer"}, {"color": "#434348", "id": "id_1", "value": 18, "name": "India"}]}]
+        series = [{'data': [{'color': '#7cb5ec', 'value': 6, 'id': 'id_00', 'parent': 'id_0', 'name': 'Road Accident'}, {'color': '#7cb5ec', 'value': 9, 'id': 'id_01', 'parent': 'id_0', 'name': 'Cardiovascular Disease'}, {'color': '#7cb5ec', 'id': 'id_0', 'value': 15, 'name': 'China'}, {'color': '#434348', 'value': 5, 'id': 'id_12', 'parent': 'id_1', 'name': 'Road Accident'}, {'color': '#434348', 'value': 10, 'id': 'id_13', 'parent': 'id_1', 'name': 'Cardiovascular Disease'}, {'color': '#434348', 'id': 'id_1', 'value': 15, 'name': 'India'}]}]
         self.assertEqual(chart.get_series(), series)
 
     # Modifiy after color functionality is there in TreeMap
@@ -727,14 +726,12 @@ class TestHighchartsPieDonut(TestHighchartsPieChart):
     pie_data = [["Country", "Cause", "Death Rate"],
                     ["India", "Cardiovascular Disease", 10],
                     ["India", "Road Accident", 5],
-                    ["India", "Cancer", 3],
                     ["China", "Cardiovascular Disease", 9],
-                    ["China", "Road Accident", 6],
-                    ["China", "Cancer", 1]]
+                    ["China", "Road Accident", 6]]
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.pie_data))
-        series = [{"showInLegend": True, "dataLabels": {"enabled": False}, "data": [{"color": "#7cb5ec", "y": 16, "name": "China"}, {"color": "#434348", "y": 18, "name": "India"}], "name": "Country", "size": "60%"}, {"innerSize": "60%", "data": [{"color": "#7cb5ec", "y": 6, "name": "Road Accident"}, {"color": "#7cb5ec", "y": 9, "name": "Cardiovascular Disease"}, {"color": "#7cb5ec", "y": 1, "name": "Cancer"}, {"color": "#434348", "y": 5, "name": "Road Accident"}, {"color": "#434348", "y": 10, "name": "Cardiovascular Disease"}, {"color": "#434348", "y": 3, "name": "Cancer"}], "name": "Cause", "size": "80%"}]
+        series = [{'showInLegend': True, 'dataLabels': {'enabled': False}, 'data': [{'color': '#7cb5ec', 'y': 15, 'name': 'China'}, {'color': '#434348', 'y': 15, 'name': 'India'}], 'name': 'Country', 'size': '60%'}, {'innerSize': '60%', 'data': [{'color': '#7cb5ec', 'y': 6, 'name': 'Road Accident'}, {'color': '#7cb5ec', 'y': 9, 'name': 'Cardiovascular Disease'}, {'color': '#434348', 'y': 5, 'name': 'Road Accident'}, {'color': '#434348', 'y': 10, 'name': 'Cardiovascular Disease'}], 'name': 'Cause', 'size': '80%'}]
         self.assertEqual(chart.get_series(), series)
 
     # To be modified once color functionality is added to Chart.
