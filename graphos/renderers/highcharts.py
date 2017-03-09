@@ -514,6 +514,7 @@ class HighMap(BaseHighCharts):
         options = self.get_options()
         first_series['data'] = []
         chart_type = self.get_chart_type()
+        # TODO: Support single column onwards dict similar to how we do it in calculate_multi_series.
         for i, kv in enumerate(data):
             if chart_type == 'mapbubble':
                 if not self.is_lat_long:
