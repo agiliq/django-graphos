@@ -510,12 +510,21 @@ class HighMap(BaseHighCharts):
 
     def calculate_single_series(self):
         data = self.get_data()[1:]
+        if not self.is_lat_long:
+            second_column_onwards_names = self.get_data()[0][2:]
+        else:
+            second_column_onwards_names = self.get_data()[0][3:]
         first_series = {}
         options = self.get_options()
         first_series['data'] = []
         chart_type = self.get_chart_type()
-        # TODO: Support single column onwards dict similar to how we do it in calculate_multi_series.
+        # TODO: Support second column onwards dict similar to how we do it in calculate_multi_series.
         for i, kv in enumerate(data):
+            if not self.is_lat_long:
+                second_column_onwards = kv[2:]
+            else:
+                second_column_onwards = kv[3:]
+            second_column_onwards_dict = dict(zip(second_column_onwards_names, second_column_onwards))
             if chart_type == 'mapbubble':
                 if not self.is_lat_long:
                     region_detail = {'code': kv[0], 'z': kv[1]}
@@ -529,6 +538,7 @@ class HighMap(BaseHighCharts):
                     region_detail = {'lat': kv[0], 'lon': kv[1]}
             elif chart_type == 'map':
                 region_detail = {'code': kv[0], 'value': kv[1]}
+            region_detail.update(second_column_onwards_dict)
             first_series['data'].append(region_detail)
         join_by = self.get_options().get('joinBy', 'hc-key')
         first_series['joinBy'] = [join_by, 'code']
