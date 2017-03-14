@@ -1,6 +1,11 @@
 
 <script type="text/javascript">
-  google.setOnLoadCallback(drawChart{{ chart.get_html_id }});
+  if (typeof google.setOnLoadCallback !== 'undefined') {
+    google.setOnLoadCallback(drawChart{{ chart.get_html_id }});
+    console.warn("This version of Google Charts loaded via the jsapi loader is no longer being updated. Please use the new gstatic loader (https://developers.google.com/chart/interactive/docs/basic_load_libs#update-library-loader-code).")
+  } else {
+    google.charts.setOnLoadCallback(drawChart{{ chart.get_html_id }});
+  }
   function drawChart{{ chart.get_html_id }}() {
     {% block chart_specific_arraytodatatable %}
       var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
