@@ -258,11 +258,16 @@ class ScatterChart(BaseHighCharts):
         return serieses
 
     def calculate_single_series(self):
+        options = self.get_options()
         temp_name = self.get_data()[0][0]
         data = [{temp_name: row[0],"x": row[1],'y': row[2]} for row in self.get_data()[1:]]
-        # TODO: What should be series_name in this case? Should it be read from options?
-        # TODO: Add color ability
-        series = {'data': data, 'name': self.get_data()[0][0]}
+        # Assumption: If user adds color to the single series it is obvious that color
+        # list will have single color, incase it has by mistake multiple colors only the
+        # first color will be used.
+        if 'colors' in options and len(options['colors']) > 0:
+            series = {'data': data, 'name': self.get_data()[0][0], 'color': options['colors'][0]}
+        else:
+            series = {'data': data, 'name': self.get_data()[0][0]}
         return [series]
 
     def calculate_multi_series(self):
@@ -900,11 +905,14 @@ class Bubble(BaseHighCharts):
         return serieses
 
     def calculate_single_series(self):
+        options = self.get_options()
         temp_name = self.get_data()[0][0]
         data = [{temp_name: row[0], "x": row[1], 'y': row[2],'z': row[3]} for row in self.get_data()[1:]]
         # TODO: What should be series_name in this case? Should it be read from options?
-        # TODO: Add color ability
-        series = {'data': data, 'name': self.get_data()[0][0]}
+        if 'colors' in options and len(options['colors']) > 0:
+            series = {'data': data, 'name': self.get_data()[0][0], 'color': options['colors'][0]}
+        else:
+            series = {'data': data, 'name': self.get_data()[0][0]}
         return [series]
 
     def calculate_multi_series(self):
