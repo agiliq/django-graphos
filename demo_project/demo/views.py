@@ -278,8 +278,11 @@ class FlotDemo(Demo):
                                   options={'title': "Sales Growth"})
         pie_chart = flot.PieChart(context["simple_data_source"],
                                   options = {'title': "Sales Growth"})
+        area_chart = flot.AreaChart(context["simple_data_source"],
+                                  options = {'title': "Sales Growth"})
         context.update({'point_chart': point_chart,
-                        "pie_chart": pie_chart})
+                        "pie_chart": pie_chart,
+                        "area_chart": area_chart})
         return context
 
 flot_demo = FlotDemo.as_view(renderer=flot)
