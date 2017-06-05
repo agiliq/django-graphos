@@ -104,3 +104,12 @@ class PieChart(BaseFlotChart):
 
     def get_js_template(self):
         return 'graphos/flot/pie_chart.html'
+
+
+class AreaChart(BaseFlotChart):
+
+    def get_options(self):
+        options = get_default_options("lines")
+        options["series"]["lines"] = {"fill": "true"}
+        options.update(self.options)
+        return options
