@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     url(r"^mongo-json2/$", "demo.views.mongo_json2", name="demo_mongo_json2"),
     url(r"^mongo-json-multi/$", "demo.views.mongo_json_multi", name="demo_mongo_json_multi"),
     url(r"^mongo-json-multi2/$", "demo.views.mongo_json_multi2", name="demo_mongo_json_multi2"),
+    url(r"^chartjs", "demo.views.chartjs_demo", name="chartjs_demo")
 )
 

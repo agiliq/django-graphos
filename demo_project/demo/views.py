@@ -3,7 +3,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 
-from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matplotlib_renderer
+from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matplotlib_renderer, chartjs
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
@@ -12,7 +12,7 @@ from .models import Account
 from .utils import get_mongo_cursor
 from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us, map_data_us_point, map_data_us_lat_lon, map_data_us_multi_series, map_data_us_multi_series_lat_lon,
                     mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data, treemap_data_highcharts, piechart_data_highcharts,bubble_chart_data_single, bubble_chart_data_multi,
-                    create_demo_accounts, create_demo_mongo, get_db, scatter_single_series_data, scatter_multi_series_data)
+                    create_demo_accounts, create_demo_mongo, get_db, scatter_single_series_data, scatter_multi_series_data, chartjs_sample_data, chartjs_single_series)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
 import json
@@ -514,3 +514,19 @@ def matplotlib_demo(request):
     context = {"line_chart": line_chart,
                "bar_chart": bar_chart}
     return render(request, 'demo/matplotlib.html', context)
+
+
+
+def chartjs_demo(request):
+    line_chart = chartjs.LineChart(SimpleDataSource(
+        data=chartjs_sample_data),
+        options={"fill": False, "borderColor": "rgba(75,192,192,1)"})
+    bar_chart = chartjs.BarChart(SimpleDataSource(data=chartjs_sample_data))
+    pie_chart = chartjs.PieChart(SimpleDataSource(
+        data=chartjs_single_series),
+        options={"backgroundColor": ["#2ecc71", "#3498db", "#95a5a6", "#9b59b6", ]})
+    donught_chart = chartjs.DoughnutChart(SimpleDataSource(
+        data=chartjs_single_series),
+        options={"backgroundColor": ["#2ecc71", "#3498db", "#95a5a6", "#9b59b6", ]})
+    context = {"line_chart": line_chart, "bar_chart": bar_chart, "pie_chart": pie_chart, "donought_chart": donught_chart}
+    return render(request, 'demo/chartjs.html', context)
