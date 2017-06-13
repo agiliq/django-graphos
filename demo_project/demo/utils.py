@@ -693,3 +693,13 @@ bubble_chart_data_single = [["Country","Sugar Consumption","Fat Consumption","GD
                      ["Pakistan",14,12,9],
                      ["Srilanka",15,5,98],
                      ["Indonesia",16,35,150]]
+
+
+chartjs_sample_data = [
+    ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+    [2004, 1000, 400, 100, 600],
+    [2005, 1170, 460, 120, 310]]
+
+chartjs_single_series = [
+    ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+    ['First dataset', 1000, 400, 100, 600]]

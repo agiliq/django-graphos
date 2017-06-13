@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block menu %}
+  <ul class="nav nav-tabs">
+      <li><a href="{% url 'demo_home' %}">Home</a></li>
+      <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
+      <li><a href="{% url 'demo_gchart_demo' %}">Gchart</a></li>
+      <li><a href="{% url 'demo_morris_demo' %}">Morris</a></li>
+      <li><a href="{% url 'demo_matplotlib_demo' %}">Matplotlib</a></li>
+      <li><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
+      <li><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
+      <li><a href="{% url 'demo_highcharts_demo' %}">Highcharts</a></li>
+      <li class="active"><a href="{% url 'chartjs_demo' %}">Chart JS</a></li>
+      <li><a href="{% url 'demo_time_series_example' %}">Time Series Example</a></li>
+  </ul>
+{%  endblock %}
+
+{% block content %}
+    <h2>Line Chart</h2>
+    <div id="line_chart" class="well">
+    {{ line_chart.as_html }}
+    <pre class="code">
+        data =  [
+                ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                [2004, 1000, 400, 100, 600],
+                [2005, 1170, 460, 120, 310]]
+        data_source = SimpleDataSource(data)
+        chart = chart_js.LineChart(data_source)
+    </pre>
+    </div>
+
+    <h2>Bar Chart</h2>
+    <div id="line_chart" class="well">
+    {{ bar_chart.as_html }}
+    <pre class="code">
+        data =  [
+                ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                [2004, 1000, 400, 100, 600],
+                [2005, 1170, 460, 120, 310]]
+        data_source = SimpleDataSource(data)
+        chart = chart_js.BarChart(data_source)
+    </pre>
+    </div>
+
+    <h2>Pie Chart</h2>
+    <div id="line_chart" class="well">
+    {{ pie_chart.as_html }}
+    <pre class="code">
+        data = [
+               ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+               ['First dataset', 1000, 400, 100, 600]]
+        data_source = SimpleDataSource(data)
+        chart = chart_js.PieChart(data_source)
+    </pre>
+    </div>
+
+    <h2>Donought Chart</h2>
+    <div id="line_chart" class="well">
+    {{ donought_chart.as_html }}
+    <pre class="code">
+        data = [
+               ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+               ['First dataset', 1000, 400, 100, 600]]
+        data_source = SimpleDataSource(data)
+        chart = chart_js.DonoughtChart(data_source)
+    </pre>
+    </div>
+
+{% endblock %}
