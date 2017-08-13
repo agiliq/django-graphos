@@ -1,0 +1,9 @@
+{% extends "graphos/gchart/base_geochart.html" %}
+
+{% block chart_specific_arraytodatatable %}
+    var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
+{% endblock %}
+
+{% block create_chart %}
+  var chart = new google.visualization.GeoChart(document.getElementById('{{ chart.get_html_id }}'));
+{% endblock %}

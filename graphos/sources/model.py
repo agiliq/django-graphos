@@ -5,7 +5,7 @@ from .simple import SimpleDataSource
 def get_field_values(row, fields):
     data = []
     for field in fields:
-        value = getattr(row, field)
+        value = row[field]
         data.append(value if not callable(value) else value())
     return data
 
