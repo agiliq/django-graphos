@@ -1,11 +1,14 @@
 """ Model Plot Data Handler"""
 from .simple import SimpleDataSource
+from django.db.models.constants import LOOKUP_SEP
 
 
 def get_field_values(row, fields):
     data = []
     for field in fields:
-        value = getattr(row, field)
+        value = row
+        for part in field.split(LOOKUP_SEP):
+            value = getattr(value, part)
         data.append(value if not callable(value) else value())
     return data
 
