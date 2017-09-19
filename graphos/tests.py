@@ -12,7 +12,7 @@ from .renderers import base, flot, gchart, yui, matplotlib_renderer, highcharts
 from .exceptions import GraphosException
 from .utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_default_options, get_db
 
-from demo.models import Account
+from demo.models import Account, Company
 
 import os
 import json
@@ -64,26 +64,30 @@ class TestSources(TestCase):
 
     def test_model_data_source(self):
         data = [
-            ['year', 'sales', 'expenses'],
-            [u'2004', 1000, 400],
-            [u'2005', 1170, 460],
-            [u'2006', 660, 1120],
-            [u'2007', 1030, 540]
+            ['year', 'sales', 'expenses', 'company__name'],
+            [u'2004', 1000, 400, u'GE'],
+            [u'2005', 1170, 460, u'Apple'],
+            [u'2006', 660, 1120, u'Google'],
+            [u'2007', 1030, 540, u'GE']
         ]
         #Create some rows
+        apple = Company.objects.create(name="Apple")
+        google = Company.objects.create(name="Google")
+        ge = Company.objects.create(name="GE")
         Account.objects.create(year="2004", sales=1000,
-                               expenses=400, ceo="Welch")
+                               expenses=400, ceo="Welch", company=ge)
         Account.objects.create(year="2005", sales=1170,
-                               expenses=460, ceo="Jobs")
+                               expenses=460, ceo="Jobs", company=apple)
         Account.objects.create(year="2006", sales=660,
-                               expenses=1120, ceo="Page")
+                               expenses=1120, ceo="Page", company=google)
         Account.objects.create(year="2007", sales=1030,
-                               expenses=540, ceo="Welch")
+                               expenses=540, ceo="Welch", company=ge)
         query_set = Account.objects.all()
-        data_source = ModelDataSource(query_set, ['year', 'sales', 'expenses'])
+        data_source = ModelDataSource(
+            query_set, ['year', 'sales', 'expenses', 'company__name'])
         self.assertEqual(data, data_source.get_data())
         self.assertEqual(data_source.get_header(),
-                         ['year', 'sales', 'expenses'])
+                         ['year', 'sales', 'expenses', 'company__name'])
         self.assertEqual(data_source.get_first_column(),
                          ['2004', '2005', '2006', '2007'])
 
