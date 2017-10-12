@@ -86,7 +86,7 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 * LineChart
 * BarChart
 
-With Graphos, switching from google's LineChart to yui LineChart can be done within minutes. So would be the case in switching from yui AreaChart to morris AreaChart.
+With Graphos, switching from google's LineChart to yui LineChart can be done within minutes. So would be the case in switching from yui AreaChart to morris AreaChart. 
 
 ### Running demo project locally
 
@@ -432,6 +432,19 @@ Graphos is compatible with Python 2.7 and Python 3.3+
 
 [available on pypi](https://pypi.python.org/pypi/django-graphos/)
 
+### Note
+
+To use this in a django application, copy the contents of the graphos template folder to your own template folder
+
+For example, assuming your python installation resides at 
+	
+	C:\Program Files (x86)\Python35-32 , 
+
+then copy contents of the folder 
+
+	C:\Program Files (x86)\Python35-32\Lib\site-packages\graphos\templates
+
+to the template directory of the django application
 
 ### Handling non serializable fields
 
