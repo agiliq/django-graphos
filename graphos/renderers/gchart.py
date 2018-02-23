@@ -20,6 +20,9 @@ class ColumnChart(BaseGChart):
     def get_js_template(self):
         return "graphos/gchart/column_chart.html"
 
+class HistogramChart(BaseGChart):
+    def get_js_template(self):
+        return "graphos/gchart/histogram_chart.html"
 
 class BarChart(BaseGChart):
     def get_js_template(self):
