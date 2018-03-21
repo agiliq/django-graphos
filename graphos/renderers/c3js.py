@@ -27,6 +27,11 @@ class LineChart(BaseC3JS):
         return "line"
 
 
+class AreaChart(BaseC3JS):
+    def get_chart_type(self):
+        return "area"
+
+
 class BarChart(BaseC3JS):
     def get_chart_type(self):
         return "bar"
