@@ -6,6 +6,11 @@ class BaseGChart(BaseChart):
         return "graphos/gchart/html.html"
 
 
+class GeoChart(BaseGChart):
+    def get_js_template(self):
+        return "graphos/gchart/geo_chart.html"
+
+
 class LineChart(BaseGChart):
     def get_js_template(self):
         return "graphos/gchart/line_chart.html"
