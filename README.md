@@ -44,6 +44,7 @@ Graphos is a Django app to normalize data to create beautiful charts. It provide
 * Candlestick chart
 * Treemap chart
 * Gauge chart
+* Histogram (newly added)
 
 #### YUI
 
