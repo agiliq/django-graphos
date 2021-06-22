@@ -1,5 +1,6 @@
 Graphos
 ----------------
+This is a fork of the original library which appears to lack a maintainer. I simply changed one of the imports to reflect the updated version of Django, and it worked to build my project. I hope this is of some use to others.
 
 [![Build Status](https://travis-ci.org/agiliq/django-graphos.png)](https://travis-ci.org/agiliq/django-graphos)
 

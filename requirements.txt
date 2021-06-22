@@ -1,1 +1,2 @@
 Django
+six==1.14.0 # MIT License (MIT)
